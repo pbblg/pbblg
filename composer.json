@@ -1,0 +1,42 @@
+{
+    "name": "pbblg/pbblg",
+    "description": "Princess Bubblegum game",
+    "type": "project",
+    "keywords": ["game"],
+    "homepage": "http://pbblg.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Max Gulturyan",
+            "email": "gulturyan@gmail.com"
+        },
+        {
+            "name": "Dmitriy Kirillov",
+            "email": "sebas@mail.com"
+        },
+        {
+            "name": "Yuriy Shirokiy",
+            "email": "shirota@mail.com"
+        },
+        {
+            "name": "Slavik Shevchuk",
+            "email": "slavon@mail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/pbblg/core/issues",
+        "source": "https://github.com/pbblg/pbblg",
+        "docs": "https://github.com/pbblg/pbblg"
+    },
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "require-dev": {
+
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "beta",
+    "prefer-stable": true
+}
