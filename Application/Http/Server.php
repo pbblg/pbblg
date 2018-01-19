@@ -3,7 +3,6 @@
 namespace Game\Application\Http;
 
 use Zend\Stratigility\MiddlewarePipe;
-use Game\Application\AbstractServer;
 use Game\Application\Application;
 
 use Psr\Http\Message\ServerRequestInterface as Request;

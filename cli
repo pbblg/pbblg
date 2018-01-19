@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+chdir(dirname(__FILE__));
+require 'vendor/autoload.php';
+
+$server = new Game\Application\Console\Server();
+
+$server->listen();
