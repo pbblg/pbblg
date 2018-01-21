@@ -1,12 +1,22 @@
 <?php
 
-namespace Game\Application\Console;
+namespace App\Console;
 
+use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Application;
-use Game\Application\AbstractServer;
 
-class Server extends AbstractServer
+class Server
 {
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
+
+    public function __construct(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
     public function listen()
     {
         $console = $this->getConsoleApplication();
@@ -19,7 +29,6 @@ class Server extends AbstractServer
      */
     protected function getConsoleApplication()
     {
-        $app = $this->getApp();
         $console = new Application('pbblg');
 
         $commands = [
@@ -29,7 +38,7 @@ class Server extends AbstractServer
         ];
 
         foreach ($commands as $command) {
-            $console->add($app->getService($command));
+            $console->add($this->container->get($command));
         }
 
         return $console;
