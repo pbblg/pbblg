@@ -227,6 +227,11 @@
     <!-- Bootstrap core JavaScript -->
     <script src="plugins/jquery/jquery.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var conn = new WebSocket('ws://localhost:8088/');
+        conn.onmessage = function(e) { console.log(e.data); };
+        conn.onopen = function(e) { conn.send('ping'); };
+    </script>
 
     <?php echo $this->inlineScript(); ?>
 </body>

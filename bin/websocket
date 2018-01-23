@@ -1,0 +1,11 @@
+#!/usr/bin/env php
+<?php
+
+chdir(dirname(__DIR__));
+require 'vendor/autoload.php';
+
+// Run the server application through the WebSocket protocol on port 8080
+$app = new Ratchet\App('localhost', 8088);
+$app->route('/', new App\WebSocket\Server(), array('*'));
+$app->run();
+
