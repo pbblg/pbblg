@@ -26,7 +26,7 @@ body {
 }
 
 .card {
-  position: relative;
+  position: absolute;
   width: 150px;
   height: 220px;
   margin: 10px;
@@ -46,6 +46,15 @@ body {
 .card p {
   text-align: center;
   font: 100px/220px Georgia, Times New Roman, serif;
+}
+
+.test-pult {
+  margin-top: 100px;
+  height: 50px;
+}
+.test-button {
+  margin: 5px;
+  padding: 5px;
 }
 
 
