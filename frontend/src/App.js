@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 
@@ -61,16 +60,21 @@ class TestPult extends Component {
         super(props);
 
         this.handleClick = this.handleClick.bind(this);
+        this.handleStartGame = this.handleStartGame.bind(this);
     }
 
     handleClick(event) {
         this.props.onPopCardFromNotPlayedDeck()
+    }
+    handleStartGame(event) {
+        this.props.onStartGame()
     }
 
     render() {
         return (
             <div className="table test-pult">
                 <button onClick={this.handleClick} className="test-button">Pop card from not played deck</button>
+                <button onClick={this.handleStartGame} className="test-button">Star game</button>
             </div>
         );
     }
@@ -88,6 +92,7 @@ class App extends Component {
         };
 
         this.handlePopCardFromNotPlayedDeck = this.handlePopCardFromNotPlayedDeck.bind(this);
+        this.handleStartGame = this.handleStartGame.bind(this);
     }
 
     handlePopCardFromNotPlayedDeck() {
@@ -95,13 +100,14 @@ class App extends Component {
         this.setState(function(prevState) {
             const prevNotPlayedCards = prevState.notPlayedCards;
             prevNotPlayedCards.pop();
-            console.log({
-                prevNotPlayedCards
-            });
             return {
                 notPlayedCards: prevNotPlayedCards
             }
         });
+    }
+
+    handleStartGame() {
+        this.props.gameClient.startGame();
     }
 
     render() {
@@ -111,7 +117,7 @@ class App extends Component {
         return (
             <div>
                 <Table notPlayedCards={notPlayedCards} lastPlayedCard={lastPlayedCard} />
-                <TestPult onPopCardFromNotPlayedDeck={this.handlePopCardFromNotPlayedDeck} />
+                <TestPult onPopCardFromNotPlayedDeck={this.handlePopCardFromNotPlayedDeck} onStartGame={this.handleStartGame} />
             </div>
         );
     }
