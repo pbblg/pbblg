@@ -59,24 +59,12 @@ class TestPult extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            notPlayedCards: props.notPlayedCards
-        };
-        console.log(this.state);
+
         this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick() {
-
-        this.setState(function(prevState) {
-            prevState.notPlayedCards.pop();
-            console.log({
-                notPlayedCards: prevState.notPlayedCards
-            });
-            return {
-                notPlayedCards: prevState.notPlayedCards
-            }
-        });
+    handleClick(event) {
+        this.props.onPopCardFromNotPlayedDeck()
     }
 
     render() {
@@ -91,15 +79,39 @@ class TestPult extends Component {
 
 class App extends Component {
 
-    render() {
+    constructor(props) {
+        super(props);
 
-        const notPlayedCards = [1,2,3,4,5,6];
-        const lastPlayedCard = [7];
+        this.state = {
+            notPlayedCards: [1,2,3,4,5,6],
+            lastPlayedCard: 7
+        };
+
+        this.handlePopCardFromNotPlayedDeck = this.handlePopCardFromNotPlayedDeck.bind(this);
+    }
+
+    handlePopCardFromNotPlayedDeck() {
+
+        this.setState(function(prevState) {
+            const prevNotPlayedCards = prevState.notPlayedCards;
+            prevNotPlayedCards.pop();
+            console.log({
+                prevNotPlayedCards
+            });
+            return {
+                notPlayedCards: prevNotPlayedCards
+            }
+        });
+    }
+
+    render() {
+        const notPlayedCards = this.state.notPlayedCards;
+        const lastPlayedCard = this.state.lastPlayedCard;
 
         return (
             <div>
                 <Table notPlayedCards={notPlayedCards} lastPlayedCard={lastPlayedCard} />
-                <TestPult notPlayedCards={notPlayedCards} />
+                <TestPult onPopCardFromNotPlayedDeck={this.handlePopCardFromNotPlayedDeck} />
             </div>
         );
     }
