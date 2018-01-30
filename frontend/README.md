@@ -9,7 +9,7 @@ sudo docker build -t pbblg/frontend .
 ```
 и устанавливаем js зависимости
 ```bash
-sudo docker run -it -rm -v=путь к папке pbblg/frontend:/home/app pbblg/frontend yarn install
+sudo docker run -it --rm -v=путь к папке pbblg/frontend:/home/app pbblg/frontend bash
 yarn install
 exit
 ```
