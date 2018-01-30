@@ -15,9 +15,7 @@ socket.on('connecting', function () {
 socket.on('connect', function () {
     console.log('Соединение установлено!');
 });
-socket.on('message', function (data) {
-    console.log(data.name, data.message);
-});
+
 const gameClient = new GameClient(socket);
 
 

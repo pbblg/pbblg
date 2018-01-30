@@ -11,11 +11,44 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server, options);
 server.listen(PORT);
 
-console.log('start server on posrt ' + PORT);
+//console.log('start server on posrt ' + PORT);
+
+
+var games = [];
+
 
 io.sockets.on('connection', function (client) {
 
-    console.log('connection',client.id.toString());
+    //console.log('connection',client.id.toString());
+
+    client.on('newGame', function (message) {
+        console.log('newGame');
+
+        var game = new Game();
+        games[game.getId()] = game;
+
+        client.broadcast.emit('newGame', {'gameId': game.getId()});
+    });
+
+
+
+    client.on('joinGame', function (message) {
+
+        console.log('joinGame');
+
+        var game = new Game();
+        game.joinPlayer(client);
+        var card = game.popCardFromDeck();
+
+        // try {
+        //     client.emit('message', message);
+        //     client.broadcast.emit('message', message);
+        // } catch (e) {
+        //     console.log(e);
+        //     client.disconnect();
+        // }
+
+    });
 
     client.on('startGame', function (message) {
 
@@ -23,6 +56,7 @@ io.sockets.on('connection', function (client) {
 
         var game = new Game();
         game.createDeck();
+        var card = game.popCardFromDeck();
 
         // try {
         //     client.emit('message', message);
@@ -38,7 +72,10 @@ io.sockets.on('connection', function (client) {
 
 function Game() {
 
-    this.createDeck = function() {
+    var id = Math.random();
+    var deck = createDeck();
+
+    function createDeck() {
         var deck = [
             1,1,1,1,1,
             2,2,
@@ -62,6 +99,11 @@ function Game() {
         }
 
         return shuffle(deck);
+    }
+
+
+    this.getId = function() {
+        return id;
     }
 }
 

@@ -61,6 +61,7 @@ class TestPult extends Component {
 
         this.handleClick = this.handleClick.bind(this);
         this.handleStartGame = this.handleStartGame.bind(this);
+        this.handleNewGame = this.handleNewGame.bind(this);
     }
 
     handleClick(event) {
@@ -69,12 +70,16 @@ class TestPult extends Component {
     handleStartGame(event) {
         this.props.onStartGame()
     }
+    handleNewGame(event) {
+        this.props.onNewGame()
+    }
 
     render() {
         return (
             <div className="table test-pult">
                 <button onClick={this.handleClick} className="test-button">Pop card from not played deck</button>
                 <button onClick={this.handleStartGame} className="test-button">Star game</button>
+                <button onClick={this.handleNewGame} className="test-button">New game</button>
             </div>
         );
     }
@@ -93,6 +98,7 @@ class App extends Component {
 
         this.handlePopCardFromNotPlayedDeck = this.handlePopCardFromNotPlayedDeck.bind(this);
         this.handleStartGame = this.handleStartGame.bind(this);
+        this.handleNewGame = this.handleNewGame.bind(this);
     }
 
     handlePopCardFromNotPlayedDeck() {
@@ -106,6 +112,10 @@ class App extends Component {
         });
     }
 
+    handleNewGame() {
+        this.props.gameClient.newGame();
+    }
+
     handleStartGame() {
         this.props.gameClient.startGame();
     }
@@ -117,7 +127,10 @@ class App extends Component {
         return (
             <div>
                 <Table notPlayedCards={notPlayedCards} lastPlayedCard={lastPlayedCard} />
-                <TestPult onPopCardFromNotPlayedDeck={this.handlePopCardFromNotPlayedDeck} onStartGame={this.handleStartGame} />
+                <TestPult
+                    onPopCardFromNotPlayedDeck={this.handlePopCardFromNotPlayedDeck}
+                    onStartGame={this.handleStartGame}
+                    onNewGame={this.handleNewGame} />
             </div>
         );
     }
