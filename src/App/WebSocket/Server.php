@@ -38,7 +38,7 @@ class Server implements MessageComponentInterface
         $application = $this->getApplication();
 
         $application->pipe(ErrorHandler::class);
-        $application->pipe(BodyParamsMiddleware::class);
+        $application->pipe(Middleware\JsonRpcMiddleware::class);
         $application->pipeRoutingMiddleware();
         $application->pipe(ImplicitHeadMiddleware::class);
         $application->pipe(ImplicitOptionsMiddleware::class);
