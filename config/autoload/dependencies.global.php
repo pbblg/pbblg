@@ -16,6 +16,9 @@ return [
         'aliases' => [
             'Zend\Expressive\Delegate\DefaultDelegate' => Delegate\NotFoundDelegate::class,
         ],
+        'abstract_factories' => [
+            \App\DefaultServiceAbstractFactory::class,
+        ],
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the
         // class name.
@@ -30,6 +33,8 @@ return [
             Helper\ServerUrlMiddleware::class => Helper\ServerUrlMiddlewareFactory::class,
             Helper\UrlHelper::class           => Helper\UrlHelperFactory::class,
             Helper\UrlHelperMiddleware::class => Helper\UrlHelperMiddlewareFactory::class,
+
+            Zend\Db\Adapter\Adapter::class => Zend\Db\Adapter\AdapterServiceFactory::class,
 
             Zend\Stratigility\Middleware\ErrorHandler::class => Container\ErrorHandlerFactory::class,
             Middleware\ErrorResponseGenerator::class         => Container\ErrorResponseGeneratorFactory::class,

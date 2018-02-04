@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "79b3d2bbb77bb65ef3b22ab6565b8b39",
+    "content-hash": "75e6ed2672064511f57be253ef4682c6",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -1416,6 +1416,64 @@
             ],
             "description": "Lightweight library for merging and caching application config",
             "time": "2017-11-06T14:55:00+00:00"
+        },
+        {
+            "name": "zendframework/zend-db",
+            "version": "2.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-db.git",
+                "reference": "1651abb1b33fc8fbd2d78ff9e2abb526cc2cf666"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-db/zipball/1651abb1b33fc8fbd2d78ff9e2abb526cc2cf666",
+                "reference": "1651abb1b33fc8fbd2d78ff9e2abb526cc2cf666",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "zendframework/zend-stdlib": "^2.7 || ^3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7.25 || ^6.4.4",
+                "zendframework/zend-coding-standard": "~1.0.0",
+                "zendframework/zend-eventmanager": "^2.6.2 || ^3.0",
+                "zendframework/zend-hydrator": "^1.1 || ^2.1",
+                "zendframework/zend-servicemanager": "^2.7.5 || ^3.0.3"
+            },
+            "suggest": {
+                "zendframework/zend-eventmanager": "Zend\\EventManager component",
+                "zendframework/zend-hydrator": "Zend\\Hydrator component for using HydratingResultSets",
+                "zendframework/zend-servicemanager": "Zend\\ServiceManager component"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.9-dev",
+                    "dev-develop": "2.10-dev"
+                },
+                "zf": {
+                    "component": "Zend\\Db",
+                    "config-provider": "Zend\\Db\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Db\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Database abstraction layer, SQL abstraction, result set abstraction, and RowDataGateway and TableDataGateway implementations",
+            "keywords": [
+                "ZendFramework",
+                "db",
+                "zf"
+            ],
+            "time": "2017-12-11T14:57:52+00:00"
         },
         {
             "name": "zendframework/zend-diactoros",

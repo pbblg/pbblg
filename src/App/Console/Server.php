@@ -32,9 +32,7 @@ class Server
         $console = new Application('pbblg');
 
         $commands = [
-//            MigrateCommand::class,
-//            InfoCommand::class,
-//            CacheClearCommand::class
+            Command\MigrateCommand::class,
         ];
 
         foreach ($commands as $command) {
