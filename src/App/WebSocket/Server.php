@@ -40,10 +40,8 @@ class Server implements MessageComponentInterface
         $application->pipe(ErrorHandler::class);
         $application->pipe(Middleware\JsonRpcMiddleware::class);
         $application->pipeRoutingMiddleware();
-        $application->pipe(ImplicitHeadMiddleware::class);
-        $application->pipe(ImplicitOptionsMiddleware::class);
-        $application->pipe(UrlHelperMiddleware::class);
-        $application->pipeDispatchMiddleware();
+        $application->pipe(Middleware\ParamsValidatorMiddleware::class);
+        $application->pipe(Middleware\DispatchMiddleware::class);
         $application->pipe(NotFoundHandler::class);
 
         $request = new ServerRequest(

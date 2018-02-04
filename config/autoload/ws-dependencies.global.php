@@ -16,6 +16,10 @@ return [
         'aliases' => [
             'Zend\Expressive\Delegate\DefaultDelegate' => Delegate\NotFoundDelegate::class,
         ],
+
+        'abstract_factories' => [
+            \App\DefaultServiceAbstractFactory::class,
+        ],
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the
         // class name.

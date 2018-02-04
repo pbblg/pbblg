@@ -35,7 +35,12 @@ class ErrorResponseGenerator
             'id' => null,
             'error' => [
                 'code' => $e->getCode(),
-                'message' => $e->getMessage()
+                'message' => sprintf(
+                    '%s in %s:%s',
+                    $e->getMessage(),
+                    $e->getFile(),
+                    $e->getLine()
+                ),
             ],
         ];
 

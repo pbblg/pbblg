@@ -77,8 +77,16 @@ class JsonRpcMiddleware implements MiddlewareInterface
             );
         }
 
+        $params = [];
+        if (array_key_exists('params', $parsedBody)) {
+            $params = $parsedBody['params'];
+        }
+
         return $request
             ->withAttribute('rawBody', $rawBody)
+            ->withAttribute('id', $parsedBody['id'])
+            ->withAttribute('method', $parsedBody['method'])
+            ->withAttribute('params', $params)
             ->withParsedBody($parsedBody);
     }
 }

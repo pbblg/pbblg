@@ -1,12 +1,17 @@
 <?php
 
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Router\ZendRouter;
+use App\WebSocket\Action;
 
 return [
     'routes' => [
-        'invokables' => [
-            RouterInterface::class => ZendRouter::class,
+        'ping' => [
+            'handler' => Action\Ping\PingHandler::class,
+        ],
+        'newGame' => [
+            'handler' => Action\NewGame\NewGameHandler::class,
+        ],
+        'joinGame' => [
+            'handler' => Action\JoinGame\JoinGameHandler::class,
         ],
     ],
 ];
