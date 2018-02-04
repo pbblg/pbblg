@@ -53,6 +53,12 @@ class Router implements RouterInterface
             $paramsValidator = ParamsValidator::class;
         }
 
+        if (array_key_exists('params', $this->config[$method])) {
+            $paramsConfig = $this->config[$method]['params'];
+        } else {
+            $paramsConfig = [];
+        }
+
         return RouteResult::fromRoute(
             new Route(
                 $method,
@@ -60,7 +66,10 @@ class Router implements RouterInterface
                 [],
                 $method
             ),
-            ['paramsValidator' => $paramsValidator]
+            [
+                'paramsValidator' => $paramsValidator,
+                'paramsConfig' => $paramsConfig,
+            ]
         );
     }
 

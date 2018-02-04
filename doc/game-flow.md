@@ -21,7 +21,8 @@
     "id": <string>,
     "error": {
         "code": <integer>, 
-        "message": <string>
+        "message": <string>,
+        "data": <object>
     }
 }
 ``` 

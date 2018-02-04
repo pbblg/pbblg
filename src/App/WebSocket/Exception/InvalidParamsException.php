@@ -6,8 +6,22 @@ use InvalidArgumentException;
 
 class InvalidParamsException extends InvalidArgumentException
 {
-    public function __construct($message, \Exception $previous = null)
+    /**
+     * @var array
+     */
+    private $errors = [];
+
+    public function __construct(array $errors, \Exception $previous = null)
     {
-        parent::__construct($message, -32602, $previous);
+        $this->errors = $errors;
+        parent::__construct('Bad params', -32602, $previous);
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }

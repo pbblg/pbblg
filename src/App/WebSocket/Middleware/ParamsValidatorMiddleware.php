@@ -48,8 +48,10 @@ class ParamsValidatorMiddleware implements MiddlewareInterface
             throw new InternalErrorException('Bad params validator');
         }
 
+        $paramsValidator->initialize($request->getAttribute('paramsConfig'));
+
         if (!$paramsValidator->isValid($request->getAttribute('params'))) {
-            throw new InvalidParamsException('Bad params: ' . implode(', ', $paramsValidator->getErrors()));
+            throw new InvalidParamsException($paramsValidator->getErrors());
         }
 
         // Matched! Parse and pass on to the next

@@ -6,6 +6,12 @@ namespace App\WebSocket\Action;
 interface ParamsValidatorInterface
 {
     /**
+     * @param array $config
+     * @return void
+     */
+    public function initialize(array $config);
+
+    /**
      * @param array $params
      * @return bool
      */

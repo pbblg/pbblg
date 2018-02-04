@@ -2,6 +2,7 @@
 
 namespace App\WebSocket;
 
+use App\WebSocket\Exception\InvalidParamsException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Stratigility\Utils;
@@ -43,6 +44,10 @@ class ErrorResponseGenerator
                 ),
             ],
         ];
+
+        if ($e instanceof InvalidParamsException) {
+            $responseArray['error']['data'] = $e->getErrors();
+        }
 
         return new JsonResponse($responseArray, Utils::getStatusCode($e, $response));
     }
