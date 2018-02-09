@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+
+chdir(dirname(__DIR__));
+require 'vendor/autoload.php';
+
+$loop = React\EventLoop\Factory::create();
+
+// Run the server application through the WebSocket protocol on port 8080
+$app = new Ratchet\App('localhost', 8088, '127.0.0.1', $loop);
+$app->route('/', new App\WebSocket\Server(), array('*'));
+
+$loop->addPeriodicTimer(10, function (){
+    \gc_collect_cycles();
+    $kmem = round(memory_get_usage(true) / 1024, 2) ;
+    $mem = round(memory_get_usage() / 1024,2);
+    echo date('[Y-m-d H:i:s]');
+//    echo "Requests: $handledRequests\n";
+    echo " Memory: $mem KiB,";
+    echo " Real Memory: $kmem KiB\n";
+});
+
+$app->run();
+
+
+
