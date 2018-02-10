@@ -2,11 +2,22 @@
 - [Протокол](#Протокол)
 - [Игровой процесс](#Игровой-процесс)
   - [Методы от Клиента серверу](#Возможные-методы-от-Клиента-серверу)
-    - [newGame](#new-game)
-    - [joinGame(gameId)](#join-game)
+    - [newGame](#newgame)
+    - [joinGame(gameId)](#joingamegameid)
+    - [startGame(gameId)](#startgameigameid)
+    - [playCard(cardId[, targetUserId, targetCardId])](#playcardcardid-targetuserid-targetcardid)
+    - [ping](#ping)
+    - [getGames](#getgames)
+    - [getGame](#getgame)
+    - [getGameLog](#getgamelog)
   - [Методы от Сервера серверу](#Методы-от-Сервера-серверу)
   - [События сервера](#На-сервере-возникают-такие-события)
-  - [Служебные методы](#Служебные-методы)
+    - [newGameCreated](#newgamecreated)
+    - [joinedGame](#joinedgame)
+    - [firstCard](#firstcard)
+    - [takeCard](#takecard)
+    - [userGotCard](#usergotcard)
+    - [userPlayedCard](#userplayedcard)
 
 
 # Протокол
@@ -116,85 +127,7 @@
   - уведомляет всех игроков событием [userPlayedCard](#userPlayedCard)
   - уведомляет всех игроков событием результата игры
 
-
-
-На сервере возникают такие события:
-
-## newGameCreated
-```json
-{
-    "event": "newGameCreated",
-    "params": {
-        "gameId": 123
-    }
-}
-```
-Возникает после того, как игра создана.
-
-## joinedGame
-```json
-{
-    "event": "joinedGame",
-    "params": {
-        "user": {
-            "id": 1,
-            "name": "Sebas"
-        }
-    }
-}
-```
-Возникает после того, как пользователь присоеденился к игре.
-
-## firstCard
-```json
-{
-    "event": "firstCard",
-    "params": {
-        "cardId": 1
-    }
-}
-```
-Возникает после того, как игра создана, все получают первую карту.
-
-## takeCard
-```json
-{
-    "event": "takeCard",
-    "params": {
-        "cardId": 1
-    }
-}
-```
-Возникает в начале пользовательского хода.
-
-## userGotCard
-```json
-{
-    "event": "userGotCard",
-    "params": {
-        "userId": 1
-    }
-}
-```
-Возникает после того, как пользователь получил карту.
-
-## userPlayedCard
-```json
-{
-    "event": "userPlayedCard",
-    "params": {
-        "userId": 1,
-        "cardId": 5,
-        "targetUserId": 2,
-        "targetCardId": 8
-    }
-}
-```
-Возникает после того, как пользователь сыграл карту.
-
-# Служебные методы
-
-## ping 
+### ping 
 ```json
 {
     "id": 1,
@@ -210,7 +143,7 @@ Response
 }
 ```
 
-## getGames 
+### getGames 
 ```json
 {
     "id": 1,
@@ -241,7 +174,7 @@ Response
 }
 ```
 
-## getGame
+### getGame
 ```json
 {
     "id": 1,
@@ -276,7 +209,7 @@ Response
 }
 ```
 
-## getGameLog
+### getGameLog
 ```json
 {
     "id": 1,
@@ -361,3 +294,77 @@ Response
     }
 }
 ```
+
+## На сервере возникают такие события:
+
+### newGameCreated
+```json
+{
+    "event": "newGameCreated",
+    "params": {
+        "gameId": 123
+    }
+}
+```
+Возникает после того, как игра создана.
+
+### joinedGame
+```json
+{
+    "event": "joinedGame",
+    "params": {
+        "user": {
+            "id": 1,
+            "name": "Sebas"
+        }
+    }
+}
+```
+Возникает после того, как пользователь присоеденился к игре.
+
+### firstCard
+```json
+{
+    "event": "firstCard",
+    "params": {
+        "cardId": 1
+    }
+}
+```
+Возникает после того, как игра создана, все получают первую карту.
+
+### takeCard
+```json
+{
+    "event": "takeCard",
+    "params": {
+        "cardId": 1
+    }
+}
+```
+Возникает в начале пользовательского хода.
+
+### userGotCard
+```json
+{
+    "event": "userGotCard",
+    "params": {
+        "userId": 1
+    }
+}
+```
+Возникает после того, как пользователь получил карту.
+
+### userPlayedCard
+```json
+{
+    "event": "userPlayedCard",
+    "params": {
+        "userId": 1,
+        "cardId": 5,
+        "targetUserId": 2,
+        "targetCardId": 8
+    }
+}
+```
+Возникает после того, как пользователь сыграл карту.
