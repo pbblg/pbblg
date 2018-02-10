@@ -4,7 +4,7 @@
   - [Методы от Клиента серверу](#Возможные-методы-от-Клиента-серверу)
     - [newGame](#newgame)
     - [joinGame(gameId)](#joingamegameid)
-    - [startGame(gameId)](#startgameigameid)
+    - [startGame(gameId)](#startgamegameid)
     - [playCard(cardId[, targetUserId, targetCardId])](#playcardcardid-targetuserid-targetcardid)
     - [ping](#ping)
     - [getGames](#getgames)
