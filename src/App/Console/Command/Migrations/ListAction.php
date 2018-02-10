@@ -1,15 +1,13 @@
 <?php
 
-namespace App\Console\Command;
+namespace App\Console\Command\Migrations;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Command\Migration\ListCommandHandler;
+use App\Command\Migration\ListCommand;
 
-class MigrateCommand extends Command
+class ListAction extends Command
 {
     /**
      * @var InputInterface
@@ -22,11 +20,11 @@ class MigrateCommand extends Command
     protected $output;
 
     /**
-     * @var ListCommandHandler
+     * @var ListCommand
      */
     private $listCommandHandler;
 
-    public function initializeCommands(ListCommandHandler $listCommandHandler)
+    public function initializeCommand(ListCommand $listCommandHandler)
     {
         $this->listCommandHandler = $listCommandHandler;
     }
@@ -48,52 +46,26 @@ class MigrateCommand extends Command
         $this->input = $input;
         $this->output = $output;
 
-        if ($this->input->getOption('run')) {
-            return $this->executeRun();
-        }
-
-        return $this->executeList();
-    }
-
-    private function executeRun()
-    {
-        $this->info('Run migration ...');
-
-        $this->info('Done.');
-    }
-
-    private function executeList()
-    {
         $this->info('Available migrations:');
 
         $versions = $this->listCommandHandler->handle();
 
-        $output = [];
         foreach ($versions as $version) {
-            $output[] = $version['version'] . ' - ' . $version['description'];
+            if ($version['applied']) {
+                $output = "<info>✔</info>";
+            } else {
+                $output = "<info> </info> ";
+            }
+            $output .= $version['version'] . ' - ' . $version['description'];
+            $this->output->writeln($output);
         }
-
-        $io = new SymfonyStyle($this->input, $this->output);
-        $io->listing($output);
     }
 
     protected function configure()
     {
         $this
-            ->setName('migrate')
-            ->setDescription("Run pbblg migration")
-            ->addOption(
-                'list',
-                'l',
-                InputOption::VALUE_NONE,
-                'List available migrations'
-            )
-            ->addOption(
-                'run',
-                'r',
-                InputOption::VALUE_NONE,
-                'Apply migration'
-            );
+            ->setName('migrations:list')
+            ->setDescription("List of migration versions");
     }
 
     /**

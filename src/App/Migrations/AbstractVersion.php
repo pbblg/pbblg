@@ -25,6 +25,7 @@ abstract class AbstractVersion
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+        $this->dbAdapter = $container->get(Adapter::class);
     }
 
     abstract public function up();

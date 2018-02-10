@@ -6,18 +6,25 @@ use ArrayIterator;
 use GlobIterator;
 use FilesystemIterator;
 use ReflectionClass;
+use Zend\Db\TableGateway\TableGateway;
 use App\Migrations\AbstractVersion;
 
-class ListCommandHandler
+class ListCommand
 {
     /**
      * @var string
      */
     private $versionFolder;
 
-    public function __construct(array $config)
+    /**
+     * @var TableGateway
+     */
+    private $migrationsTable;
+
+    public function __construct(array $config, TableGateway $migrationsTable)
     {
         $this->versionFolder = $config['version-folder'];
+        $this->migrationsTable = $migrationsTable;
     }
 
     public function handle()
@@ -28,6 +35,8 @@ class ListCommandHandler
             FilesystemIterator::KEY_AS_FILENAME
         );
 
+        $appliedVersions = $this->getAppliedVersions();
+
         /** @var \SplFileInfo $item */
         foreach ($iterator as $item) {
             if (!preg_match('/(Version_(\d+))\.php/', $item->getFilename(), $matches)) {
@@ -35,6 +44,7 @@ class ListCommandHandler
             }
 
             $className = 'App\\Migrations\\' . $matches[1];
+            $versionNum = $matches[2];
             if (!class_exists($className)) {
                 throw new \RuntimeException("Bad class version in " . $item->getFilename());
             }
@@ -48,7 +58,7 @@ class ListCommandHandler
                 'version' => $matches[2],
                 'class' => $className,
                 'description' => $props['description'],
-                'applied' => 0,
+                'applied' => isset($appliedVersions[$versionNum]) ? 1 : 0,
             ]);
         }
         $classes->uasort(
@@ -60,5 +70,17 @@ class ListCommandHandler
             }
         );
         return $classes->getArrayCopy();
+    }
+
+    private function getAppliedVersions()
+    {
+        $result = $this->migrationsTable->select();
+
+        $versions = [];
+        foreach ($result->toArray() as $row) {
+            $versions[$row['version']] = 1;
+        }
+
+        return $versions;
     }
 }
