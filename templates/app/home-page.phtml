@@ -1,109 +1,148 @@
-<?php $this->headTitle('Home'); ?>
-
-<div class="jumbotron">
-    <h1>Welcome to <span class="zf-green">zend-expressive</span></h1>
-    <p>
-        Congratulations! You have successfully installed the
-        <a href="https://github.com/zendframework/zend-expressive-skeleton" target="_blank">zend-expressive skeleton application</a>.
-        This skeleton can serve as a simple starting point for you to begin building your application.
-    </p>
-    <p>
-        Expressive builds on zend-stratigility to provide a minimalist PSR-7 middleware framework for PHP.
-    </p>
-</div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>
-            <a href="https://docs.zendframework.com/zend-expressive/getting-started/features/" target="_blank">
-                <i class="fa fa-refresh"></i> Agile &amp; Lean
-            </a>
-        </h2>
-        <p>
-            Expressive is fast, small and perfect for rapid application development, prototyping and api's. You decide how you
-            extend it and choose the best packages from major framework or standalone projects.
-        </p>
+<!-- Masthead -->
+<header class="masthead text-white text-center">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 mx-auto">
+                <h2 class="mb-5">
+                    Это быстрая и азартная карточная игра с элементами блефа, возможностью частично рассчитывать
+                    действия противников и весомой долей везения.
+                </h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-2 col-xl-2 mx-auto">
+                <form>
+                    <div class="form-row">
+                        <div class="col-12 col-md-12">
+                            <a href="/game" class="btn btn-block btn-lg btn-primary">Играть</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+</header>
 
-    <div class="col-md-4">
-        <h2>
-            <a href="https://github.com/zendframework/zend-diactoros" target="_blank">
-                <i class="fa fa-exchange"></i> HTTP Messages
-            </a>
-        </h2>
-        <p>
-            HTTP messages are the foundation of web development. Web browsers and HTTP clients such as cURL create
-            HTTP request messages that are sent to a web server, which provides an HTTP response message.
-            Server-side code receives an HTTP request message, and returns an HTTP response message.
-        </p>
+<!-- Testimonials -->
+<section class="testimonials text-center bg-light" style="background-color: #a0ceb2 !important;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                    <img class="img-fluid rounded-circle mb-3" src="img/win-1.jpg" alt="">
+                    <h5>Рейтинги</h5>
+                    <p class="font-weight-light mb-0">Выигрывай, стань лучшим</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                    <img class="img-fluid rounded-circle mb-3" src="img/win-2.jpg" alt="">
+                    <h5>Матчи</h5>
+                    <p class="font-weight-light mb-0">Еженедельные матчи с приятными призами</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="testimonial-item mx-auto mb-5 mb-lg-0">
+                    <img class="img-fluid rounded-circle mb-3" src="img/win-3.jpg" alt="">
+                    <h5>Квесты</h5>
+                    <p class="font-weight-light mb-0">Играй каждый день и получай бонусы</p>
+                </div>
+            </div>
+        </div>
     </div>
+</section>
 
-    <div class="col-md-4">
-        <h2>
-            <a href="https://github.com/zendframework/zend-stratigility" target="_blank">
-                <i class="fa fa-dot-circle-o"></i> Middleware
-            </a>
-        </h2>
-        <p>
-            Middleware is code that exists between the request and response, and which can take the incoming
-            request, perform actions based on it, and either complete the response or pass delegation on to the
-            next middleware in the queue. Your application is easily extended with custom middleware created by
-            yourself or <a href="https://packagist.org/search/?q=middleware" target="_blank">others</a>.
-        </p>
+<!-- Image Showcases -->
+<section class="showcase">
+    <div class="container-fluid p-0">
+        <div class="row no-gutters">
+            <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/bg-showcase-1.png');"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text text-al text-right">
+                <h2>1 - Парнишка Финн</h2>
+                <p class="lead mb-0">Назови карту от 2 до 8, выбери игрока,<br/>
+                    если у него есть названная карта он<br/>
+                    выбывает из раунда</p>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-lg-6 text-white showcase-img" style="background-image: url('img/bg-showcase-2.png');"></div>
+            <div class="col-lg-6 my-auto showcase-text">
+                <h2>2 - Пес Джейк</h2>
+                <p class="lead mb-0">Посмотри карут на руке у другого игрока</p>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/bg-showcase-3.png');"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text text-right">
+                <h2>3 - БиМо</h2>
+                <p class="lead mb-0">В тайне от остальных сравни свою руку <br/>
+                    с рукой другого игрока. У кого значение меньше, <br/>
+                    тот выбывает из раунда</p>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-lg-6 text-white showcase-img" style="background-image: url('img/bg-showcase-4.png');"></div>
+            <div class="col-lg-6 my-auto showcase-text">
+                <h2>4 - ППК</h2>
+                <p class="lead mb-0">До следующего твоего хода <br/>
+                    игнорируй все эффекты карт других игроков</p>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/bg-showcase-5.png');"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text text-right">
+                <h2>5 - Маршал Ли</h2>
+                <p class="lead mb-0">Выбери другого игрока (можно себя) <br/>
+                    этот игрок сбрасывает карту с руки и берет новую</p>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-lg-6 text-white showcase-img" style="background-image: url('img/bg-showcase-6.png');"></div>
+            <div class="col-lg-6 my-auto showcase-text">
+                <h2>6 - Ледяной король</h2>
+                <p class="lead mb-0">Поменяйся картой с руки с другим, <br/>
+                    выбранным тобою, игроком </p>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/bg-showcase-7.png');"></div>
+            <div class="col-lg-6 order-lg-1 my-auto showcase-text text-right">
+                <h2>7 - Марселина</h2>
+                <p class="lead mb-0">Если эта карта у тебя на руке одоновременно<br/>
+                    с Ледяным королем или Маршалом Ли<br/>
+                    ты должен сбросить ее</p>
+            </div>
+        </div>
+        <div class="row no-gutters">
+            <div class="col-lg-6 text-white showcase-img" style="background-image: url('img/bg-showcase-8.png');"></div>
+            <div class="col-lg-6 my-auto showcase-text">
+                <h2>8 - Принцесса жвачка</h2>
+                <p class="lead mb-0">Если сбросишь эту карту, тут же выбываешь из раунда</p>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>
-            <a href="https://docs.zendframework.com/zend-expressive/features/container/intro/" target="_blank">
-                <i class="fa fa-cube"></i> Containers
-            </a>
-        </h2>
-        <p>
-            Expressive promotes and advocates the usage of Dependency Injection/Inversion of Control containers
-            when writing your applications. Expressive supports multiple containers which typehints against
-            <a href="https://github.com/container-interop/container-interop" target="_blank">container-interop</a>.
-        </p>
+<!-- Call to Action -->
+<section class="call-to-action text-white text-center">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-9 mx-auto">
+                <h2 class="mb-4">Готов?</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-lg-3 col-xl-3 mx-auto">
+                <form>
+                    <div class="form-row">
+                        <div class="col-12 col-md-12">
+                            <a href="/game" class="btn btn-block btn-lg btn-primary">Играть</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-
-    <div class="col-md-4">
-        <h2>
-            <a href="https://docs.zendframework.com/zend-expressive/features/router/intro/" target="_blank">
-                <i class="fa fa-plane"></i> Routers
-            </a>
-        </h2>
-        <p>
-            One fundamental feature of zend-expressive is that it provides mechanisms for implementing dynamic
-            routing, a feature required in most modern web applications. Expressive ships with multiple adapters.
-        </p>
-        <?php if (isset($this->routerName)) : ?>
-            <p>
-                <a href="<?php echo $this->routerDocs ?>" target="_blank">
-                    Get started with <?php echo $this->routerName ?>.
-                </a>
-            </p>
-        <?php endif; ?>
-    </div>
-
-    <div class="col-md-4">
-        <h2>
-            <a href="https://docs.zendframework.com/zend-expressive/features/template/zend-view/" target="_blank">
-                <i class="fa fa-files-o"></i> Templating
-            </a>
-        </h2>
-        <p>
-            By default, no middleware in Expressive is templated. We do not even provide a default templating
-            engine, as the choice of templating engine is often very specific to the project and/or organization.
-            However, Expressive does provide abstraction for templating, which allows you to write middleware that
-            is engine-agnostic.
-        </p>
-        <?php if (isset($this->templateName)) : ?>
-            <p>
-                <a href="<?php echo $this->templateDocs ?>" target="_blank">
-                    Get started with <?php echo $this->templateName ?>.
-                </a>
-            </p>
-        <?php endif; ?>
-    </div>
-</div>
+</section>
