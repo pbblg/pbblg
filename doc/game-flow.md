@@ -1,23 +1,23 @@
 ## Содержание
 - [Протокол](#Протокол)
 - [Игровой процесс](#Игровой-процесс)
-  - [Методы от Клиента серверу](#Возможные-методы-от-Клиента-серверу)
-    - [newGame](#newgame)
-    - [joinGame(gameId)](#joingamegameid)
-    - [startGame(gameId)](#startgamegameid)
-    - [playCard(cardId[, targetUserId, targetCardId])](#playcardcardid-targetuserid-targetcardid)
-    - [ping](#ping)
-    - [getGames](#getgames)
-    - [getGame](#getgame)
-    - [getGameLog](#getgamelog)
-  - [Методы от Сервера серверу](#Методы-от-Сервера-серверу)
-  - [События сервера](#На-сервере-возникают-такие-события)
-    - [newGameCreated](#newgamecreated)
-    - [joinedGame](#joinedgame)
-    - [firstCard](#firstcard)
-    - [takeCard](#takecard)
-    - [userGotCard](#usergotcard)
-    - [userPlayedCard](#userplayedcard)
+- [Методы от Клиента серверу](#Возможные-методы-от-Клиента-серверу)
+  - [newGame](#newgame)
+  - [joinGame(gameId)](#joingamegameid)
+  - [startGame(gameId)](#startgamegameid)
+  - [playCard(cardId[, targetUserId, targetCardId])](#playcardcardid-targetuserid-targetcardid)
+  - [ping](#ping)
+  - [getGames](#getgames)
+  - [getGame](#getgame)
+  - [getGameLog](#getgamelog)
+- [Методы от Сервера серверу](#Возможные-методы-от-Сервера-серверу)
+- [События сервера](#На-сервере-возникают-такие-события)
+  - [newGameCreated](#newgamecreated)
+  - [joinedGame](#joinedgame)
+  - [firstCard](#firstcard)
+  - [takeCard](#takecard)
+  - [userGotCard](#usergotcard)
+  - [userPlayedCard](#userplayedcard)
 
 
 # Протокол
@@ -294,6 +294,29 @@ Response
     }
 }
 ```
+
+## Возможные методы от Сервера серверу:
+
+Коммуникация Сервер-сервер нужна для рассылки ивентов клиентам.
+
+### send
+```json
+{
+    "id": 1,
+    "method": "send",
+    "params": {
+        "receivers": [1,2,3],
+        "message": {
+            "event": "newGameCreated",
+            "params": {
+                "gameId": 123
+            }
+        }
+    }
+}
+```
+
+`receivers` может быть null - в этом случае событие получат все подключенные клиенты.
 
 ## На сервере возникают такие события:
 
