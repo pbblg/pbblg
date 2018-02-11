@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "75e6ed2672064511f57be253ef4682c6",
+    "content-hash": "3749050bd1630286c512ab72b77582d2",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -89,6 +89,58 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "dflydev/fig-cookies",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dflydev/dflydev-fig-cookies.git",
+                "reference": "883233c159d00d39e940bd12cfe42c0d23420c1c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dflydev/dflydev-fig-cookies/zipball/883233c159d00d39e940bd12cfe42c0d23420c1c",
+                "reference": "883233c159d00d39e940bd12cfe42c0d23420c1c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4",
+                "psr/http-message": "~1.0"
+            },
+            "require-dev": {
+                "codeclimate/php-test-reporter": "~0.1@dev",
+                "phpunit/phpunit": "~4.5",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Dflydev\\FigCookies\\": "src/Dflydev/FigCookies"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Beau Simensen",
+                    "email": "beau@dflydev.com"
+                }
+            ],
+            "description": "Cookies for PSR-7 HTTP Message Interface.",
+            "keywords": [
+                "cookies",
+                "psr-7",
+                "psr7"
+            ],
+            "time": "2016-03-28T09:10:18+00:00"
         },
         {
             "name": "evenement/evenement",
@@ -822,12 +874,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roave/SecurityAdvisories.git",
-                "reference": "402a514551804df5b4b2150f217e23a15408795a"
+                "reference": "3df94834c80037130b533703df4672785b6ea112"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/402a514551804df5b4b2150f217e23a15408795a",
-                "reference": "402a514551804df5b4b2150f217e23a15408795a",
+                "url": "https://api.github.com/repos/Roave/SecurityAdvisories/zipball/3df94834c80037130b533703df4672785b6ea112",
+                "reference": "3df94834c80037130b533703df4672785b6ea112",
                 "shasum": ""
             },
             "conflict": {
@@ -882,13 +934,13 @@
                 "phpxmlrpc/extras": "<0.6.1",
                 "pusher/pusher-php-server": "<2.2.1",
                 "sabre/dav": ">=1.6,<1.6.99|>=1.7,<1.7.11|>=1.8,<1.8.9",
-                "shopware/shopware": "<5.2.25",
+                "shopware/shopware": "<5.3.7",
                 "silverstripe/cms": ">=3,<=3.0.11|>=3.1,<3.1.11",
                 "silverstripe/forum": "<=0.6.1|>=0.7,<=0.7.3",
                 "silverstripe/framework": ">=3,<3.3",
                 "silverstripe/userforms": "<3",
-                "simplesamlphp/saml2": "<1.8.1|>=1.9,<1.9.1|>=1.10,<1.10.3|>=2,<2.3.3",
-                "simplesamlphp/simplesamlphp": "<1.14.16",
+                "simplesamlphp/saml2": "<1.10.4|>=2,<2.3.5|>=3,<3.1.1",
+                "simplesamlphp/simplesamlphp": "<1.15.2",
                 "simplesamlphp/simplesamlphp-module-infocard": "<1.0.1",
                 "socalnick/scn-social-auth": "<1.15.2",
                 "squizlabs/php_codesniffer": ">=1,<2.8.1",
@@ -911,7 +963,7 @@
                 "symfony/web-profiler-bundle": ">=2,<2.3.19|>=2.4,<2.4.9|>=2.5,<2.5.4",
                 "symfony/yaml": ">=2,<2.0.22|>=2.1,<2.1.7",
                 "thelia/backoffice-default-template": ">=2.1,<2.1.2",
-                "thelia/thelia": ">=2.1,<2.1.2|>=2.1.0-beta1,<2.1.3",
+                "thelia/thelia": ">=2.1.0-beta1,<2.1.3|>=2.1,<2.1.2",
                 "twig/twig": "<1.20",
                 "typo3/cms": ">=6.2,<6.2.30|>=7,<7.6.22|>=8,<8.7.5",
                 "typo3/flow": ">=1,<1.0.4|>=1.1,<1.1.1|>=2,<2.0.1|>=2.3,<2.3.16|>=3,<3.0.10|>=3.1,<3.1.7|>=3.2,<3.2.7|>=3.3,<3.3.5",
@@ -960,20 +1012,20 @@
                 }
             ],
             "description": "Prevents installation of composer packages with known security vulnerabilities: no API, simply require it",
-            "time": "2018-01-18T10:00:53+00:00"
+            "time": "2018-02-04T22:09:50+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v2.8.33",
+            "version": "v2.8.34",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "a4bd0f02ea156cf7b5138774a7ba0ab44d8da4fe"
+                "reference": "162ca7d0ea597599967aa63b23418e747da0896b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/a4bd0f02ea156cf7b5138774a7ba0ab44d8da4fe",
-                "reference": "a4bd0f02ea156cf7b5138774a7ba0ab44d8da4fe",
+                "url": "https://api.github.com/repos/symfony/console/zipball/162ca7d0ea597599967aa63b23418e747da0896b",
+                "reference": "162ca7d0ea597599967aa63b23418e747da0896b",
                 "shasum": ""
             },
             "require": {
@@ -1021,7 +1073,7 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2018-01-03T07:36:31+00:00"
+            "time": "2018-01-29T08:54:45+00:00"
         },
         {
             "name": "symfony/debug",
@@ -1082,16 +1134,16 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v4.0.3",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "03fe5171e35966f43453e2e5c15d7fe65f7fb23b"
+                "reference": "82a3ee2c6662d08ca1adf99e1ef2e31ab48196d4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/03fe5171e35966f43453e2e5c15d7fe65f7fb23b",
-                "reference": "03fe5171e35966f43453e2e5c15d7fe65f7fb23b",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/82a3ee2c6662d08ca1adf99e1ef2e31ab48196d4",
+                "reference": "82a3ee2c6662d08ca1adf99e1ef2e31ab48196d4",
                 "shasum": ""
             },
             "require": {
@@ -1131,20 +1183,20 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "time": "2018-01-03T17:15:19+00:00"
+            "time": "2018-01-29T09:06:29+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
                 "shasum": ""
             },
             "require": {
@@ -1156,7 +1208,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6-dev"
+                    "dev-master": "1.7-dev"
                 }
             },
             "autoload": {
@@ -1190,20 +1242,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-01-30T19:27:44+00:00"
         },
         {
             "name": "symfony/routing",
-            "version": "v4.0.3",
+            "version": "v4.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "a34b58ed26cc090f99b2ef833d609a6884581b3c"
+                "reference": "a69bd948700b672e036147762f46749bcae33796"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/a34b58ed26cc090f99b2ef833d609a6884581b3c",
-                "reference": "a34b58ed26cc090f99b2ef833d609a6884581b3c",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/a69bd948700b672e036147762f46749bcae33796",
+                "reference": "a69bd948700b672e036147762f46749bcae33796",
                 "shasum": ""
             },
             "require": {
@@ -1268,7 +1320,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2018-01-04T15:52:56+00:00"
+            "time": "2018-01-16T18:04:12+00:00"
         },
         {
             "name": "webimpress/composer-extra-dependency",
@@ -1706,6 +1758,122 @@
             "time": "2017-12-11T21:41:17+00:00"
         },
         {
+            "name": "zendframework/zend-expressive-authentication",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-expressive-authentication.git",
+                "reference": "6d163307aac093747209554ded80e97e1bce0724"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-expressive-authentication/zipball/6d163307aac093747209554ded80e97e1bce0724",
+                "reference": "6d163307aac093747209554ded80e97e1bce0724",
+                "shasum": ""
+            },
+            "require": {
+                "http-interop/http-middleware": "^0.4.1",
+                "php": "^7.1",
+                "psr/container": "^1.0",
+                "psr/http-message": "^1.0.1"
+            },
+            "conflict": {
+                "container-interop/container-interop": "<1.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.3",
+                "roave/security-advisories": "dev-master",
+                "zendframework/zend-coding-standard": "~1.0.0"
+            },
+            "suggest": {
+                "ext-pdo": "*: for use with the PDO-backed UserRepositoryInterface implementation",
+                "zendframework/zend-expressive-authentication-basic": "Provides an HTTP Basic Authentication AuthenticationInterface implementation",
+                "zendframework/zend-expressive-authentication-session": "Provides a username/password + session AuthenticationInterface implementation",
+                "zendframework/zend-expressive-authentication-zendauthentication": "Provides a zend-authentication AuthenticationInterface implementation"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2.x-dev",
+                    "dev-release-1.0.0": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Expressive\\Authentication\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Authentication middleware for Expressive and PSR-7 applications",
+            "keywords": [
+                "Authentication",
+                "ZendFramework",
+                "http",
+                "middleware",
+                "psr-7",
+                "zend-expressive",
+                "zf"
+            ],
+            "time": "2018-01-24T17:13:53+00:00"
+        },
+        {
+            "name": "zendframework/zend-expressive-authentication-session",
+            "version": "0.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-expressive-authentication-session.git",
+                "reference": "61e8cdcc792824d66b1fcb8286e8f2b9ed030bea"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-expressive-authentication-session/zipball/61e8cdcc792824d66b1fcb8286e8f2b9ed030bea",
+                "reference": "61e8cdcc792824d66b1fcb8286e8f2b9ed030bea",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1",
+                "psr/container": "^1.0",
+                "psr/http-message": "^1.0.1",
+                "zendframework/zend-expressive-authentication": "^0.3 || ^1.0.0-dev || ^1.0",
+                "zendframework/zend-expressive-session": "^0.1.0 || ^1.0.0-dev || ^1.0"
+            },
+            "require-dev": {
+                "phpspec/prophecy": "^1.7.2",
+                "phpunit/phpunit": "^6.3",
+                "zendframework/zend-coding-standard": "~1.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                },
+                "zf": {
+                    "config-provider": "Zend\\Expressive\\Authentication\\Session\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Expressive\\Authentication\\Session\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Username/password, session-backed authentication adapter for zend-expressive-authentication.",
+            "keywords": [
+                "Authentication",
+                "ZendFramework",
+                "expressive",
+                "session",
+                "zf"
+            ],
+            "time": "2018-01-25T19:14:05+00:00"
+        },
+        {
             "name": "zendframework/zend-expressive-helpers",
             "version": "4.2.0",
             "source": {
@@ -1766,16 +1934,16 @@
         },
         {
             "name": "zendframework/zend-expressive-router",
-            "version": "2.2.0",
+            "version": "2.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-expressive-router.git",
-                "reference": "f6eac53d39cdbf7b6db11b3e6bb3565896633de4"
+                "reference": "eb71000aa7970ad67f252076200bcc1593714f8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-expressive-router/zipball/f6eac53d39cdbf7b6db11b3e6bb3565896633de4",
-                "reference": "f6eac53d39cdbf7b6db11b3e6bb3565896633de4",
+                "url": "https://api.github.com/repos/zendframework/zend-expressive-router/zipball/eb71000aa7970ad67f252076200bcc1593714f8d",
+                "reference": "eb71000aa7970ad67f252076200bcc1593714f8d",
                 "shasum": ""
             },
             "require": {
@@ -1786,7 +1954,7 @@
             },
             "require-dev": {
                 "malukenho/docheader": "^0.1.5",
-                "phpunit/phpunit": "^6.0.8 || ^5.7.15",
+                "phpunit/phpunit": "^5.7.23 || ^6.4.3",
                 "zendframework/zend-coding-standard": "~1.0.0"
             },
             "suggest": {
@@ -1797,8 +1965,9 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.2-dev",
-                    "dev-develop": "2.3-dev"
+                    "dev-master": "2.3.x-dev",
+                    "dev-develop": "2.4.x-dev",
+                    "dev-release-3.0.0": "3.0.x-dev"
                 }
             },
             "autoload": {
@@ -1812,13 +1981,131 @@
             ],
             "description": "Router subcomponent for Expressive",
             "keywords": [
+                "ZendFramework",
                 "expressive",
                 "http",
                 "middleware",
                 "psr",
-                "psr-7"
+                "psr-7",
+                "zend-expressive",
+                "zf"
             ],
-            "time": "2017-10-09T18:44:11+00:00"
+            "time": "2018-02-01T19:49:45+00:00"
+        },
+        {
+            "name": "zendframework/zend-expressive-session",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-expressive-session.git",
+                "reference": "9e44991582955359ee48bb4f786ed064809baf80"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-expressive-session/zipball/9e44991582955359ee48bb4f786ed064809baf80",
+                "reference": "9e44991582955359ee48bb4f786ed064809baf80",
+                "shasum": ""
+            },
+            "require": {
+                "http-interop/http-middleware": "^0.4.1",
+                "php": "^7.1",
+                "psr/container": "^1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.0.9",
+                "zendframework/zend-coding-standard": "~1.0.0"
+            },
+            "suggest": {
+                "zendframework/zend-expressive-csrf": "^1.0 || ^1.0-dev for CSRF protection capabilities",
+                "zendframework/zend-expressive-flash": "^1.0 || ^1.0-dev for flash message capabilities",
+                "zendframework/zend-expressive-session-ext": "^1.0 || ^1.0-dev for an ext-session persistence adapter"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "zf": {
+                    "config-provider": "Zend\\Expressive\\Session\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Expressive\\Session\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Session container and middleware for PSR-7 applications",
+            "keywords": [
+                "ZendFramework",
+                "expressive",
+                "middleware",
+                "psr-7",
+                "session",
+                "zf"
+            ],
+            "time": "2017-10-10T18:50:17+00:00"
+        },
+        {
+            "name": "zendframework/zend-expressive-session-ext",
+            "version": "0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zendframework/zend-expressive-session-ext.git",
+                "reference": "d3e3c385ba296581114e1c419ad41131224d2ff2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zendframework/zend-expressive-session-ext/zipball/d3e3c385ba296581114e1c419ad41131224d2ff2",
+                "reference": "d3e3c385ba296581114e1c419ad41131224d2ff2",
+                "shasum": ""
+            },
+            "require": {
+                "dflydev/fig-cookies": "^1.0",
+                "ext-session": "*",
+                "php": "^7.1",
+                "zendframework/zend-expressive-session": "^0.1.0 || ^1.0.0-dev || ^1.0.0"
+            },
+            "conflict": {
+                "phpspec/prophecy": "<1.7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4.3",
+                "zendframework/zend-coding-standard": "~1.0.0",
+                "zendframework/zend-diactoros": "^1.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "zf": {
+                    "config-provider": "Zend\\Expressive\\Session\\Ext\\ConfigProvider"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Expressive\\Session\\Ext\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "ext-session persistence adapter for zend-expressive-session",
+            "keywords": [
+                "ZendFramework",
+                "components",
+                "ext-session",
+                "psr-7",
+                "session",
+                "zend-expressive",
+                "zf"
+            ],
+            "time": "2017-12-12T23:11:14+00:00"
         },
         {
             "name": "zendframework/zend-expressive-template",
@@ -2309,16 +2596,16 @@
         },
         {
             "name": "zendframework/zend-servicemanager",
-            "version": "3.3.1",
+            "version": "3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-servicemanager.git",
-                "reference": "0fa3d3cf588dde0850fff1efa60d44a7aa3c3ab7"
+                "reference": "9f35a104b8d4d3b32da5f4a3b6efc0dd62e5af42"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-servicemanager/zipball/0fa3d3cf588dde0850fff1efa60d44a7aa3c3ab7",
-                "reference": "0fa3d3cf588dde0850fff1efa60d44a7aa3c3ab7",
+                "url": "https://api.github.com/repos/zendframework/zend-servicemanager/zipball/9f35a104b8d4d3b32da5f4a3b6efc0dd62e5af42",
+                "reference": "9f35a104b8d4d3b32da5f4a3b6efc0dd62e5af42",
                 "shasum": ""
             },
             "require": {
@@ -2332,10 +2619,10 @@
                 "psr/container-implementation": "^1.0"
             },
             "require-dev": {
-                "mikey179/vfsstream": "^1.6",
+                "mikey179/vfsstream": "^1.6.5",
                 "ocramius/proxy-manager": "^1.0 || ^2.0",
-                "phpbench/phpbench": "^0.10.0",
-                "phpunit/phpunit": "^5.7 || ^6.0.6",
+                "phpbench/phpbench": "^0.13.0",
+                "phpunit/phpunit": "^5.7.25 || ^6.4.4",
                 "zendframework/zend-coding-standard": "~1.0.0"
             },
             "suggest": {
@@ -2362,13 +2649,18 @@
             "license": [
                 "BSD-3-Clause"
             ],
-            "homepage": "https://github.com/zendframework/zend-servicemanager",
+            "description": "Factory-Driven Dependency Injection Container",
             "keywords": [
+                "PSR-11",
+                "ZendFramework",
+                "dependency-injection",
+                "di",
+                "dic",
                 "service-manager",
                 "servicemanager",
                 "zf"
             ],
-            "time": "2017-11-27T18:11:25+00:00"
+            "time": "2018-01-29T16:48:37+00:00"
         },
         {
             "name": "zendframework/zend-stdlib",
@@ -2518,16 +2810,16 @@
         },
         {
             "name": "zendframework/zend-validator",
-            "version": "2.10.1",
+            "version": "2.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-validator.git",
-                "reference": "010084ddbd33299bf51ea6f0e07f8f4e8bd832a8"
+                "reference": "38109ed7d8e46cfa71bccbe7e6ca80cdd035f8c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-validator/zipball/010084ddbd33299bf51ea6f0e07f8f4e8bd832a8",
-                "reference": "010084ddbd33299bf51ea6f0e07f8f4e8bd832a8",
+                "url": "https://api.github.com/repos/zendframework/zend-validator/zipball/38109ed7d8e46cfa71bccbe7e6ca80cdd035f8c9",
+                "reference": "38109ed7d8e46cfa71bccbe7e6ca80cdd035f8c9",
                 "shasum": ""
             },
             "require": {
@@ -2562,8 +2854,8 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.10-dev",
-                    "dev-develop": "2.11-dev"
+                    "dev-master": "2.10.x-dev",
+                    "dev-develop": "2.11.x-dev"
                 },
                 "zf": {
                     "component": "Zend\\Validator",
@@ -2585,7 +2877,7 @@
                 "validator",
                 "zf2"
             ],
-            "time": "2017-08-22T14:19:23+00:00"
+            "time": "2018-02-01T17:05:33+00:00"
         },
         {
             "name": "zendframework/zend-view",
@@ -2994,16 +3286,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "4.2.0",
+            "version": "4.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "66465776cfc249844bde6d117abff1d22e06c2da"
+                "reference": "94fd0001232e47129dd3504189fa1c7225010d08"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/66465776cfc249844bde6d117abff1d22e06c2da",
-                "reference": "66465776cfc249844bde6d117abff1d22e06c2da",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/94fd0001232e47129dd3504189fa1c7225010d08",
+                "reference": "94fd0001232e47129dd3504189fa1c7225010d08",
                 "shasum": ""
             },
             "require": {
@@ -3041,7 +3333,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-11-27T17:38:31+00:00"
+            "time": "2017-11-30T07:14:17+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",
@@ -3404,16 +3696,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "6.5.5",
+            "version": "6.5.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "83d27937a310f2984fd575686138597147bdc7df"
+                "reference": "3330ef26ade05359d006041316ed0fa9e8e3cefe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/83d27937a310f2984fd575686138597147bdc7df",
-                "reference": "83d27937a310f2984fd575686138597147bdc7df",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3330ef26ade05359d006041316ed0fa9e8e3cefe",
+                "reference": "3330ef26ade05359d006041316ed0fa9e8e3cefe",
                 "shasum": ""
             },
             "require": {
@@ -3484,7 +3776,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2017-12-17T06:31:19+00:00"
+            "time": "2018-02-01T05:57:37+00:00"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -3592,21 +3884,21 @@
         },
         {
             "name": "sebastian/comparator",
-            "version": "2.1.2",
+            "version": "2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/comparator.git",
-                "reference": "11c07feade1d65453e06df3b3b90171d6d982087"
+                "reference": "34369daee48eafb2651bea869b4b15d75ccc35f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/11c07feade1d65453e06df3b3b90171d6d982087",
-                "reference": "11c07feade1d65453e06df3b3b90171d6d982087",
+                "url": "https://api.github.com/repos/sebastianbergmann/comparator/zipball/34369daee48eafb2651bea869b4b15d75ccc35f9",
+                "reference": "34369daee48eafb2651bea869b4b15d75ccc35f9",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.0",
-                "sebastian/diff": "^2.0",
+                "sebastian/diff": "^2.0 || ^3.0",
                 "sebastian/exporter": "^3.1"
             },
             "require-dev": {
@@ -3652,7 +3944,7 @@
                 "compare",
                 "equality"
             ],
-            "time": "2018-01-12T06:34:42+00:00"
+            "time": "2018-02-01T13:46:46+00:00"
         },
         {
             "name": "sebastian/diff",
@@ -4224,16 +4516,16 @@
         },
         {
             "name": "webmozart/assert",
-            "version": "1.2.0",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webmozart/assert.git",
-                "reference": "2db61e59ff05fe5126d152bd0655c9ea113e550f"
+                "reference": "0df1908962e7a3071564e857d86874dad1ef204a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/2db61e59ff05fe5126d152bd0655c9ea113e550f",
-                "reference": "2db61e59ff05fe5126d152bd0655c9ea113e550f",
+                "url": "https://api.github.com/repos/webmozart/assert/zipball/0df1908962e7a3071564e857d86874dad1ef204a",
+                "reference": "0df1908962e7a3071564e857d86874dad1ef204a",
                 "shasum": ""
             },
             "require": {
@@ -4270,7 +4562,7 @@
                 "check",
                 "validate"
             ],
-            "time": "2016-11-23T20:04:58+00:00"
+            "time": "2018-01-29T19:49:41+00:00"
         },
         {
             "name": "zfcampus/zf-development-mode",

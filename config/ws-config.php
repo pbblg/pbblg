@@ -23,7 +23,7 @@ $aggregator = new ConfigAggregator([
     //   - `*.global.php`
     //   - `local.php`
     //   - `*.local.php`
-    new PhpFileProvider(realpath(__DIR__) . '/autoload/ws-{{,*.}global,{,*.}local}.php'),
+    new PhpFileProvider(realpath(__DIR__) . '/ws-autoload/ws-{{,*.}global,{,*.}local}.php'),
 
     // Load development config if it exists
     new PhpFileProvider(realpath(__DIR__) . '/ws-development.config.php'),

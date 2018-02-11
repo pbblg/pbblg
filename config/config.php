@@ -27,6 +27,11 @@ $aggregator = new ConfigAggregator([
 
     // Load development config if it exists
     new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),
+
+    \Zend\Expressive\Authentication\ConfigProvider::class,
+    \Zend\Expressive\Authentication\Session\ConfigProvider::class,
+    \Zend\Expressive\Session\ConfigProvider::class,
+    \Zend\Expressive\Session\Ext\ConfigProvider::class,
 ], $cacheConfig['config_cache_path']);
 
 return $aggregator->getMergedConfig();

@@ -6,6 +6,7 @@ use Zend\Expressive\Middleware\ImplicitHeadMiddleware;
 use Zend\Expressive\Middleware\ImplicitOptionsMiddleware;
 use Zend\Expressive\Middleware\NotFoundHandler;
 use Zend\Stratigility\Middleware\ErrorHandler;
+use Zend\Expressive\Session\SessionMiddleware;
 
 /**
  * Setup middleware pipeline:
@@ -17,6 +18,7 @@ use Zend\Stratigility\Middleware\ErrorHandler;
 // all Exceptions.
 $app->pipe(ErrorHandler::class);
 $app->pipe(ServerUrlMiddleware::class);
+$app->pipe(SessionMiddleware::class);
 
 // Pipe more middleware here that you want to execute on every request:
 // - bootstrapping

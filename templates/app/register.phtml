@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-md-4">
+            <div class="panel panel-primary mt-5">
+                <div class="panel-body">
+                    <form method="POST" action="<?=$this->url('register')?>" role="form">
+                        <div class="form-group">
+                            <h2>Регистрация</h2>
+                        </div>
+                        <div class="form-group">
+                            <input name="username"
+                                   id="signupName"
+                                   type="text"
+                                   maxlength="50"
+                                   class="form-control <?=isset($errors['username']) ? 'is-invalid' : ''?>"
+                                   placeholder="Имя"
+                                   value="<?=isset($data['username']) ? $data['username'] : ''?>">
+                            <div class="invalid-feedback">
+                                <?=isset($errors['username']) ? implode(',', $errors['username']) : ''?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input name="password"
+                                   id="signupPassword"
+                                   type="password"
+                                   maxlength="25"
+                                   class="form-control <?=isset($errors['password']) ? 'is-invalid' : ''?>"
+                                   placeholder="Пароль"
+                                   length="40"
+                                   value="<?=isset($data['password']) ? $data['password'] : ''?>">
+                            <div class="invalid-feedback">
+                                <?=isset($errors['password']) ? implode(',', $errors['password']) : ''?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input name="password-again"
+                                   id="signupPasswordagain"
+                                   type="password"
+                                   maxlength="25"
+                                   class="form-control <?=isset($errors['password-again']) ? 'is-invalid' : ''?>"
+                                   placeholder="Повторите пароль"
+                                   value="<?=isset($data['password-again']) ? $data['password-again'] : ''?>">
+                            <div class="invalid-feedback">
+                                <?=isset($errors['password-again']) ? implode(',', $errors['password-again']) : ''?>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button id="signupSubmit" type="submit" class="btn btn-info btn-block">Создать аккаунт</button>
+                        </div>
+                        <p class="form-group">
+                            Создавая аккаунт, Вы принимаете наши <a href="#">Условия исполльзования</a>
+                            и нашу <a href="#">Политику конфиденциальности</a>.
+                        </p>
+                        <hr>
+                        <p>Уже есть аккаунт? <a href="<?=$this->url('login')?>">Логин</a></p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

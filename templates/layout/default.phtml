@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Princess Bubblegum game</title>
-    <?php echo $this->headMeta(); ?>
+    <?=$this->headMeta(); ?>
 
     <!-- Bootstrap core CSS -->
     <link href="plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -17,16 +17,15 @@
 
     <!-- Custom styles for this template -->
     <link href="css/landing-page.css" rel="stylesheet">
-    <?php echo $this->headLink(); ?>
+    <?=$this->headLink(); ?>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light static-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">Princess Bubblegum</a>
-            <a class="btn btn-primary" href="/game">Играть</a>
-        </div>
-    </nav>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 bg-white">
+        <h5 class="my-0 mr-md-auto font-weight-normal">Princess Bubblegum</h5>
+        <a class="btn btn-outline-info mr-1" href="<?=$this->url('register') ?>">Регистрация</a>
+        <a class="btn btn-outline-primary" href="<?=$this->url('login') ?>">Логин</a>
+    </div>
 
     <?= $this->content ?>
 
@@ -86,6 +85,6 @@
         conn.onopen = function(e) { conn.send('ping'); };
     </script>
 
-    <?php echo $this->inlineScript(); ?>
+    <?=$this->inlineScript(); ?>
 </body>
 </html>

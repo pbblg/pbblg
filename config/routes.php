@@ -29,4 +29,24 @@
 /** @var \Zend\Expressive\Application $app */
 
 $app->get('/', App\Action\HomePageAction::class, 'home');
+$app->route(
+    '/login',
+    [
+        App\Action\LoginAction::class,
+        \Zend\Expressive\Authentication\AuthenticationMiddleware::class
+    ],
+    ['GET', 'POST'],
+    'login'
+);
+$app->route(
+    '/register',
+    [
+        App\Action\Register\RegisterAction::class,
+        App\Action\LoginAction::class,
+        \Zend\Expressive\Authentication\AuthenticationMiddleware::class
+    ],
+    ['GET', 'POST'],
+    'register'
+);
+
 $app->get('/api/ping', App\Action\PingAction::class, 'api.ping');

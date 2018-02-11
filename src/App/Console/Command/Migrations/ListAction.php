@@ -52,9 +52,9 @@ class ListAction extends Command
 
         foreach ($versions as $version) {
             if ($version['applied']) {
-                $output = "<info>✔</info>";
+                $output = "  <info>✔</info>";
             } else {
-                $output = "<info> </info> ";
+                $output = "  <info> </info> ";
             }
             $output .= $version['version'] . ' - ' . $version['description'];
             $this->output->writeln($output);
