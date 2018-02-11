@@ -8,10 +8,27 @@
                             <h2>Логин</h2>
                         </div>
                         <div class="form-group">
-                            <input id="signupName" type="text" maxlength="50" class="form-control" placeholder="Имя">
+                            <input id="signupName"
+                                   name="username"
+                                   type="text"
+                                   maxlength="50"
+                                   class="form-control <?=isset($errors['username']) ? 'is-invalid' : ''?>"
+                                   placeholder="Имя">
+                            <div class="invalid-feedback">
+                                <?=isset($errors['username']) ? implode(',', $errors['username']) : ''?>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <input id="signupPassword" type="password" maxlength="25" class="form-control" placeholder="Пароль" length="40">
+                            <input id="signupPassword"
+                                   name="password"
+                                   type="password"
+                                   maxlength="25"
+                                   class="form-control <?=isset($errors['password']) ? 'is-invalid' : ''?>"
+                                   placeholder="Пароль"
+                                   length="40">
+                            <div class="invalid-feedback">
+                                <?=isset($errors['password']) ? implode(',', $errors['password']) : ''?>
+                            </div>
                         </div>
                         <div class="form-group">
                             <button id="signupSubmit" type="submit" class="btn btn-info btn-block">Логин</button>

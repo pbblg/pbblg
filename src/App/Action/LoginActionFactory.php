@@ -10,8 +10,9 @@ class LoginActionFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        $template = $container->get(TemplateRendererInterface::class);
-
-        return new LoginAction($template);
+        return new LoginAction(
+            $container->get(TemplateRendererInterface::class),
+            $container->get(LoginInputFilter::class)
+        );
     }
 }

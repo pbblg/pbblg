@@ -6,12 +6,10 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\JsonResponse;
-use Zend\Expressive\Router;
+use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Template;
-use Zend\Expressive\Plates\PlatesRenderer;
-use Zend\Expressive\Twig\TwigRenderer;
-use Zend\Expressive\ZendView\ZendViewRenderer;
+use App\Command\Register\RegisterCommand;
+use App\Command\Register\RegisterCommandContext;
 
 class RegisterAction implements ServerMiddlewareInterface
 {
@@ -25,13 +23,20 @@ class RegisterAction implements ServerMiddlewareInterface
      */
     private $inputFilter;
 
+    /**
+     * @var RegisterCommand
+     */
+    private $registerCommand;
+
     public function __construct(
         Template\TemplateRendererInterface $template = null,
-        RegisterInputFilter $inputFilter
+        RegisterInputFilter $inputFilter,
+        RegisterCommand $registerCommand
     )
     {
         $this->template = $template;
         $this->inputFilter = $inputFilter;
+        $this->registerCommand = $registerCommand;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
@@ -42,7 +47,16 @@ class RegisterAction implements ServerMiddlewareInterface
             $data = $request->getParsedBody();
             $this->inputFilter->setData($data);
             if ($this->inputFilter->isValid()) {
-                return $delegate->handle($request);
+
+                $context = RegisterCommandContext::fromData($this->inputFilter->getValues());
+
+                $this->registerCommand->handle($context);
+
+                $response = $delegate->handle($request);
+
+                if ($response->getStatusCode() !== 301) {
+                    return new RedirectResponse('/');
+                }
             } else {
                 $errors = $this->inputFilter->getMessages();
             }

@@ -9,9 +9,9 @@ use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\JsonResponse;
 use Zend\Expressive\Router;
 use Zend\Expressive\Template;
-use Zend\Expressive\Plates\PlatesRenderer;
-use Zend\Expressive\Twig\TwigRenderer;
 use Zend\Expressive\ZendView\ZendViewRenderer;
+use Zend\Expressive\Authentication\UserInterface;
+use Zend\Expressive\Session\SessionMiddleware;
 
 class HomePageAction implements ServerMiddlewareInterface
 {
@@ -33,6 +33,9 @@ class HomePageAction implements ServerMiddlewareInterface
                 'docsUrl' => 'https://docs.zendframework.com/zend-expressive/',
             ]);
         }
+
+//        $session = $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE);
+//        die(var_dump($session->has(UserInterface::class)));
 
         $data = [];
 

@@ -11,28 +11,43 @@ use Zend\Expressive\Template;
 
 class LoginAction implements ServerMiddlewareInterface
 {
+    /**
+     * @var Template\TemplateRendererInterface
+     */
     private $template;
 
-    public function __construct(Template\TemplateRendererInterface $template = null)
+    /**
+     * @var LoginInputFilter
+     */
+    private $inputFilter;
+
+    public function __construct(
+        Template\TemplateRendererInterface $template,
+        LoginInputFilter $inputFilter
+    )
     {
         $this->template = $template;
+        $this->inputFilter = $inputFilter;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $error  = '';
+        $errors = [];
         if ($request->getMethod() === 'POST') {
-            $this->loginForm->setData($request->getParsedBody());
-            if ($this->loginForm->isValid()) {
+            $this->inputFilter->setData($request->getParsedBody());
+            if ($this->inputFilter->isValid()) {
                 $response = $delegate->handle($request);
                 if ($response->getStatusCode() !== 301) {
                     return new RedirectResponse('/');
                 }
 
-                $error = 'Login Failure, please try again';
+                $errors['username'] = ['Failure' => 'Login Failure, please try again'];
+            } else {
+                $errors = $this->inputFilter->getMessages();
             }
+
         }
 
-        return new HtmlResponse($this->template->render('app::login', ['error' => $error]));
+        return new HtmlResponse($this->template->render('app::login', ['errors' => $errors]));
     }
 }

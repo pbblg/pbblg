@@ -6,6 +6,11 @@ use Zend\InputFilter\InputFilter;
 
 class RegisterInputFilter extends InputFilter
 {
+    /**
+     * @var array
+     */
+    private $messages;
+
     public function __construct()
     {
         $this->add(
@@ -43,5 +48,22 @@ class RegisterInputFilter extends InputFilter
             ],
             'password-again'
         );
+    }
+
+    public function isValid($context = null)
+    {
+        $isValid = parent::isValid($context);
+        $data = $this->getValues();
+        if ($data['password'] != $data['password-again']) {
+            $this->messages['password-again'] = ['notMath' => 'Passwords did not match'];
+            $isValid = false;
+        }
+
+        return $isValid;
+    }
+
+    public function getMessages()
+    {
+        return array_merge(parent::getMessages(), $this->messages);
     }
 }

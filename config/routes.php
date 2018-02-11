@@ -42,7 +42,6 @@ $app->route(
     '/register',
     [
         App\Action\Register\RegisterAction::class,
-        App\Action\LoginAction::class,
         \Zend\Expressive\Authentication\AuthenticationMiddleware::class
     ],
     ['GET', 'POST'],
