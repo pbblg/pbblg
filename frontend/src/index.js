@@ -9,7 +9,7 @@ import app from './reducers/index'
 import GameWelcomeComponent from './components/GameWelcomeComponent'
 import GamePlayComponent from './components/GamePlayComponent'
 import ioClient from "socket.io-client";
-import {newGameWasCreatedAction} from "./actions/index";
+import {newGameWasCreatedAction, receiveGameWelcomeState} from "./actions/index";
 import remoteActionMiddleware from "./middlewares/remoteAction";
 
 
@@ -37,6 +37,9 @@ let store = createStore(
 
 socket.on('newGame', function (data) {
     store.dispatch(newGameWasCreatedAction(data.gameId))
+});
+socket.on('gameWelcomeState', function (data) {
+    store.dispatch(receiveGameWelcomeState(data))
 });
 
 render(

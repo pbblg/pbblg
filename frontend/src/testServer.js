@@ -11,26 +11,36 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server, options);
 server.listen(PORT);
 
-//console.log('start server on posrt ' + PORT);
-
-
 var games = [];
+var lastGameId = 0;
 
 
 io.sockets.on('connection', function (client) {
 
-    //console.log('connection',client.id.toString());
 
     client.on('newGame', function (message) {
         console.log('newGame');
 
         var game = new Game();
+        game.addPlayer(client);
         games[game.getId()] = game;
 
         client.broadcast.emit('newGame', {'gameId': game.getId()});
         client.emit('newGame', {'gameId': game.getId()});
     });
 
+    client.on('getGameWelcomeState', function (message) {
+        console.log('getGameWelcomeState');
+
+        var gamesForJoin = [];
+        for (var gameId in games) {
+            if (games[gameId].canJoin()) {
+                gamesForJoin.push(gameId);
+            }
+        }
+
+        client.emit('gameWelcomeState', {'gamesForJoin': gamesForJoin});
+    });
 
 
     client.on('joinGame', function (message) {
@@ -40,15 +50,6 @@ io.sockets.on('connection', function (client) {
         var game = new Game();
         game.joinPlayer(client);
         var card = game.popCardFromDeck();
-
-        // try {
-        //     client.emit('message', message);
-        //     client.broadcast.emit('message', message);
-        // } catch (e) {
-        //     console.log(e);
-        //     client.disconnect();
-        // }
-
     });
 
     client.on('startGame', function (message) {
@@ -58,22 +59,14 @@ io.sockets.on('connection', function (client) {
         var game = new Game();
         game.createDeck();
         var card = game.popCardFromDeck();
-
-        // try {
-        //     client.emit('message', message);
-        //     client.broadcast.emit('message', message);
-        // } catch (e) {
-        //     console.log(e);
-        //     client.disconnect();
-        // }
-
     });
 });
 
 
 function Game() {
 
-    var id = Math.random();
+    var id = ++lastGameId;
+    var players = [];
     var deck = createDeck();
 
     function createDeck() {
@@ -105,6 +98,14 @@ function Game() {
 
     this.getId = function() {
         return id;
+    }
+
+    this.addPlayer = function(player) {
+        return players.push(player);
+    }
+
+    this.canJoin = function() {
+        return players.length <= 4;
     }
 }
 
