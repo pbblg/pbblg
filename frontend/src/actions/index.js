@@ -4,8 +4,9 @@ export const createNewGame = () => (
     }
 );
 
-export const joinGame = () => (
+export const joinGame = (gameId) => (
     {
-        type: 'JOIN_GAME'
+        type: 'JOIN_GAME',
+        gameId
     }
 );

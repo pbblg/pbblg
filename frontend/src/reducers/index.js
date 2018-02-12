@@ -17,6 +17,8 @@ const app = (state = initialState, action) => {
                     }
                 ]
             });
+        case 'JOIN_GAME':
+            return state
         default:
             return state
     }

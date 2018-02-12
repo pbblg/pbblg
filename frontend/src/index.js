@@ -1,3 +1,4 @@
+import './index.css'
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
@@ -5,19 +6,24 @@ import { createLogger } from 'redux-logger'
 import { createStore, applyMiddleware } from 'redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import app from './reducers/index'
-import AppComponent from './components/AppComponent'
 import GameWelcomeComponent from './components/GameWelcomeComponent'
+import GamePlayComponent from './components/GamePlayComponent'
 
 const loggerMiddleware = createLogger()
 
-let store = createStore(app, applyMiddleware(loggerMiddleware))
+let store = createStore(
+    app,
+    applyMiddleware(
+        loggerMiddleware
+    )
+)
 
 render(
     <Provider store={store}>
         <Router>
             <div>
-                <Route exact path="/" component={AppComponent}/>
-                <Route path="/2" component={GameWelcomeComponent}/>
+                <Route exact path="/" component={GameWelcomeComponent}/>
+                <Route exact path="/:gameId" component={GamePlayComponent}/>
             </div>
         </Router>
     </Provider>,
