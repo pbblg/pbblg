@@ -4,10 +4,6 @@ import JoinGamesListContainer from '../containers/JoinGamesListContainer';
 
 class GameWelcome extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="game-welcome">
