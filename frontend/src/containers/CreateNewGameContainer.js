@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import NewGameButtonComponent from '../components/NewGameButtonComponent';
-import {createNewGame} from '../actions/index';
+import {createNewGameAction} from '../actions/index';
 
 const mapStateToProps = (state, ownProps) => {
     return {};
@@ -9,7 +9,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onClick: () => {
-            dispatch(createNewGame())
+            dispatch(createNewGameAction())
         }
     }
 }

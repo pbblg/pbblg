@@ -7,16 +7,42 @@ import { BrowserRouter as Router, Route } from 'react-router-dom'
 import app from './reducers/index'
 import AppComponent from './components/AppComponent'
 import GameWelcomeComponent from './components/GameWelcomeComponent'
+import ioClient from "socket.io-client";
+import {newGameWasCreatedAction} from "./actions/index";
+import remoteActionMiddleware from "./middlewares/remoteAction";
+
+
+
+const socket = ioClient.connect('http://172.17.0.2:8008');
+socket.on('connecting', function () {
+    console.log('Соединение...');
+});
+socket.on('connect', function () {
+    console.log('Соединение установлено!');
+});
+
+
+
 
 const loggerMiddleware = createLogger()
 
-let store = createStore(app, applyMiddleware(loggerMiddleware))
+let store = createStore(
+    app,
+    applyMiddleware(
+        loggerMiddleware,
+        remoteActionMiddleware(socket)
+    )
+)
+
+socket.on('newGame', function (data) {
+    store.dispatch(newGameWasCreatedAction(data.gameId))
+});
 
 render(
     <Provider store={store}>
         <Router>
             <div>
-                <Route exact path="/" component={AppComponent}/>
+                <Route exact path="/" component={AppComponent} />
                 <Route path="/2" component={GameWelcomeComponent}/>
             </div>
         </Router>
