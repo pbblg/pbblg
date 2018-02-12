@@ -18,11 +18,11 @@ return [
     ],
 
     'view_helpers' => [
-        // zend-servicemanager-style configuration for adding view helpers:
-        // - 'aliases'
-        // - 'invokables'
-        // - 'factories'
-        // - 'abstract_factories'
-        // - etc.
+        'aliases' => [
+            'isAuthorized' => App\ViewHelper\IsAuthorizedHelper::class,
+        ],
+        'invokables' => [
+            App\ViewHelper\IsAuthorizedHelper::class => App\ViewHelper\IsAuthorizedHelper::class,
+        ],
     ],
 ];

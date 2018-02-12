@@ -39,6 +39,14 @@ $app->route(
     'login'
 );
 $app->route(
+    '/logout',
+    [
+        App\Action\LogoutAction::class,
+    ],
+    ['GET'],
+    'logout'
+);
+$app->route(
     '/register',
     [
         App\Action\Register\RegisterAction::class,
