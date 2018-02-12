@@ -1,19 +1,17 @@
-import { combineReducers } from 'redux'
+import {NEW_GAME_WAS_CREATED} from "../actions/index";
 
 const initialState = {
     games: []
 };
 
-let lasGameId = 0;
-
 const app = (state = initialState, action) => {
     switch (action.type) {
-        case 'CREATE_NEW_GAME':
+        case NEW_GAME_WAS_CREATED:
             return Object.assign({}, state, {
                 games: [
                     ...state.games,
                     {
-                        id: ++lasGameId,
+                        id: action.gameId,
                     }
                 ]
             });
