@@ -28,6 +28,7 @@ io.sockets.on('connection', function (client) {
         games[game.getId()] = game;
 
         client.broadcast.emit('newGame', {'gameId': game.getId()});
+        client.emit('newGame', {'gameId': game.getId()});
     });
 
 
