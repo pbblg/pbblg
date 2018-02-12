@@ -52,7 +52,7 @@ class RegisterCommand
         $result = $this->userTable->select(['name' => $context->getUserName()]);
 
         if ($result->count()) {
-            return false;
+            return true;
         }
     }
 }

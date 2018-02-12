@@ -10,6 +10,7 @@ use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Template;
 use App\Command\Register\RegisterCommand;
 use App\Command\Register\RegisterCommandContext;
+use App\Command\Register\UserAlreadyExistsException;
 
 class RegisterAction implements ServerMiddlewareInterface
 {
@@ -50,7 +51,14 @@ class RegisterAction implements ServerMiddlewareInterface
 
                 $context = RegisterCommandContext::fromData($this->inputFilter->getValues());
 
-                $this->registerCommand->handle($context);
+                try {
+                    $this->registerCommand->handle($context);
+                } catch (UserAlreadyExistsException $e) {
+                    return $this->returnResponse(
+                        ['username' => [$e->getMessage()]],
+                        $data
+                    );
+                }
 
                 $response = $delegate->handle($request);
 
@@ -62,6 +70,11 @@ class RegisterAction implements ServerMiddlewareInterface
             }
         }
 
+        return $this->returnResponse($errors, $data);
+    }
+
+    private function returnResponse(array $errors, array $data)
+    {
         return new HtmlResponse($this->template->render(
             'app::register',
             [
