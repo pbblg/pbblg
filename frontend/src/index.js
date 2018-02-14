@@ -36,7 +36,7 @@ let store = createStore(
 )
 
 socket.on('newGame', function (data) {
-    store.dispatch(newGameWasCreatedAction(data.gameId))
+    store.dispatch(newGameWasCreatedAction(data.id))
 });
 socket.on('gameWelcomeState', function (data) {
     store.dispatch(receiveGameWelcomeState(data))

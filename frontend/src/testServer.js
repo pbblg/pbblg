@@ -25,8 +25,8 @@ io.sockets.on('connection', function (client) {
         game.addPlayer(client);
         games[game.getId()] = game;
 
-        client.broadcast.emit('newGame', {'gameId': game.getId()});
-        client.emit('newGame', {'gameId': game.getId()});
+        client.broadcast.emit('newGame', {'id': game.getId()});
+        client.emit('newGame', {'id': game.getId()});
     });
 
     client.on('getGameWelcomeState', function (message) {
@@ -35,7 +35,7 @@ io.sockets.on('connection', function (client) {
         var gamesForJoin = [];
         for (var gameId in games) {
             if (games[gameId].canJoin()) {
-                gamesForJoin.push(gameId);
+                gamesForJoin.push({'id': games[gameId].getId()});
             }
         }
 

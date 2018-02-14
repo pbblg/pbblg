@@ -17,6 +17,10 @@ const app = (state = initialState, action) => {
             });
         case 'JOIN_GAME':
             return state
+        case 'RECEIVE_GAME_WELCOME_STATE':
+            return Object.assign({}, state, {
+                games: action.data.gamesForJoin
+            });
         default:
             return state
     }

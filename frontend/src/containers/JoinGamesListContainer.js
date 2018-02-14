@@ -1,6 +1,8 @@
+import React from 'react';
 import {connect} from 'react-redux';
 import JoinGamesListComponent from '../components/JoinGamesListComponent';
-import {joinGame} from '../actions/index';
+import {joinGame, requestGameWelcomeState} from '../actions/index';
+
 
 const mapStateToProps = (state, ownProps) => {
     return state;
@@ -8,16 +10,44 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        onClick: (gameId) => {
+        onGameClick: (gameId) => {
             dispatch(joinGame(gameId))
         }
     }
 }
 
 
-const JoinGamesListContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(JoinGamesListComponent);
+class JoinGamesListContainer extends React.Component {
+    constructor(props) {
+        super(props)
 
-export default JoinGamesListContainer;
+        this.handleOnGameClick = this.handleOnGameClick.bind(this)
+    }
+
+    componentDidMount() {
+        this.props.dispatch(requestGameWelcomeState())
+    }
+
+    handleOnGameClick(gameId) {
+        this.props.dispatch(joinGame(gameId))
+    }
+
+    render() {
+        const {games} = this.props
+
+        return (
+            <div>
+                {games.length === 0 &&
+                <p>Empty</p>
+                }
+                {games.length > 0 &&
+                    <JoinGamesListComponent games={games} onGameClick={this.handleOnGameClick}/>
+                }
+            </div>
+        )
+    }
+}
+
+
+
+export default connect(state => state)(JoinGamesListContainer);
