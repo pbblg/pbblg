@@ -60,6 +60,10 @@ body {
 
 
 
+.button {
+  padding: 5px;
+}
+
 .game-welcome {
   width: 340px;
   height: 240px;
@@ -82,11 +86,6 @@ body {
   margin: 30px;
   font-size: 30px;
 }
-.new-game-button {
-  padding: 5px;
-}
-
-
 
 .game-play {
   width: 340px;

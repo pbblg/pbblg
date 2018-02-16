@@ -8,7 +8,7 @@ const JoinGamesListComponent = ({games, onGameClick}) => (
             {games.map(game => (
                 <li key={game.id} onClick={() => onGameClick(game.id)} className="games-list-item">
                     <Link to={`/${game.id}`}>
-                        Game {game.id}
+                        Game {game.id} ({game.countFreePlaces} free places)
                     </Link>
                 </li>
             ))}
@@ -19,7 +19,8 @@ const JoinGamesListComponent = ({games, onGameClick}) => (
 JoinGamesListComponent.propTypes = {
     games: PropTypes.arrayOf(
         PropTypes.shape({
-            id: PropTypes.number.isRequired
+            id: PropTypes.number.isRequired,
+            countFreePlaces: PropTypes.number.isRequired
         })
     ).isRequired,
     onGameClick: PropTypes.func.isRequired

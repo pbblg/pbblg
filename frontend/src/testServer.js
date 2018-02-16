@@ -13,52 +13,76 @@ server.listen(PORT);
 
 var games = [];
 var lastGameId = 0;
+var players = {};
+var lastPlayerId = 0;
 
 
-io.sockets.on('connection', function (client) {
+io.sockets.on('connection', function (socket) {
 
-
-    client.on('newGame', function (message) {
-        console.log('newGame');
-
-        var game = new Game();
-        game.addPlayer(client);
-        games[game.getId()] = game;
-
-        client.broadcast.emit('newGame', {'id': game.getId()});
-        client.emit('newGame', {'id': game.getId()});
-    });
-
-    client.on('getGameWelcomeState', function (message) {
+    socket.on('getGameWelcomeState', function (message) {
         console.log('getGameWelcomeState');
 
         var gamesForJoin = [];
         for (var gameId in games) {
             if (games[gameId].canJoin()) {
-                gamesForJoin.push({'id': games[gameId].getId()});
+                gamesForJoin.push(new GameDTO(games[gameId]));
             }
         }
 
-        client.emit('gameWelcomeState', {'gamesForJoin': gamesForJoin});
+        socket.emit('gameWelcomeState', {'gamesForJoin': gamesForJoin});
     });
 
 
-    client.on('joinGame', function (message) {
+    socket.on('newGame', function (message) {
+        console.log('newGame');
 
-        console.log('joinGame');
+        var player = new Player(socket);
+        players[socket.id] = player;
 
         var game = new Game();
-        game.joinPlayer(client);
-        var card = game.popCardFromDeck();
+        game.joinPlayer(player);
+        games[game.getId()] = game;
+
+        socket.broadcast.emit('newGame', new GameDTO(game));
+        socket.emit('newGame', new GameDTO(game));
     });
 
-    client.on('startGame', function (message) {
+
+
+    socket.on('joinGame', function (message) {
+        console.log('joinGame');
+
+        var player = players[socket.id];
+        console.log(player);
+        if (player) {
+            var game = games[message.gameId];
+            game.joinPlayer(player);
+            game.forAllPlayers(function(player) {
+                player.send('playerJoinGame');
+            });
+        }
+    });
+
+    socket.on('exitGame', function (message) {
+
+        console.log('exitGame');
+
+        var player = players[socket.id];
+
+        var game = new Game();
+        game.exitPlayer(player);
+        game.forAllPlayers(function(player) {
+            player.send('playerExitGame');
+        });
+    });
+
+    socket.on('startGame', function (message) {
 
         console.log('startGame');
 
-        var game = new Game();
-        game.createDeck();
-        var card = game.popCardFromDeck();
+        // var game = new Game();
+        // game.createDeck();
+        // var card = game.popCardFromDeck();
     });
 });
 
@@ -66,49 +90,89 @@ io.sockets.on('connection', function (client) {
 function Game() {
 
     var id = ++lastGameId;
-    var players = [];
-    var deck = createDeck();
+    var players = {};
+    var countMaxPlayers = 5;
+    // var deck = createDeck();
 
-    function createDeck() {
-        var deck = [
-            1,1,1,1,1,
-            2,2,
-            3,3,
-            4,4,
-            5,5,
-            6,
-            7,
-            8
-        ];
+    // function createDeck() {
+    //     var deck = [
+    //         1,1,1,1,1,
+    //         2,2,
+    //         3,3,
+    //         4,4,
+    //         5,5,
+    //         6,
+    //         7,
+    //         8
+    //     ];
+    //
+    //     function shuffle(a) {
+    //         var j, x, i;
+    //         for (i = a.length - 1; i > 0; i--) {
+    //             j = Math.floor(Math.random() * (i + 1));
+    //             x = a[i];
+    //             a[i] = a[j];
+    //             a[j] = x;
+    //         }
+    //         return a;
+    //     }
+    //
+    //     return shuffle(deck);
+    // }
 
-        function shuffle(a) {
-            var j, x, i;
-            for (i = a.length - 1; i > 0; i--) {
-                j = Math.floor(Math.random() * (i + 1));
-                x = a[i];
-                a[i] = a[j];
-                a[j] = x;
-            }
-            return a;
-        }
-
-        return shuffle(deck);
+    this.getId = function() {
+        return id;
+    }
+    this.getCountFreePlaces = function() {
+        return countMaxPlayers - Object.keys(players).length;
     }
 
+    this.canJoin = function() {
+        return this.getCountFreePlaces() > 0;
+    }
+
+    this.joinPlayer = function(player) {
+        if (this.canJoin() && !players[player.getId()]) {
+            return players[player.getId()] = player;
+        }
+        return false;
+    }
+
+    this.exitPlayer = function(player) {
+        delete players[player.getId()];
+    }
+
+    this.forAllPlayers = function(callback) {
+        for (var playerId in players) {
+            callback(players[playerId]);
+        }
+    }
+}
+
+function Player(socket) {
+    var id = ++lastPlayerId;
 
     this.getId = function() {
         return id;
     }
 
-    this.addPlayer = function(player) {
-        return players.push(player);
-    }
-
-    this.canJoin = function() {
-        return players.length <= 4;
+    this.send = function(event) {
+        socket.emit(event, new PlayerDTO(this));
     }
 }
 
+function GameDTO(game) {
+    return {
+        id: game.getId(),
+        countFreePlaces: game.getCountFreePlaces()
+    }
+}
+
+function PlayerDTO(player) {
+    return {
+        id: player.getId(),
+    }
+}
 
 
 

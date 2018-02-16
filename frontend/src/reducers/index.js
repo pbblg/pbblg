@@ -10,9 +10,7 @@ const app = (state = initialState, action) => {
             return Object.assign({}, state, {
                 games: [
                     ...state.games,
-                    {
-                        id: action.gameId,
-                    }
+                    action.game
                 ]
             });
         case 'JOIN_GAME':

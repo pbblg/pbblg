@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import NewGameButtonComponent from '../components/NewGameButtonComponent';
-import {createNewGameAction, requestGameWelcomeState} from '../actions/index';
+import {createNewGameAction} from '../actions/index';
 
 const mapStateToProps = (state, ownProps) => {
     return {};

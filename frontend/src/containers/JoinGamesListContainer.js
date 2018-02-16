@@ -4,17 +4,17 @@ import JoinGamesListComponent from '../components/JoinGamesListComponent';
 import {joinGame, requestGameWelcomeState} from '../actions/index';
 
 
-const mapStateToProps = (state, ownProps) => {
-    return state;
-}
-
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        onGameClick: (gameId) => {
-            dispatch(joinGame(gameId))
-        }
-    }
-}
+// const mapStateToProps = (state, ownProps) => {
+//     return state;
+// }
+//
+// const mapDispatchToProps = (dispatch, ownProps) => {
+//     return {
+//         onGameClick: (gameId) => {
+//             dispatch(joinGame(gameId))
+//         }
+//     }
+// }
 
 
 class JoinGamesListContainer extends React.Component {

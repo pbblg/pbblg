@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const NewGameButton = ({onClick}) => (
-    <button className="new-game-button" onClick={onClick} >New game</button>
+    <button className="button" onClick={onClick} >New game</button>
 );
 
 NewGameButton.propTypes = {

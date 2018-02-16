@@ -7,7 +7,7 @@ import { createStore, applyMiddleware } from 'redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import app from './reducers/index'
 import GameWelcomeComponent from './components/GameWelcomeComponent'
-import GamePlayComponent from './components/GamePlayComponent'
+import GamePlayContainer from './containers/GamePlayContainer'
 import ioClient from "socket.io-client";
 import {newGameWasCreatedAction, receiveGameWelcomeState} from "./actions/index";
 import remoteActionMiddleware from "./middlewares/remoteAction";
@@ -36,7 +36,7 @@ let store = createStore(
 )
 
 socket.on('newGame', function (data) {
-    store.dispatch(newGameWasCreatedAction(data.id))
+    store.dispatch(newGameWasCreatedAction(data))
 });
 socket.on('gameWelcomeState', function (data) {
     store.dispatch(receiveGameWelcomeState(data))
@@ -47,7 +47,7 @@ render(
         <Router>
             <div>
                 <Route exact path="/" component={GameWelcomeComponent}/>
-                <Route exact path="/:gameId" component={GamePlayComponent}/>
+                <Route exact path="/:gameId" component={GamePlayContainer}/>
             </div>
         </Router>
     </Provider>,
