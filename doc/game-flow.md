@@ -11,6 +11,7 @@
   - [getGame](#getgame)
   - [getGameLog](#getgamelog)
 - [Методы от Сервера серверу](#Возможные-методы-от-Сервера-серверу)
+  - [send](#send)
 - [События сервера](#На-сервере-возникают-такие-события)
   - [newGameCreated](#newgamecreated)
   - [joinedGame](#joinedgame)
