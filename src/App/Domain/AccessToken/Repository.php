@@ -33,12 +33,17 @@ class Repository
 
     /**
      * @param string $id
-     * @return AccessToken
+     * @return AccessToken|null
      */
     public function fetch($id)
     {
         /** @var ResultSet $result */
         $result = $this->table->select(['id' => $id]);
+
+        if ($result->count() == 0) {
+            return null;
+        }
+
         $data = $result->current();
 
         return new AccessToken(

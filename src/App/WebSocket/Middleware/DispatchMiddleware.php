@@ -11,6 +11,7 @@ use Zend\Expressive\Router\RouteResult;
 use Zend\Diactoros\Response\JsonResponse;
 use App\WebSocket\Exception\InternalErrorException;
 use App\WebSocket\Action\ActionHandlerInterface;
+use App\WebSocket\Action\SpecialHandlerInterface;
 
 class DispatchMiddleware implements ServerMiddlewareInterface
 {
@@ -45,6 +46,10 @@ class DispatchMiddleware implements ServerMiddlewareInterface
 
         if (is_string($handler)) {
             $handler = $this->container->get($handler);
+        }
+
+        if ($handler instanceof SpecialHandlerInterface) {
+            return $handler->handle($request->getQueryParams());
         }
 
         if (!$handler instanceof ActionHandlerInterface) {

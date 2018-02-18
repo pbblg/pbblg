@@ -8,6 +8,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Template;
+use Dflydev\FigCookies\FigResponseCookies;
+use Dflydev\FigCookies\SetCookie;
 use App\Domain\AccessToken\Generator;
 
 class LoginAction implements ServerMiddlewareInterface
@@ -47,8 +49,12 @@ class LoginAction implements ServerMiddlewareInterface
             if ($this->inputFilter->isValid()) {
                 $response = $delegate->handle($request);
                 if ($response->getStatusCode() !== 301) {
-                    $this->accessTokenGenerator->generateForUserName($data['username']);
-                    return new RedirectResponse('/');
+                    $accessToken = $this->accessTokenGenerator->generateForUserName($data['username']);
+                    $sessionCookie = SetCookie::create('access_token')
+                        ->withValue($accessToken->getId())
+                        ->withPath(ini_get('session.cookie_path'));
+
+                    return FigResponseCookies::set(new RedirectResponse('/'), $sessionCookie);
                 }
 
                 $errors['username'] = ['Failure' => 'Login Failure, please try again'];

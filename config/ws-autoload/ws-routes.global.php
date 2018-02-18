@@ -25,5 +25,9 @@ return [
                 ],
             ],
         ],
+        'send' => [
+            'handler' => Action\Send\SendHandler::class,
+            'paramsValidator' => Action\Send\SendParamsValidator::class,
+        ],
     ],
 ];

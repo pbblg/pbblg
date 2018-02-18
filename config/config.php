@@ -29,6 +29,7 @@ $aggregator = new ConfigAggregator([
     //   - `local.php`
     //   - `*.local.php`
     new PhpFileProvider(realpath(__DIR__) . '/autoload/{{,*.}global,{,*.}local}.php'),
+    new PhpFileProvider(realpath(__DIR__) . '/http-autoload/{{,*.}global,{,*.}local}.php'),
 
     // Load development config if it exists
     new PhpFileProvider(realpath(__DIR__) . '/development.config.php'),

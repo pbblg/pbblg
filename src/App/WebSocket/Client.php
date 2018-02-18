@@ -1,16 +1,54 @@
 <?php
 namespace App\WebSocket;
 
+use App\WebSocket\Event\AbstractEvent;
+
 class Client
 {
-    public function send()
+    /**
+     * @var string
+     */
+    private $secret;
+
+    /**
+     * @param string $secret
+     */
+    public function __construct(string $secret)
     {
-        \Ratchet\Client\connect('ws://localhost:8088')->then(function($conn) {
+        $this->secret = $secret;
+    }
+
+    public function send($receivers, AbstractEvent $event)
+    {
+        $jsonOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES;
+
+        // мы внутри сокет-свервера, нет смысла коннектиться снаружи
+        if (Server::isRunning()) {
+            $receivers = array_unique($receivers);
+            $message = json_encode($event->toArray(), $jsonOptions);
+
+            Server::send($receivers, $message);
+            return;
+        }
+
+        $secret = $this->secret;
+
+        \Ratchet\Client\connect('ws://localhost:8088')->then(function($conn) use($receivers, $event, $secret, $jsonOptions) {
             $conn->on('message', function($msg) use ($conn) {
                 $conn->close();
             });
 
-            $conn->send('{"id":1, "method": "ping"}');
+            $message = [
+                'id' => 1,
+                'method' => 'send',
+                'params' => [
+                    'secret' => $secret,
+                    'receivers' => $receivers,
+                    'message' => $event->toArray()
+                ],
+            ];
+
+            $conn->send(json_encode($message, $jsonOptions));
         }, function ($e) {
             echo "Could not connect: {$e->getMessage()}\n";
         });

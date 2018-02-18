@@ -139,7 +139,7 @@
     <script>
         var conn = new WebSocket('ws://localhost:8088/');
         conn.onmessage = function(e) { console.log(e.data); };
-        conn.onopen = function(e) { conn.send('ping'); };
+        conn.onopen = function(e) { conn.send('{"id":1, "method": "ping"}'); };
     </script>
 
     <?=$this->inlineScript(); ?>

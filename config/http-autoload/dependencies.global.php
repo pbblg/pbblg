@@ -14,8 +14,8 @@ return [
         // key is the alias name, the value is the service to which it points.
         'aliases' => [
             'Zend\Expressive\Delegate\DefaultDelegate' => Delegate\NotFoundDelegate::class,
+            Zend\Expressive\Authentication\UserRepositoryInterface::class => Zend\Expressive\Authentication\UserRepository\PdoDatabase::class
         ],
-
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the
         // class name.
@@ -25,8 +25,10 @@ return [
         // Use 'factories' for services provided by callbacks/factory classes.
         'factories'  => [
             Zend\Stratigility\Middleware\ErrorHandler::class => Container\ErrorHandlerFactory::class,
-            Middleware\ErrorResponseGenerator::class         => \App\WebSocket\ErrorResponseGeneratorFactory::class,
+            Middleware\ErrorResponseGenerator::class         => Container\ErrorResponseGeneratorFactory::class,
             Middleware\NotFoundHandler::class                => Container\NotFoundHandlerFactory::class,
+
+            Zend\Expressive\Authentication\AuthenticationInterface::class => Zend\Expressive\Authentication\Session\PhpSessionFactory::class,
         ],
     ],
 ];
