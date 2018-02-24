@@ -4,6 +4,8 @@ export const RECEIVE_GAME_WELCOME_STATE = 'RECEIVE_GAME_WELCOME_STATE';
 export const REQUEST_GAME_WELCOME_STATE = 'REQUEST_GAME_WELCOME_STATE';
 export const JOIN_GAME = 'JOIN_GAME';
 export const EXIT_GAME = 'EXIT_GAME';
+export const LOGIN_PLAYER = 'LOGIN_PLAYER';
+export const LOGOUT_PLAYER = 'LOGOUT_PLAYER';
 
 export const createNewGameAction = () => (
     {
@@ -38,3 +40,14 @@ export const exitGame = () => (
         type: EXIT_GAME,
     }
 );
+export const loginPlayer = (playerName) => (
+    {
+        type: LOGIN_PLAYER,
+        playerName
+    }
+)
+export const logoutPlayer = () => (
+    {
+        type: LOGOUT_PLAYER
+    }
+)

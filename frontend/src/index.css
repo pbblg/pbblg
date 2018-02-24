@@ -98,4 +98,9 @@ body {
   text-align: center;
 }
 
+.game-menu {
+  float: right;
+  padding: 20px;
+}
+
 
