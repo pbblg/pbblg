@@ -14,31 +14,29 @@ server.listen(PORT);
 var games = [];
 var lastGameId = 0;
 var players = {};
+var playersSockets = {};
 var lastPlayerId = 0;
 
 
 io.sockets.on('connection', function (socket) {
 
     socket.on('disconnect', function () {
-        console.log('user disconnected');
-        delete players[socket.id];
+        //delete players[socket.id];
+
+        debug('disconnect');
     });
 
     socket.on('authenticate', function (message) {
-        console.log('authenticate');
 
-        var player = new Player(socket, message.playerName);
-        players[socket.id] = player;
+        var player = new Player(message.playerName);
+        players[message.playerName] = player;
 
-        var playersCount = 0;
-        for (var socketId in players) {
-            playersCount++;
-        }
-        console.log('count players - ' + playersCount);
+        playersSockets[message.playerName] = new PlayerSocket(socket);
+
+        debug('authenticate');
     });
 
     socket.on('getGameWelcomeState', function (message) {
-        console.log('getGameWelcomeState');
 
         var gamesForJoin = [];
         for (var gameId in games) {
@@ -48,30 +46,31 @@ io.sockets.on('connection', function (socket) {
         }
 
         socket.emit('gameWelcomeState', {'gamesForJoin': gamesForJoin});
+
+        debug('getGameWelcomeState');
     });
 
 
     socket.on('newGame', function (message) {
-        console.log('newGame');
 
-        var player = new Player(socket, message.playerName);
-        players[socket.id] = player;
+        //var player = players[socket.id];
+        //console.log('player ' + player.getId());
 
         var game = new Game();
-        game.joinPlayer(player);
+        //game.joinPlayer(player);
         games[game.getId()] = game;
 
         socket.broadcast.emit('newGame', new GameDTO(game));
         socket.emit('newGame', new GameDTO(game));
+
+        debug('newGame');
     });
 
 
 
     socket.on('joinGame', function (message) {
-        console.log('joinGame');
 
         var player = players[socket.id];
-        console.log(player);
         if (player) {
             var game = games[message.gameId];
             game.joinPlayer(player);
@@ -79,11 +78,11 @@ io.sockets.on('connection', function (socket) {
                 player.send('playerJoinGame');
             });
         }
+
+        debug('joinGame');
     });
 
     socket.on('exitGame', function (message) {
-
-        console.log('exitGame');
 
         var player = players[socket.id];
 
@@ -92,6 +91,8 @@ io.sockets.on('connection', function (socket) {
         game.forAllPlayers(function(player) {
             player.send('playerExitGame');
         });
+
+        debug('exitGame')
     });
 
     socket.on('startGame', function (message) {
@@ -144,6 +145,9 @@ function Game() {
     this.getCountFreePlaces = function() {
         return countMaxPlayers - Object.keys(players).length;
     }
+    this.getCountPlayers = function() {
+        return Object.keys(players).length;
+    }
 
     this.canJoin = function() {
         return this.getCountFreePlaces() > 0;
@@ -167,7 +171,7 @@ function Game() {
     }
 }
 
-function Player(socket, name) {
+function Player(name) {
     var id = ++lastPlayerId;
 
     this.getId = function() {
@@ -176,7 +180,8 @@ function Player(socket, name) {
     this.getName = function() {
         return name;
     }
-
+}
+function PlayerSocket(socket) {
     this.send = function(event) {
         socket.emit(event, new PlayerDTO(this));
     }
@@ -196,5 +201,21 @@ function PlayerDTO(player) {
     }
 }
 
+function debug(event) {
+    var countGames = games.length;
+    var countPlayers = 0;
+    for (var socketId in players) {
+        countPlayers++;
+    }
+
+
+    console.log('------------------------------------------');
+    console.log('event - ' + event);
+    console.log('count games - ' + countPlayers);
+    console.log('count players - ' + countGames);
+    for (var gi in games) {
+        console.log('game #' + games[gi].getId() + ' ' + games[gi].getCountPlayers() + ' players');
+    }
+}
 
 
