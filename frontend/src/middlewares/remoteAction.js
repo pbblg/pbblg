@@ -1,4 +1,4 @@
-import {START_CREATE_NEW_GAME, REQUEST_GAME_WELCOME_STATE, JOIN_GAME, EXIT_GAME} from "../actions/index";
+import {START_CREATE_NEW_GAME, REQUEST_GAME_WELCOME_STATE, JOIN_GAME, EXIT_GAME, LOGIN_PLAYER, SOCKET_CONNECTED} from "../actions/index";
 
 export default socket => store => next => action => {
     if (action.type === START_CREATE_NEW_GAME) {
@@ -12,6 +12,14 @@ export default socket => store => next => action => {
     }
     if (action.type === EXIT_GAME) {
         socket.emit('exitGame');
+    }
+    if (action.type === LOGIN_PLAYER) {
+        socket.emit('authenticate', {playerName: action.playerName});
+    }
+    if (action.type === SOCKET_CONNECTED) {
+        if (store.getState().auth) {
+            socket.emit('authenticate', {playerName: store.auth});
+        }
     }
     return next(action);
 }

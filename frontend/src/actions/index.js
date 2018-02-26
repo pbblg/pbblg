@@ -6,6 +6,7 @@ export const JOIN_GAME = 'JOIN_GAME';
 export const EXIT_GAME = 'EXIT_GAME';
 export const LOGIN_PLAYER = 'LOGIN_PLAYER';
 export const LOGOUT_PLAYER = 'LOGOUT_PLAYER';
+export const SOCKET_CONNECTED = 'SOCKET_CONNECTED';
 
 export const createNewGameAction = () => (
     {
@@ -49,5 +50,10 @@ export const loginPlayer = (playerName) => (
 export const logoutPlayer = () => (
     {
         type: LOGOUT_PLAYER
+    }
+)
+export const socketConnectedAction = () => (
+    {
+        type: SOCKET_CONNECTED
     }
 )

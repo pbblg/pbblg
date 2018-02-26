@@ -19,6 +19,24 @@ var lastPlayerId = 0;
 
 io.sockets.on('connection', function (socket) {
 
+    socket.on('disconnect', function () {
+        console.log('user disconnected');
+        delete players[socket.id];
+    });
+
+    socket.on('authenticate', function (message) {
+        console.log('authenticate');
+
+        var player = new Player(socket, message.playerName);
+        players[socket.id] = player;
+
+        var playersCount = 0;
+        for (var socketId in players) {
+            playersCount++;
+        }
+        console.log('count players - ' + playersCount);
+    });
+
     socket.on('getGameWelcomeState', function (message) {
         console.log('getGameWelcomeState');
 
@@ -36,7 +54,7 @@ io.sockets.on('connection', function (socket) {
     socket.on('newGame', function (message) {
         console.log('newGame');
 
-        var player = new Player(socket);
+        var player = new Player(socket, message.playerName);
         players[socket.id] = player;
 
         var game = new Game();
@@ -149,11 +167,14 @@ function Game() {
     }
 }
 
-function Player(socket) {
+function Player(socket, name) {
     var id = ++lastPlayerId;
 
     this.getId = function() {
         return id;
+    }
+    this.getName = function() {
+        return name;
     }
 
     this.send = function(event) {
@@ -171,6 +192,7 @@ function GameDTO(game) {
 function PlayerDTO(player) {
     return {
         id: player.getId(),
+        name: player.getName(),
     }
 }
 
