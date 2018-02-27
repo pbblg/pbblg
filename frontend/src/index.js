@@ -7,8 +7,9 @@ import { createStore, applyMiddleware } from 'redux'
 import app from './reducers/index'
 import AppContainer from './containers/AppContainer'
 import ioClient from "socket.io-client";
-import {newGameWasCreatedAction, receiveGameWelcomeState, socketConnectedAction} from "./actions/index";
+import {newGameWasCreatedAction, receiveGameWelcomeState, socketConnectedAction, debugServerState} from "./actions/index";
 import remoteActionMiddleware from "./middlewares/remoteAction";
+import serverStateLoggerAction from "./middlewares/serverStateLoggerAction";
 
 
 
@@ -23,13 +24,16 @@ let store = createStore(
     app,
     applyMiddleware(
         createLogger(),
-        remoteActionMiddleware(socket)
+        remoteActionMiddleware(socket),
+        serverStateLoggerAction
     )
 )
 
 socket.on('connect', function () {
-    console.log('Соединение установлено!');
     store.dispatch(socketConnectedAction())
+});
+socket.on('serverState', function (data) {
+    store.dispatch(debugServerState(data))
 });
 socket.on('newGame', function (data) {
     store.dispatch(newGameWasCreatedAction(data))

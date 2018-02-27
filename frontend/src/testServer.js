@@ -11,7 +11,7 @@ var server = http.createServer(app);
 var io = require('socket.io').listen(server, options);
 server.listen(PORT);
 
-var games = [];
+var games = {};
 var lastGameId = 0;
 var players = {};
 var playersSockets = {};
@@ -21,19 +21,19 @@ var lastPlayerId = 0;
 io.sockets.on('connection', function (socket) {
 
     socket.on('disconnect', function () {
-        //delete players[socket.id];
-
-        debug('disconnect');
+        debug(socket, 'disconnect');
     });
 
     socket.on('authenticate', function (message) {
 
-        var player = new Player(message.playerName);
-        players[message.playerName] = player;
+        if (!players[message.playerName]) {
+            var player = new Player(message.playerName);
+            players[message.playerName] = player;
+        }
 
         playersSockets[message.playerName] = new PlayerSocket(socket);
 
-        debug('authenticate');
+        debug(socket, 'authenticate');
     });
 
     socket.on('getGameWelcomeState', function (message) {
@@ -41,13 +41,13 @@ io.sockets.on('connection', function (socket) {
         var gamesForJoin = [];
         for (var gameId in games) {
             if (games[gameId].canJoin()) {
-                gamesForJoin.push(new GameDTO(games[gameId]));
+                gamesForJoin.push(gameDTO(games[gameId]));
             }
         }
 
         socket.emit('gameWelcomeState', {'gamesForJoin': gamesForJoin});
 
-        debug('getGameWelcomeState');
+        debug(socket, 'getGameWelcomeState');
     });
 
 
@@ -60,10 +60,10 @@ io.sockets.on('connection', function (socket) {
         //game.joinPlayer(player);
         games[game.getId()] = game;
 
-        socket.broadcast.emit('newGame', new GameDTO(game));
-        socket.emit('newGame', new GameDTO(game));
+        socket.broadcast.emit('newGame', gameDTO(game));
+        socket.emit('newGame', gameDTO(game));
 
-        debug('newGame');
+        debug(socket, 'newGame');
     });
 
 
@@ -79,7 +79,7 @@ io.sockets.on('connection', function (socket) {
             });
         }
 
-        debug('joinGame');
+        debug(socket, 'joinGame');
     });
 
     socket.on('exitGame', function (message) {
@@ -92,7 +92,7 @@ io.sockets.on('connection', function (socket) {
             player.send('playerExitGame');
         });
 
-        debug('exitGame')
+        debug(socket, 'exitGame')
     });
 
     socket.on('startGame', function (message) {
@@ -172,50 +172,59 @@ function Game() {
 }
 
 function Player(name) {
+
     var id = ++lastPlayerId;
 
     this.getId = function() {
         return id;
     }
+
     this.getName = function() {
         return name;
     }
 }
+
 function PlayerSocket(socket) {
     this.send = function(event) {
-        socket.emit(event, new PlayerDTO(this));
+        socket.emit(event, playerDTO(this));
     }
 }
 
-function GameDTO(game) {
+function gameDTO(game) {
     return {
         id: game.getId(),
         countFreePlaces: game.getCountFreePlaces()
     }
 }
 
-function PlayerDTO(player) {
+function playerDTO(player) {
     return {
         id: player.getId(),
         name: player.getName(),
     }
 }
 
-function debug(event) {
-    var countGames = games.length;
-    var countPlayers = 0;
-    for (var socketId in players) {
-        countPlayers++;
+function debug(socket, event) {
+
+    var playersDTOs = [];
+    for (var player in players) {
+        playersDTOs.push(playerDTO(players[player]));
     }
 
-
-    console.log('------------------------------------------');
-    console.log('event - ' + event);
-    console.log('count games - ' + countPlayers);
-    console.log('count players - ' + countGames);
-    for (var gi in games) {
-        console.log('game #' + games[gi].getId() + ' ' + games[gi].getCountPlayers() + ' players');
+    var gamesDTOs = [];
+    for (var game in games) {
+        gamesDTOs.push(gameDTO(games[game]));
     }
+
+    var serverState = {
+        event: event,
+        players: playersDTOs,
+        games: gamesDTOs,
+    };
+
+    console.log(serverState)
+    socket.emit('serverState', serverState)
+    socket.broadcast.emit('serverState', serverState);
 }
 
 
