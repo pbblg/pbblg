@@ -1,25 +1,30 @@
-import {NEW_GAME_WAS_CREATED, PLAYER_JOINED_GAME} from "../actions/index";
+import {NEW_GAME_WAS_CREATED, OTHER_PLAYER_JOINED_GAME, CURRENT_PLAYER_JOINED_GAME} from "../actions/index";
 import cookies from 'js-cookie';
 
 const initialState = {
     auth: cookies.get('auth'),
-    games: {}
+    games: {},
+    gamePlayId: null,
 };
 
 const app = (state = initialState, action) => {
     switch (action.type) {
 
         case NEW_GAME_WAS_CREATED:
-        case PLAYER_JOINED_GAME:
-            
             let newGames = {};
             newGames[action.game.id] = action.game;
             return Object.assign({}, state, {
                 games: Object.assign({}, state.games, newGames)
             });
 
-        // case 'JOIN_GAME':
-        //     return state
+        case OTHER_PLAYER_JOINED_GAME:
+
+            return state;
+
+        case CURRENT_PLAYER_JOINED_GAME:
+            return Object.assign({}, state, {
+                gamePlayId: action.gameId
+            });
 
         case 'RECEIVE_GAME_WELCOME_STATE':
 

@@ -77,15 +77,22 @@ io.sockets.on('connection', function (socket) {
         debug(socket, 'joinGame-pre', message);
 
         var player = playersBySocketId[socket.id];
-        console.log(player);
+
         if (player) {
             var game = games[message.gameId];
             game.joinPlayer(player);
-            game.forAllPlayers(function(player) {
-                player.socket.emit('playerJoinGame', {
-                    player: playerDTO(player),
-                    game: gameDTO(game)
-                });
+            game.forAllPlayers(function(playerInGame) {
+
+                if (playerInGame.getId() != player.getId()) {
+                    playerInGame.socket.emit('otherPlayerJoinedGame', {
+                        player: playerDTO(playerInGame),
+                        game: gameDTO(game)
+                    });
+                } else {
+                    playerInGame.socket.emit('currentPlayerJoinedGame', {
+                        gameId: game.getId()
+                    });
+                }
             });
         }
 

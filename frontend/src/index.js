@@ -7,7 +7,7 @@ import { createStore, applyMiddleware } from 'redux'
 import app from './reducers/index'
 import AppContainer from './containers/AppContainer'
 import ioClient from "socket.io-client";
-import {newGameWasCreatedAction, receiveGameWelcomeState, socketConnectedAction, debugServerState, playerJoinedGame} from "./actions/index";
+import {newGameWasCreatedAction, receiveGameWelcomeState, socketConnectedAction, debugServerState, otherPlayerJoinedGame, currentPlayerJoinedGame} from "./actions/index";
 import remoteActionMiddleware from "./middlewares/remoteAction";
 import serverStateLoggerAction from "./middlewares/serverStateLoggerAction";
 
@@ -33,7 +33,7 @@ socket.on('connect', function () {
     store.dispatch(socketConnectedAction())
 });
 socket.on('serverState', function (data) {
-    //store.dispatch(debugServerState(data))
+    store.dispatch(debugServerState(data))
 });
 socket.on('newGame', function (data) {
     store.dispatch(newGameWasCreatedAction(data))
@@ -41,8 +41,11 @@ socket.on('newGame', function (data) {
 socket.on('gameWelcomeState', function (data) {
     store.dispatch(receiveGameWelcomeState(data))
 });
-socket.on('playerJoinGame', function (data) {
-    store.dispatch(playerJoinedGame(data.player, data.game))
+socket.on('otherPlayerJoinedGame', function (data) {
+    store.dispatch(otherPlayerJoinedGame(data.player, data.game))
+});
+socket.on('currentPlayerJoinedGame', function (data) {
+    store.dispatch(currentPlayerJoinedGame(data.gameId))
 });
 
 
