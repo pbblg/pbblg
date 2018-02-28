@@ -19,6 +19,8 @@ export default store => next => action => {
                 gamesIDs.push(action.serverState.games[gi].id);
             }
 
+            console.log('event', action.serverState.event);
+            console.log('message', action.serverState.message);
             console.log('playersCount', playersCount);
             console.log('gamesCount', gamesCount);
             console.log('gamesIDs', gamesIDs);

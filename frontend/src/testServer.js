@@ -13,8 +13,8 @@ server.listen(PORT);
 
 var games = {};
 var lastGameId = 0;
-var players = {};
-var playersSockets = {};
+var playersByName = {};
+var playersBySocketId = {};
 var lastPlayerId = 0;
 
 
@@ -22,26 +22,30 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('disconnect', function () {
         debug(socket, 'disconnect');
+
+        delete playersBySocketId[socket.id];
     });
 
     socket.on('authenticate', function (message) {
 
-        if (!players[message.playerName]) {
-            var player = new Player(message.playerName);
-            players[message.playerName] = player;
+        debug(socket, 'authenticate-pre', message);
+
+        if (!playersByName[message.playerName]) {
+            playersByName[message.playerName] = new Player(message.playerName);
         }
 
-        playersSockets[message.playerName] = new PlayerSocket(socket);
+        playersByName[message.playerName].socket = socket;
+        playersBySocketId[socket.id] = playersByName[message.playerName];
 
         debug(socket, 'authenticate');
     });
 
     socket.on('getGameWelcomeState', function (message) {
 
-        var gamesForJoin = [];
+        var gamesForJoin = {};
         for (var gameId in games) {
             if (games[gameId].canJoin()) {
-                gamesForJoin.push(gameDTO(games[gameId]));
+                gamesForJoin[gameId] = gameDTO(games[gameId]);
             }
         }
 
@@ -53,7 +57,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('newGame', function (message) {
 
-        //var player = players[socket.id];
+        //var player = playersByName[socket.id];
         //console.log('player ' + player.getId());
 
         var game = new Game();
@@ -70,12 +74,18 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('joinGame', function (message) {
 
-        var player = players[socket.id];
+        debug(socket, 'joinGame-pre', message);
+
+        var player = playersBySocketId[socket.id];
+        console.log(player);
         if (player) {
             var game = games[message.gameId];
             game.joinPlayer(player);
             game.forAllPlayers(function(player) {
-                player.send('playerJoinGame');
+                player.socket.emit('playerJoinGame', {
+                    player: playerDTO(player),
+                    game: gameDTO(game)
+                });
             });
         }
 
@@ -84,7 +94,7 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('exitGame', function (message) {
 
-        var player = players[socket.id];
+        var player = playersByName[socket.id];
 
         var game = new Game();
         game.exitPlayer(player);
@@ -182,12 +192,8 @@ function Player(name) {
     this.getName = function() {
         return name;
     }
-}
 
-function PlayerSocket(socket) {
-    this.send = function(event) {
-        socket.emit(event, playerDTO(this));
-    }
+    this.socket;
 }
 
 function gameDTO(game) {
@@ -204,11 +210,11 @@ function playerDTO(player) {
     }
 }
 
-function debug(socket, event) {
+function debug(socket, event, message) {
 
     var playersDTOs = [];
-    for (var player in players) {
-        playersDTOs.push(playerDTO(players[player]));
+    for (var player in playersByName) {
+        playersDTOs.push(playerDTO(playersByName[player]));
     }
 
     var gamesDTOs = [];
@@ -218,6 +224,7 @@ function debug(socket, event) {
 
     var serverState = {
         event: event,
+        message: message,
         players: playersDTOs,
         games: gamesDTOs,
     };

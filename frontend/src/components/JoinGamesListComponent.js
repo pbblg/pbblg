@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 const JoinGamesListComponent = ({games, onGameClick}) => (
     <div className="games-list">
         <ul>
-            {games.map(game => (
-                <li key={game.id} onClick={() => onGameClick(game.id)} className="games-list-item">
-                        Game {game.id} ({game.countFreePlaces} free places)
+            {Object.keys(games).map(gameId => (
+                <li key={gameId} onClick={() => onGameClick(gameId)} className="games-list-item">
+                        Game {gameId} ({games[gameId].countFreePlaces} free places)
                 </li>
             ))}
         </ul>
@@ -14,7 +14,7 @@ const JoinGamesListComponent = ({games, onGameClick}) => (
 );
 
 JoinGamesListComponent.propTypes = {
-    games: PropTypes.arrayOf(
+    games: PropTypes.objectOf(
         PropTypes.shape({
             id: PropTypes.number.isRequired,
             countFreePlaces: PropTypes.number.isRequired
