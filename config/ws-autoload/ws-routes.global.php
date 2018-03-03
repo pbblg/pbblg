@@ -25,6 +25,18 @@ return [
                 ],
             ],
         ],
+        'startGame' => [
+            'handler' => Action\StartGame\StartGameHandler::class,
+            'params' => [
+                'gameId' => [
+                    'required' => true,
+                    'validators' => [
+                        ['name' => Validator\NotEmpty::class],
+                        ['name' => Validator\GreaterThan::class, 'options' => ['min' => 0]],
+                    ],
+                ],
+            ],
+        ],
         'send' => [
             'handler' => Action\Send\SendHandler::class,
             'paramsValidator' => Action\Send\SendParamsValidator::class,
