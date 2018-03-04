@@ -14,7 +14,8 @@ return [
         // key is the alias name, the value is the service to which it points.
         'aliases' => [
             'Zend\Expressive\Delegate\DefaultDelegate' => Delegate\NotFoundDelegate::class,
-            Zend\Expressive\Authentication\UserRepositoryInterface::class => Zend\Expressive\Authentication\UserRepository\PdoDatabase::class
+            Zend\Expressive\Authentication\UserRepositoryInterface::class => Zend\Expressive\Authentication\UserRepository\PdoDatabase::class,
+            Zend\Expressive\Session\SessionPersistenceInterface::class => App\Infrastructure\PhpSessionPersistence::class,
         ],
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the
