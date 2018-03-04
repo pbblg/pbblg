@@ -2,25 +2,27 @@
 
 namespace App\Domain\AccessToken;
 
+use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use App\Domain\User;
 
 class Generator
 {
     /**
-     * @var Repository
+     * @var RepositoryInterface
      */
     private $accessTokenRepository;
 
     /**
-     * @var User\Repository
+     * @var RepositoryInterface
      */
     private $userRepository;
 
     /**
-     * @param Repository $accessTokenRepository
-     * @param User\Repository $userRepository
+     * Generator constructor.
+     * @param RepositoryInterface $accessTokenRepository
+     * @param RepositoryInterface $userRepository
      */
-    public function __construct(Repository $accessTokenRepository, User\Repository $userRepository)
+    public function __construct(RepositoryInterface $accessTokenRepository, RepositoryInterface $userRepository)
     {
         $this->accessTokenRepository = $accessTokenRepository;
         $this->userRepository = $userRepository;
@@ -28,11 +30,16 @@ class Generator
 
     /**
      * @param string $username
-     * @return AccessToken
+     * @return AccessToken|null
      */
     public function generateForUserName($username)
     {
-        $user = $this->userRepository->fetchByName($username);
+        $user = $this->userRepository->find(['name_equalTo' => $username]);
+
+        if (!$user) {
+            return;
+        }
+
         return $this->generateForUser($user);
     }
 
@@ -42,8 +49,10 @@ class Generator
      */
     public function generateForUser(User\User $user)
     {
-        $id = AccessToken::generate();
-        $accessToken = new AccessToken(AccessToken::generate(), $user->getId());
+        $accessToken = new AccessToken([
+            'token' => AccessToken::generate(),
+            'userId' => $user->getId()
+        ]);
 
         return $this->accessTokenRepository->add($accessToken);
     }

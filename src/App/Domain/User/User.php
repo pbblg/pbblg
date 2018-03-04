@@ -2,34 +2,29 @@
 
 namespace App\Domain\User;
 
+use T4webDomain\Entity;
 
-class User
+class User extends Entity
 {
     /**
-     * @var int
+     * @var int|null
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
-     * User constructor.
-     * @param int $id
-     * @param string $name
+     * @var string
      */
-    public function __construct(int $id, string $name)
-    {
-        $this->id = $id;
-        $this->name = $name;
-    }
+    protected $registeredDt;
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -40,5 +35,13 @@ class User
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRegisteredDt(): string
+    {
+        return $this->registeredDt;
     }
 }

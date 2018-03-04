@@ -2,28 +2,47 @@
 
 namespace App\WebSocket\Action\NewGame;
 
+use App\Command\Game\NewGameCommandContext;
+use Psr\Http\Message\ServerRequestInterface;
 use App\WebSocket\Action\ActionHandlerInterface;
 use App\WebSocket\Client;
 use App\WebSocket\Event\NewGameCreated;
+use App\Command\Game\NewGameCommand;
 
 class NewGameHandler implements ActionHandlerInterface
 {
+    /**
+     * @var NewGameCommand
+     */
+    private $command;
+
     /**
      * @var Client
      */
     private $webSocketClient;
 
-    public function __construct(Client $webSocketClient)
-    {
+    public function __construct(
+        NewGameCommand $command,
+        Client $webSocketClient
+    ) {
+        $this->command = $command;
         $this->webSocketClient = $webSocketClient;
     }
 
     /**
-     * @param array $params
+     * @param ServerRequestInterface $request
      * @return mixed result
      */
-    public function handle(array $params)
+    public function handle(ServerRequestInterface $request)
     {
-        $this->webSocketClient->send([], new NewGameCreated(123));
+        $context = new NewGameCommandContext(
+            $request->getAttribute('currentUser')
+        );
+
+        $result = $this->command->handle($context);
+
+        $this->webSocketClient->send([], new NewGameCreated($result['gameId']));
+
+        return $result;
     }
 }

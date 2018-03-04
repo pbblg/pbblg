@@ -2,36 +2,44 @@
 
 namespace App\Domain\AccessToken;
 
+use T4webDomain\Entity;
 
-class AccessToken
+class AccessToken extends Entity
 {
+    /**
+     * @var int|null
+     */
+    protected $id;
+
     /**
      * @var string
      */
-    private $id;
+    protected $token;
 
     /**
      * @var int
      */
-    private $userId;
+    protected $userId;
 
     /**
-     * AccessToken constructor.
-     * @param string $id
-     * @param int $userId
+     * @var string
      */
-    public function __construct(string $id, int $userId)
+    protected $createdDt;
+
+    /**
+     * @return int
+     */
+    public function getId(): ?int
     {
-        $this->id = $id;
-        $this->userId = $userId;
+        return $this->id;
     }
 
     /**
      * @return string
      */
-    public function getId(): string
+    public function getToken(): string
     {
-        return $this->id;
+        return $this->token;
     }
 
     /**
@@ -40,6 +48,14 @@ class AccessToken
     public function getUserId(): int
     {
         return $this->userId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedDt(): string
+    {
+        return $this->createdDt;
     }
 
     /**

@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Domain\AccessToken;
+namespace App\WebSocket\Middleware;
 
 use Psr\Container\ContainerInterface;
 
-class GeneratorFactory
+class AuthMiddlewareFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        return new Generator(
+        return new AuthMiddleware(
             $container->get('AccessToken\Infrastructure\Repository'),
             $container->get('User\Infrastructure\Repository')
         );

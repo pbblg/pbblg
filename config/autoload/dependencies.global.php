@@ -4,7 +4,6 @@ use Zend\Expressive\Application;
 use Zend\Expressive\Container;
 use Zend\Expressive\Delegate;
 use Zend\Expressive\Helper;
-use Zend\Expressive\Middleware;
 
 return [
     // Provides application-wide services.
@@ -17,6 +16,13 @@ return [
         ],
         'abstract_factories' => [
             \App\DefaultServiceAbstractFactory::class,
+
+            \App\EntityFactoryAbstractFactory::class,
+            \App\Infrastructure\RepositoryAbstractFactory::class,
+            \App\Infrastructure\InMemoryRepositoryAbstractFactory::class,
+            \App\Infrastructure\MapperAbstractFactory::class,
+            \App\Infrastructure\CriteriaFactoryAbstractFactory::class,
+            \App\Infrastructure\ConfigAbstractFactory::class,
         ],
         // Use 'invokables' for constructor-less services, or services that do
         // not require arguments to the constructor. Map a service name to the

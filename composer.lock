@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9337565561dfd66d8ee1066e22e6cb72",
+    "content-hash": "555e9503734c7fad160d8d32849bc274",
     "packages": [
         {
             "name": "cboden/ratchet",
@@ -1370,6 +1370,131 @@
                 "url"
             ],
             "time": "2018-01-16T18:04:12+00:00"
+        },
+        {
+            "name": "t4web/domain",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/t4web/Domain.git",
+                "reference": "1585d952c9141f4de949d85ef8211222a462a457"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/t4web/Domain/zipball/1585d952c9141f4de949d85ef8211222a462a457",
+                "reference": "1585d952c9141f4de949d85ef8211222a462a457",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0",
+                "t4web/domain-interface": "~1.1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "suggest": {
+                "t4web/infrastructure": "Infrastructure implementation"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "T4webDomain\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Domain Driven Design implementation.",
+            "homepage": "https://github.com/t4web/Domain",
+            "keywords": [
+                "ddd"
+            ],
+            "time": "2016-03-22T16:17:19+00:00"
+        },
+        {
+            "name": "t4web/domain-interface",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/t4web/DomainInterface.git",
+                "reference": "f19f171b30e5c644008e602d22263966be717d70"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/t4web/DomainInterface/zipball/f19f171b30e5c644008e602d22263966be717d70",
+                "reference": "f19f171b30e5c644008e602d22263966be717d70",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "suggest": {
+                "t4web/domain": "Domain Driven Design implementation",
+                "t4web/infrastructure": "Infrastructure implementation"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "T4webDomainInterface\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Common interface for Domain services",
+            "keywords": [
+                "ddd",
+                "domain-service"
+            ],
+            "time": "2016-03-02T12:34:37+00:00"
+        },
+        {
+            "name": "t4web/infrastructure",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/t4web/Infrastructure.git",
+                "reference": "70e7883d4fd5617179b6ccb67e540a8225e1710a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/t4web/Infrastructure/zipball/70e7883d4fd5617179b6ccb67e540a8225e1710a",
+                "reference": "70e7883d4fd5617179b6ccb67e540a8225e1710a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0",
+                "t4web/domain-interface": "~1.1.0",
+                "zendframework/zend-db": "^2.9",
+                "zendframework/zend-eventmanager": "^3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.5",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "suggest": {
+                "t4web/domain": "DDD implementation"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "T4webInfrastructure\\": "src/",
+                    "T4webInfrastructureTest\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Infrastructure layer realization for DDD.",
+            "homepage": "https://github.com/t4web/Infrastructure",
+            "keywords": [
+                "ddd"
+            ],
+            "time": "2018-03-03T08:07:31+00:00"
         },
         {
             "name": "webimpress/composer-extra-dependency",

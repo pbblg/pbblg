@@ -5,12 +5,12 @@ use ArrayObject;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Psr\Container\ContainerInterface;
+use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use Zend\Expressive\Application;
 use Zend\Diactoros\ServerRequest;
 use Zend\Diactoros\Response;
 use Zend\Expressive\Middleware\NotFoundHandler;
 use Zend\Stratigility\Middleware\ErrorHandler;
-use App\Domain\AccessToken\Repository;
 
 class Server implements MessageComponentInterface
 {
@@ -62,30 +62,39 @@ class Server implements MessageComponentInterface
 
     private function saveConnection(ConnectionInterface $conn)
     {
+        $conn->cookies = $this->getCookie($conn);
+
+        if (!array_key_exists('access_token', $conn->cookies)) {
+            self::$anonymousConnections[] = $conn;
+            return;
+        }
+
+        $token = $conn->cookies['access_token'];
+
+        /** @var RepositoryInterface $accessTokenRepository */
+        $accessTokenRepository = $this->container->get('AccessToken\Infrastructure\Repository');
+        $conn->accessToken = $accessTokenRepository->find(['token' => $token]);
+
+        if (!$conn->accessToken) {
+            self::$anonymousConnections[] = $conn;
+            return;
+        }
+
+        self::$authorizedConnections[$conn->accessToken->getUserId()] = $conn;
+    }
+
+    /**
+     * @param ConnectionInterface $conn
+     * @return array
+     */
+    private function getCookie(ConnectionInterface $conn)
+    {
         $cookiesHeader = $conn->httpRequest->getHeader('Cookie');
         if(count($cookiesHeader) == 0) {
-            self::$anonymousConnections[] = $conn;
-            return;
+            return [];
         }
 
-        $cookies = \GuzzleHttp\Psr7\parse_header($cookiesHeader)[0];
-        if (!array_key_exists('access_token', $cookies)) {
-            self::$anonymousConnections[] = $conn;
-            return;
-        }
-
-        $token = $cookies['access_token'];
-
-        /** @var Repository $accessTokenRepository */
-        $accessTokenRepository = $this->container->get(Repository::class);
-        $accessToken = $accessTokenRepository->fetch($token);
-
-        if (!$accessToken) {
-            self::$anonymousConnections[] = $conn;
-            return;
-        }
-
-        self::$authorizedConnections[$accessToken->getUserId()] = $conn;
+        return \GuzzleHttp\Psr7\parse_header($cookiesHeader)[0];
     }
 
     /**
@@ -112,6 +121,7 @@ class Server implements MessageComponentInterface
 
         $application->pipe(ErrorHandler::class);
         $application->pipe(Middleware\JsonRpcMiddleware::class);
+        $application->pipe(Middleware\AuthMiddleware::class);
         $application->pipeRoutingMiddleware();
         $application->pipe(Middleware\ParamsValidatorMiddleware::class);
         $application->pipe(Middleware\DispatchMiddleware::class);
@@ -123,8 +133,13 @@ class Server implements MessageComponentInterface
             '/',
             'POST',
             $this->createBodyStream($msg),
-            ['Content-Type' => 'application/json']
+            ['Content-Type' => 'application/json'],
+            $from->cookies
         );
+
+        if (isset($from->accessToken)) {
+            $request = $request->withAttribute('accessToken', $from->accessToken);
+        }
 
         $application->run($request, new Response());
 

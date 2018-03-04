@@ -51,7 +51,7 @@ class LoginAction implements ServerMiddlewareInterface
                 if ($response->getStatusCode() !== 301) {
                     $accessToken = $this->accessTokenGenerator->generateForUserName($data['username']);
                     $sessionCookie = SetCookie::create('access_token')
-                        ->withValue($accessToken->getId())
+                        ->withValue($accessToken->getToken())
                         ->withPath(ini_get('session.cookie_path'));
 
                     return FigResponseCookies::set(new RedirectResponse('/'), $sessionCookie);

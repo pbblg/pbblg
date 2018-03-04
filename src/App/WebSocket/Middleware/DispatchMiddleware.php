@@ -49,7 +49,7 @@ class DispatchMiddleware implements ServerMiddlewareInterface
         }
 
         if ($handler instanceof SpecialHandlerInterface) {
-            return $handler->handle($request->getQueryParams());
+            return $handler->handle($request);
         }
 
         if (!$handler instanceof ActionHandlerInterface) {
@@ -58,7 +58,7 @@ class DispatchMiddleware implements ServerMiddlewareInterface
 
         return new JsonResponse([
             'id' => $request->getAttribute('id'),
-            'result' => $handler->handle($request->getQueryParams())
+            'result' => $handler->handle($request)
         ]);
     }
 }
