@@ -11,6 +11,7 @@ const initialState = {
     auth: cookies.get('auth'),
     games: {},
     gamePlayId: null,
+    isGameStateLoaded: false,
 };
 
 const app = (state = initialState, action) => {
@@ -34,7 +35,8 @@ const app = (state = initialState, action) => {
 
         case RECEIVE_GAME_STATE:
             return Object.assign({}, state, {
-                gamePlayId: action.data.gamePlayId
+                gamePlayId: action.data.gamePlayId,
+                isGameStateLoaded: true
             });
 
         case RECEIVE_EXIT_GAME:

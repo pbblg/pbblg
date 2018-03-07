@@ -8,12 +8,22 @@ import {requestGameState} from "../actions";
 class AppContainer extends React.Component {
 
     componentDidMount() {
+        console.log('AppContainer');
         this.props.dispatch(requestGameState())
     }
 
     render() {
         const auth = this.props.auth
         const gamePlayId = this.props.gamePlayId
+        const isGameStateLoaded = this.props.isGameStateLoaded
+
+        if (!isGameStateLoaded) {
+            return (
+                <div className="game-welcome">
+                    <p>Game state loading...</p>
+                </div>
+            );
+        }
 
         if (auth) {
             if (gamePlayId) {

@@ -13,6 +13,7 @@ class JoinGamesListContainer extends React.Component {
     }
 
     componentDidMount() {
+        console.log('JoinGamesListContainer');
         this.props.dispatch(requestJoinGamesList())
     }
 
