@@ -71,15 +71,17 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('newGame', function (message) {
 
-        //var player = playersByName[socket.id];
-        //console.log('player ' + player.getId());
+        var player = playersBySocketId[socket.id];
 
-        var game = new Game();
-        //game.joinPlayer(player);
-        games[game.getId()] = game;
+        if (player) {
+            var game = new Game();
+            games[game.getId()] = game;
 
-        socket.broadcast.emit('newGame', gameDTO(game));
-        socket.emit('newGame', gameDTO(game));
+            game.joinPlayer(player);
+
+            socket.broadcast.emit('newGame', gameDTO(game));
+            socket.emit('newGame', gameDTO(game));
+        }
 
         debug(socket, 'newGame');
     });
@@ -95,19 +97,6 @@ io.sockets.on('connection', function (socket) {
         if (player) {
             var game = games[message.gameId];
             game.joinPlayer(player);
-            game.forAllPlayers(function(playerInGame) {
-
-                if (playerInGame.getId() != player.getId()) {
-                    playerInGame.socket.emit('otherPlayerJoinedGame', {
-                        player: playerDTO(playerInGame),
-                        game: gameDTO(game)
-                    });
-                } else {
-                    playerInGame.socket.emit('currentPlayerJoinedGame', {
-                        gameId: game.getId()
-                    });
-                }
-            });
         }
 
         debug(socket, 'joinGame');
@@ -126,12 +115,7 @@ io.sockets.on('connection', function (socket) {
     });
 
     socket.on('startGame', function (message) {
-
         console.log('startGame');
-
-        // var game = new Game();
-        // game.createDeck();
-        // var card = game.popCardFromDeck();
     });
 });
 
@@ -141,6 +125,7 @@ function Game() {
     var id = ++lastGameId;
     var players = {};
     var countMaxPlayers = 5;
+    var self = this;
     // var deck = createDeck();
 
     // function createDeck() {
@@ -185,8 +170,24 @@ function Game() {
 
     this.joinPlayer = function(player) {
         if (this.canJoin() && !players[player.getId()]) {
-            player.game = this;
-            return players[player.getId()] = player;
+
+            player.game = self;
+            players[player.getId()] = player
+
+            self.forAllPlayers(function(playerInGame) {
+                if (playerInGame.getId() != player.getId()) {
+                    playerInGame.socket.emit('otherPlayerJoinedGame', {
+                        player: playerDTO(playerInGame),
+                        game: gameDTO(playerInGame.game)
+                    });
+                } else {
+                    playerInGame.socket.emit('currentPlayerJoinedGame', {
+                        gameId: playerInGame.game.getId()
+                    });
+                }
+            });
+
+            return player;
         }
         return false;
     }
