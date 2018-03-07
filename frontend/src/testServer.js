@@ -40,6 +40,20 @@ io.sockets.on('connection', function (socket) {
         debug(socket, 'authenticate');
     });
 
+    socket.on('getGameState', function (message) {
+
+        var gamePlayId = null;
+
+        var player = playersBySocketId[socket.id];
+        if (player && player.game) {
+            gamePlayId = player.game.getId();
+        }
+
+        socket.emit('gameState', {'gamePlayId': gamePlayId});
+
+        debug(socket, 'getGameState');
+    });
+
     socket.on('getGameWelcomeState', function (message) {
 
         var gamesForJoin = {};
@@ -101,13 +115,12 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('exitGame', function (message) {
 
-        var player = playersByName[socket.id];
+        var player = playersBySocketId[socket.id];
 
-        var game = new Game();
-        game.exitPlayer(player);
-        game.forAllPlayers(function(player) {
-            player.send('playerExitGame');
-        });
+        if (player && player.game) {
+            player.game.exitPlayer(player);
+            player.socket.emit('exitGame');
+        }
 
         debug(socket, 'exitGame')
     });
@@ -172,12 +185,14 @@ function Game() {
 
     this.joinPlayer = function(player) {
         if (this.canJoin() && !players[player.getId()]) {
+            player.game = this;
             return players[player.getId()] = player;
         }
         return false;
     }
 
     this.exitPlayer = function(player) {
+        player.game = null;
         delete players[player.getId()];
     }
 
@@ -200,7 +215,8 @@ function Player(name) {
         return name;
     }
 
-    this.socket;
+    this.socket = null;
+    this.game = null;
 }
 
 function gameDTO(game) {
@@ -214,6 +230,7 @@ function playerDTO(player) {
     return {
         id: player.getId(),
         name: player.getName(),
+        game: player.game,
     }
 }
 

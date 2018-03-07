@@ -1,16 +1,27 @@
-import {START_CREATE_NEW_GAME, REQUEST_GAME_WELCOME_STATE, CURRENT_PLAYER_REQUEST_JOIN_GAME, EXIT_GAME, LOGIN_PLAYER, SOCKET_CONNECTED} from "../actions/index";
+import {
+    START_CREATE_NEW_GAME,
+    REQUEST_GAME_STATE,
+    REQUEST_JOIN_GAMES_LIST,
+    REQUEST_EXIT_GAME,
+    CURRENT_PLAYER_REQUEST_JOIN_GAME,
+    LOGIN_PLAYER,
+    SOCKET_CONNECTED
+} from "../actions/index";
 
 export default socket => store => next => action => {
     if (action.type === START_CREATE_NEW_GAME) {
         socket.emit('newGame');
     }
-    if (action.type === REQUEST_GAME_WELCOME_STATE) {
+    if (action.type === REQUEST_GAME_STATE) {
+        socket.emit('getGameState');
+    }
+    if (action.type === REQUEST_JOIN_GAMES_LIST) {
         socket.emit('getGameWelcomeState');
     }
     if (action.type === CURRENT_PLAYER_REQUEST_JOIN_GAME) {
         socket.emit('joinGame', {gameId: action.gameId});
     }
-    if (action.type === EXIT_GAME) {
+    if (action.type === REQUEST_EXIT_GAME) {
         socket.emit('exitGame');
     }
     if (action.type === LOGIN_PLAYER) {

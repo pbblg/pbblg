@@ -1,10 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import JoinGamesListComponent from '../components/JoinGamesListComponent';
-import {currentPlayerRequestJoinGame, requestGameWelcomeState} from '../actions/index';
+import {currentPlayerRequestJoinGame, requestJoinGamesList} from '../actions/index';
 
 
 class JoinGamesListContainer extends React.Component {
+
     constructor(props) {
         super(props)
 
@@ -12,7 +13,7 @@ class JoinGamesListContainer extends React.Component {
     }
 
     componentDidMount() {
-        this.props.dispatch(requestGameWelcomeState())
+        this.props.dispatch(requestJoinGamesList())
     }
 
     handleOnGameClick(gameId) {

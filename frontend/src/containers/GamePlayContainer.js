@@ -1,6 +1,6 @@
 import React from 'react';
 import ExitGameButtonComponent from '../components/ExitGameButtonComponent';
-import {exitGame} from "../actions";
+import {requestExitGame} from "../actions";
 import {connect} from "react-redux";
 
 class GamePlayContainer extends React.Component {
@@ -12,14 +12,14 @@ class GamePlayContainer extends React.Component {
     }
 
     handleOnExitGameClick() {
-        this.props.dispatch(exitGame())
+        this.props.dispatch(requestExitGame())
     }
 
     render() {
 
         return (
             <div className="game-play">
-                <h3>Game play {this.props.match.params.gameId}</h3>
+                <h3>Game play {this.props.gamePlayId}</h3>
                 <ExitGameButtonComponent onClick={this.handleOnExitGameClick} />
             </div>
         )

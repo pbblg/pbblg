@@ -1,4 +1,10 @@
-import {NEW_GAME_WAS_CREATED, OTHER_PLAYER_JOINED_GAME, CURRENT_PLAYER_JOINED_GAME} from "../actions/index";
+import {
+    NEW_GAME_WAS_CREATED,
+    OTHER_PLAYER_JOINED_GAME,
+    CURRENT_PLAYER_JOINED_GAME,
+    RECEIVE_GAME_STATE,
+    RECEIVE_EXIT_GAME
+} from "../actions/index";
 import cookies from 'js-cookie';
 
 const initialState = {
@@ -26,7 +32,17 @@ const app = (state = initialState, action) => {
                 gamePlayId: action.gameId
             });
 
-        case 'RECEIVE_GAME_WELCOME_STATE':
+        case RECEIVE_GAME_STATE:
+            return Object.assign({}, state, {
+                gamePlayId: action.data.gamePlayId
+            });
+
+        case RECEIVE_EXIT_GAME:
+            return Object.assign({}, state, {
+                gamePlayId: null
+            });
+
+        case 'RECEIVE_JOIN_GAMES_LIST':
 
             return Object.assign({}, state, {
                 games: Object.assign({}, state.games, action.data.gamesForJoin)

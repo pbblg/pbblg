@@ -1,10 +1,13 @@
 export const START_CREATE_NEW_GAME = 'START_CREATE_NEW_GAME';
 export const NEW_GAME_WAS_CREATED = 'NEW_GAME_WAS_CREATED';
-export const RECEIVE_GAME_WELCOME_STATE = 'RECEIVE_GAME_WELCOME_STATE';
-export const REQUEST_GAME_WELCOME_STATE = 'REQUEST_GAME_WELCOME_STATE';
+export const REQUEST_GAME_STATE = 'REQUEST_GAME_STATE';
+export const RECEIVE_GAME_STATE = 'RECEIVE_GAME_STATE';
+export const RECEIVE_JOIN_GAMES_LIST = 'RECEIVE_JOIN_GAMES_LIST';
+export const REQUEST_JOIN_GAMES_LIST = 'REQUEST_JOIN_GAMES_LIST';
 export const CURRENT_PLAYER_REQUEST_JOIN_GAME = 'CURRENT_PLAYER_REQUEST_JOIN_GAME';
 export const CURRENT_PLAYER_JOINED_GAME = 'CURRENT_PLAYER_JOINED_GAME';
-export const EXIT_GAME = 'EXIT_GAME';
+export const REQUEST_EXIT_GAME = 'REQUEST_EXIT_GAME';
+export const RECEIVE_EXIT_GAME = 'RECEIVE_EXIT_GAME';
 export const LOGIN_PLAYER = 'LOGIN_PLAYER';
 export const LOGOUT_PLAYER = 'LOGOUT_PLAYER';
 export const SOCKET_CONNECTED = 'SOCKET_CONNECTED';
@@ -22,15 +25,36 @@ export const newGameWasCreatedAction = (game) => (
         game
     }
 );
-export const requestGameWelcomeState = () => (
+export const requestGameState = () => (
     {
-        type: REQUEST_GAME_WELCOME_STATE
+        type: REQUEST_GAME_STATE
     }
 );
-export const receiveGameWelcomeState = (data) => (
+export const receiveGameState = (data) => (
     {
-        type: RECEIVE_GAME_WELCOME_STATE,
+        type: RECEIVE_GAME_STATE,
         data
+    }
+);
+export const requestJoinGamesList = () => (
+    {
+        type: REQUEST_JOIN_GAMES_LIST
+    }
+);
+export const receiveJoinGamesList = (data) => (
+    {
+        type: RECEIVE_JOIN_GAMES_LIST,
+        data
+    }
+);
+export const requestExitGame = () => (
+    {
+        type: REQUEST_EXIT_GAME
+    }
+);
+export const receiveExitGame = () => (
+    {
+        type: RECEIVE_EXIT_GAME
     }
 );
 export const currentPlayerRequestJoinGame = (gameId) => (
@@ -43,11 +67,6 @@ export const currentPlayerJoinedGame = (gameId) => (
     {
         type: CURRENT_PLAYER_JOINED_GAME,
         gameId
-    }
-);
-export const exitGame = () => (
-    {
-        type: EXIT_GAME,
     }
 );
 export const loginPlayer = (playerName) => (
