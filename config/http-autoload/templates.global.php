@@ -15,6 +15,9 @@ return [
 
     'templates' => [
         'layout' => 'layout::default',
+        'paths' => [
+            'block' => 'templates/block',
+        ],
     ],
 
     'view_helpers' => [
