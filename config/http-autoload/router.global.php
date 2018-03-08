@@ -57,7 +57,7 @@ return [
             'path' => '/admin',
             'allowed_methods' => ['GET'],
             'middleware' => [
-                App\Action\Register\RegisterAction::class,
+                App\Action\Admin\DashboardAction::class,
                 \Zend\Expressive\Authentication\AuthenticationMiddleware::class
             ],
         ],

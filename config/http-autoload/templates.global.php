@@ -17,6 +17,8 @@ return [
         'layout' => 'layout::default',
         'paths' => [
             'block' => 'templates/block',
+            'block-admin' => 'templates/block/admin',
+            'app-admin' => 'templates/app/admin',
         ],
     ],
 

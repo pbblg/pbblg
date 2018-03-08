@@ -33,6 +33,7 @@
     },
     "require": {
         "php": ">=7.1.0",
+        "almasaeed2010/adminlte": "~2.4",
         "cboden/ratchet": "^0.4",
         "dflydev/fig-cookies": "^1.0",
         "http-interop/http-middleware": "^0.4.1",
