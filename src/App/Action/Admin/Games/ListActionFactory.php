@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Action\Admin;
+namespace App\Action\Admin\Games;
 
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
 
-class DashboardActionFactory
+class ListActionFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        return new DashboardAction(
+        return new ListAction(
             $container->get(TemplateRendererInterface::class)
         );
     }

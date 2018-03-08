@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Action\Admin;
+namespace App\Action\Admin\Games;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterface;
@@ -9,13 +9,12 @@ use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Template;
 use Zend\Expressive\ZendView\ZendViewRenderer;
 
-class DashboardAction implements ServerMiddlewareInterface
+class ListAction implements ServerMiddlewareInterface
 {
     /**
      * @var ZendViewRenderer
      */
     private $template;
-
 
     public function __construct(
         Template\TemplateRendererInterface $template = null
@@ -34,7 +33,7 @@ class DashboardAction implements ServerMiddlewareInterface
     private function returnResponse(array $errors, array $data)
     {
         return new HtmlResponse($this->template->render(
-            'app-admin::dashboard',
+            'app-admin-games::list',
             [
                 'errors' => $errors,
                 'data' => $data,

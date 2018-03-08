@@ -61,5 +61,14 @@ return [
                 \Zend\Expressive\Authentication\AuthenticationMiddleware::class
             ],
         ],
+        [
+            'name' => 'admin-games-list',
+            'path' => '/admin/games',
+            'allowed_methods' => ['GET'],
+            'middleware' => [
+                App\Action\Admin\Games\ListAction::class,
+                \Zend\Expressive\Authentication\AuthenticationMiddleware::class
+            ],
+        ],
     ],
 ];
