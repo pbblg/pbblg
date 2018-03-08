@@ -2,19 +2,21 @@
 
 namespace App\WebSocket\Action\NewGame;
 
-use App\Command\Game\NewGameCommandContext;
 use Psr\Http\Message\ServerRequestInterface;
+use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use App\WebSocket\Action\ActionHandlerInterface;
 use App\WebSocket\Client;
+use App\Domain\User\User;
+use App\Domain\Game\Game;
 use App\WebSocket\Event\NewGameCreated;
-use App\Command\Game\NewGameCommand;
+use App\WebSocket\Action\Exception\NotAuthorizedException;
 
 class NewGameHandler implements ActionHandlerInterface
 {
     /**
-     * @var NewGameCommand
+     * @var RepositoryInterface
      */
-    private $command;
+    private $gameRepository;
 
     /**
      * @var Client
@@ -22,10 +24,10 @@ class NewGameHandler implements ActionHandlerInterface
     private $webSocketClient;
 
     public function __construct(
-        NewGameCommand $command,
+        RepositoryInterface $gameRepository,
         Client $webSocketClient
     ) {
-        $this->command = $command;
+        $this->gameRepository = $gameRepository;
         $this->webSocketClient = $webSocketClient;
     }
 
@@ -35,14 +37,24 @@ class NewGameHandler implements ActionHandlerInterface
      */
     public function handle(ServerRequestInterface $request)
     {
-        $context = new NewGameCommandContext(
-            $request->getAttribute('currentUser')
-        );
+        if (!$request->getAttribute('currentUser')) {
+            throw new NotAuthorizedException();
+        }
 
-        $result = $this->command->handle($context);
+        /** @var User $user */
+        $user = $request->getAttribute('currentUser');
 
-        $this->webSocketClient->send([], new NewGameCreated($result['gameId']));
+        $game = new Game([
+            'status' => Game::STATUS_OPEN,
+            'ownerId' => $user->getId(),
+        ]);
 
-        return $result;
+        $this->gameRepository->add($game);
+
+        $this->webSocketClient->send([], new NewGameCreated($game->getId()));
+
+        return [
+            'gameId' => $game->getId(),
+        ];
     }
 }

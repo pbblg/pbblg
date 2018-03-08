@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command\Exception;
+namespace App\WebSocket\Action\Exception;
 
 use RuntimeException;
 

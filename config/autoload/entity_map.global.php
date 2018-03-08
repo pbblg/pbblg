@@ -16,6 +16,20 @@ return [
                 'id' => 'id_equalTo',
             ]
         ],
+        'UsersInGames' => [
+            'entityClass' => App\Domain\Game\UsersInGames::class,
+            'table' => 'users_in_games',
+            'primaryKey' => 'id',
+            'columnsAsAttributesMap' => [
+                'id' => 'id',
+                'user_id' => 'userId',
+                'game_id' => 'gameId',
+            ],
+            'criteriaMap' => [
+                'id' => 'id_equalTo',
+                'gameId' => 'gameId_equalTo',
+            ]
+        ],
         'AccessToken' => [
             'entityClass' => App\Domain\AccessToken\AccessToken::class,
             'table' => 'access_tokens',
