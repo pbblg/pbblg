@@ -38,8 +38,7 @@
         "dflydev/fig-cookies": "^1.0",
         "http-interop/http-middleware": "^0.4.1",
         "ratchet/pawl": "^0.3.1",
-        "roave/security-advisories": "dev-master",
-        "symfony/console": "^2.7",
+        "symfony/console": "^4.0",
         "t4web/domain": "^1.1",
         "t4web/infrastructure": "2.0.*",
         "zendframework/zend-config-aggregator": "^1.0",
@@ -56,10 +55,10 @@
         "zendframework/zend-stdlib": "^3.1"
     },
     "require-dev": {
+        "filp/whoops": "^2.1.7",
         "phpunit/phpunit": "^6.0.8 || ^5.7.15",
         "squizlabs/php_codesniffer": "^2.8.1",
-        "zfcampus/zf-development-mode": "^3.1",
-        "filp/whoops": "^2.1.7"
+        "zfcampus/zf-development-mode": "^3.1"
     },
     "autoload": {
         "psr-4": {
