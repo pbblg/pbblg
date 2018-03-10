@@ -1,6 +1,9 @@
 # pbblg
 Princess Bubblegum game.
 
+[![Build Status](https://travis-ci.org/pbblg/pbblg.svg?branch=master)](https://travis-ci.org/pbblg/pbblg)
+[![Coverage Status](https://coveralls.io/repos/github/pbblg/pbblg/badge.svg?branch=master)](https://coveralls.io/github/pbblg/pbblg?branch=master)
+
 ## Комманды
 `$ composer serve` - запускает РНР сервер. Сервер доступен на http://localhost::8080.
 
