@@ -2,7 +2,6 @@
 
 namespace App\WebSocket\Event;
 
-
 class NewGameCreated extends AbstractEvent
 {
     /**
@@ -12,5 +11,4 @@ class NewGameCreated extends AbstractEvent
     {
         parent::__construct('newGameCreated', ['gameId' => $gameId]);
     }
-
 }

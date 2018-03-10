@@ -33,24 +33,27 @@ class Client
 
         $secret = $this->secret;
 
-        \Ratchet\Client\connect('ws://localhost:8088')->then(function($conn) use($receivers, $event, $secret, $jsonOptions) {
-            $conn->on('message', function($msg) use ($conn) {
-                $conn->close();
-            });
+        \Ratchet\Client\connect('ws://localhost:8088')->then(
+            function ($conn) use ($receivers, $event, $secret, $jsonOptions) {
+                $conn->on('message', function ($msg) use ($conn) {
+                    $conn->close();
+                });
 
-            $message = [
-                'id' => 1,
-                'method' => 'send',
-                'params' => [
-                    'secret' => $secret,
-                    'receivers' => $receivers,
-                    'message' => $event->toArray()
-                ],
-            ];
+                $message = [
+                    'id' => 1,
+                    'method' => 'send',
+                    'params' => [
+                        'secret' => $secret,
+                        'receivers' => $receivers,
+                        'message' => $event->toArray()
+                    ],
+                ];
 
-            $conn->send(json_encode($message, $jsonOptions));
-        }, function ($e) {
-            echo "Could not connect: {$e->getMessage()}\n";
-        });
+                $conn->send(json_encode($message, $jsonOptions));
+            },
+            function ($e) {
+                echo "Could not connect: {$e->getMessage()}\n";
+            }
+        );
     }
 }

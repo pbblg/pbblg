@@ -2,7 +2,6 @@
 
 namespace App\Migrations;
 
-
 class Version_20180304140759 extends AbstractVersion
 {
     public $description = 'create sessions table';

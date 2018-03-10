@@ -2,7 +2,6 @@
 
 namespace App\Migrations;
 
-
 class Version_20180308085159 extends AbstractVersion
 {
     public $description = 'create users_in_games table';

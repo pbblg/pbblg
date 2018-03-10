@@ -33,8 +33,8 @@ class RegisterAction implements ServerMiddlewareInterface
         Template\TemplateRendererInterface $template = null,
         RegisterInputFilter $inputFilter,
         RegisterCommand $registerCommand
-    )
-    {
+    ) {
+
         $this->template = $template;
         $this->inputFilter = $inputFilter;
         $this->registerCommand = $registerCommand;
@@ -48,7 +48,6 @@ class RegisterAction implements ServerMiddlewareInterface
             $data = $request->getParsedBody();
             $this->inputFilter->setData($data);
             if ($this->inputFilter->isValid()) {
-
                 $context = RegisterCommandContext::fromData($this->inputFilter->getValues());
 
                 try {

@@ -2,7 +2,6 @@
 
 namespace App\WebSocket\Event;
 
-
 class JoinedGame extends AbstractEvent
 {
     /**
@@ -12,5 +11,4 @@ class JoinedGame extends AbstractEvent
     {
         parent::__construct('joinedGame', ['user' => $user]);
     }
-
 }

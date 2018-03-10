@@ -18,4 +18,6 @@
     <!-- Paths to check -->
     <file>src</file>
     <file>test</file>
+
+    <exclude-pattern>*/Migrations/*</exclude-pattern>
 </ruleset>

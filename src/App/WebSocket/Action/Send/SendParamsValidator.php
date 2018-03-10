@@ -34,7 +34,6 @@ class SendParamsValidator implements ParamsValidatorInterface
      */
     public function initialize(array $config)
     {
-
     }
 
     /**

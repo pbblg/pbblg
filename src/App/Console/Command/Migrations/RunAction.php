@@ -61,10 +61,9 @@ class RunAction extends Command
         $this
             ->setName('migrations:run')
             ->setDescription("Run migration")
-            ->setDefinition(array(
+            ->setDefinition([
                 new InputArgument('version', InputArgument::REQUIRED),
-            ));
-
+            ]);
     }
 
     /**

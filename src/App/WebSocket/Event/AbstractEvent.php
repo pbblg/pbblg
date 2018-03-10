@@ -2,7 +2,6 @@
 
 namespace App\WebSocket\Event;
 
-
 abstract class AbstractEvent
 {
     /**

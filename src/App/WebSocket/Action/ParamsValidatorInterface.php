@@ -2,7 +2,6 @@
 
 namespace App\WebSocket\Action;
 
-
 interface ParamsValidatorInterface
 {
     /**

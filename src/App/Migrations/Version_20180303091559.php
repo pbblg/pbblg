@@ -2,7 +2,6 @@
 
 namespace App\Migrations;
 
-
 class Version_20180303091559 extends AbstractVersion
 {
     public $description = 'create games table';

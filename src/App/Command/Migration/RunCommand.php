@@ -23,8 +23,8 @@ class RunCommand
     public function __construct(
         ContainerInterface $container,
         TableGateway $migrationsTable
-    )
-    {
+    ) {
+
         $this->container = $container;
         $this->migrationsTable = $migrationsTable;
     }

@@ -19,7 +19,8 @@ class InMemoryRepositoryAbstractFactory implements AbstractFactoryInterface
 {
     public function canCreate(ContainerInterface $container, $requestedName)
     {
-        return substr($requestedName, -strlen('Infrastructure\InMemoryRepository')) == 'Infrastructure\InMemoryRepository';
+        $part = 'Infrastructure\InMemoryRepository';
+        return substr($requestedName, -strlen($part)) == $part;
     }
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)

@@ -90,7 +90,7 @@ class Server implements MessageComponentInterface
     private function getCookie(ConnectionInterface $conn)
     {
         $cookiesHeader = $conn->httpRequest->getHeader('Cookie');
-        if(count($cookiesHeader) == 0) {
+        if (count($cookiesHeader) == 0) {
             return [];
         }
 
@@ -146,7 +146,7 @@ class Server implements MessageComponentInterface
         $response = $this->emitter->getResponse();
 
         if ($response instanceof SenderResponse) {
-            self::send($response->getReceivers(),$response->getMessage());
+            self::send($response->getReceivers(), $response->getMessage());
             $from->send('ok');
         } else {
             $responseBody = $response->getBody();
@@ -170,20 +170,20 @@ class Server implements MessageComponentInterface
             foreach (self::$anonymousConnections as $anonymousConnection) {
                 $anonymousConnection->send($message);
                 echo sprintf(
-                        "[%s] response to anonym: %s",
-                        date('Y-m-d H:i:s'),
-                        $message
-                    ) . PHP_EOL . PHP_EOL;
+                    "[%s] response to anonym: %s",
+                    date('Y-m-d H:i:s'),
+                    $message
+                ) . PHP_EOL . PHP_EOL;
             }
 
-            foreach (self::$authorizedConnections as $userId=>$authorizedConnection) {
+            foreach (self::$authorizedConnections as $userId => $authorizedConnection) {
                 $authorizedConnection->send($message);
                 echo sprintf(
-                        "[%s] response to #%s: %s",
-                        date('Y-m-d H:i:s'),
-                        $userId,
-                        $message
-                    ) . PHP_EOL . PHP_EOL;
+                    "[%s] response to #%s: %s",
+                    date('Y-m-d H:i:s'),
+                    $userId,
+                    $message
+                ) . PHP_EOL . PHP_EOL;
             }
         } else {
             foreach ($receivers as $userId) {
@@ -193,7 +193,7 @@ class Server implements MessageComponentInterface
                         "[%s] response to #%s: %s",
                         date('Y-m-d H:i:s'),
                         $userId,
-                            $message
+                        $message
                     ) . PHP_EOL . PHP_EOL;
                 }
             }
@@ -216,14 +216,14 @@ class Server implements MessageComponentInterface
 
     private function removeConnection(ConnectionInterface $conn)
     {
-        foreach (self::$anonymousConnections as $key=>$anonymousConnection) {
+        foreach (self::$anonymousConnections as $key => $anonymousConnection) {
             if ($anonymousConnection === $conn) {
                 unset(self::$anonymousConnections[$key]);
                 return;
             }
         }
 
-        foreach (self::$authorizedConnections as $key=>$authorizedConnection) {
+        foreach (self::$authorizedConnections as $key => $authorizedConnection) {
             if ($authorizedConnection === $conn) {
                 unset(self::$authorizedConnections[$key]);
                 return;

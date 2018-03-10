@@ -60,7 +60,6 @@ class InstallAction extends Command
         $this
             ->setName('migrations:install')
             ->setDescription("Install and initialization migration system");
-
     }
 
     /**

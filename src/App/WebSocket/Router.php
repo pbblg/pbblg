@@ -30,7 +30,6 @@ class Router implements RouterInterface
      */
     public function addRoute(Route $route)
     {
-
     }
 
     /**

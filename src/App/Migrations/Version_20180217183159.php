@@ -2,7 +2,6 @@
 
 namespace App\Migrations;
 
-
 class Version_20180217183159 extends AbstractVersion
 {
     public $description = 'create access_tokens table';

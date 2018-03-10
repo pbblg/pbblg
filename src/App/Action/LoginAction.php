@@ -33,8 +33,8 @@ class LoginAction implements ServerMiddlewareInterface
         Template\TemplateRendererInterface $template,
         LoginInputFilter $inputFilter,
         Generator $accessTokenGenerator
-    )
-    {
+    ) {
+
         $this->template = $template;
         $this->inputFilter = $inputFilter;
         $this->accessTokenGenerator = $accessTokenGenerator;
@@ -61,7 +61,6 @@ class LoginAction implements ServerMiddlewareInterface
             } else {
                 $errors = $this->inputFilter->getMessages();
             }
-
         }
 
         return new HtmlResponse($this->template->render('app::login', ['errors' => $errors]));
