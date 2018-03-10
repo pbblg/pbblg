@@ -1,3 +1,5 @@
+sudo: false
+
 language: php
 
 cache:
@@ -26,7 +28,7 @@ script:
   - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
 
 after_success:
-  - if [[ $TEST_COVERAGE == 'true' ]]; then vendor/bin/php-coveralls -v ; fi
+  - if [[ $EXECUTE_TEST_COVERALLS == 'true' ]]; then vendor/bin/php-coveralls -v ; fi
 
 notifications:
   email:
