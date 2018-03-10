@@ -1,2 +1,3 @@
 coverage_clover: clover.xml
 json_path: coveralls-upload.json
+repo_token: hvwv7dbgMxY8l0BY2wI2OK9nAUOgaoQsC
