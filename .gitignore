@@ -1,8 +1,7 @@
-.idea
-composer.phar
+/.idea
+/composer.phar
 
-clover.xml
-coveralls-upload.json
-phpunit.xml
-vendor/
-public/adminlte
+/clover.xml
+/coveralls-upload.json
+/vendor/
+/public/adminlte
