@@ -37,7 +37,9 @@ class TestCase extends PHPUnitTestCase
      */
     protected function authorizeUser(ServerRequestInterface $request = null)
     {
-        $request = $request ?: $this->getRequest();
+        if (!$request) {
+            $request = $this->getRequest();
+        }
 
         $this->authorizedUser = new User(['id' => 1, 'name' => 'John']);
         return $request->withAttribute('currentUser', $this->authorizedUser);
