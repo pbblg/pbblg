@@ -6,10 +6,6 @@ use T4webDomain\Entity;
 
 class Game extends Entity
 {
-    const STATUS_OPEN = 1;
-    const STATUS_IN_PROGRESS = 2;
-    const STATUS_ENDED = 2;
-
     /**
      * @var int|null
      */

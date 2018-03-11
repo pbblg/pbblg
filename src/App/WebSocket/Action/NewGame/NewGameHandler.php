@@ -10,6 +10,7 @@ use App\Domain\User\User;
 use App\Domain\Game\Game;
 use App\WebSocket\Event\NewGameCreated;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
+use App\Domain\Game\GameStatus;
 
 class NewGameHandler implements ActionHandlerInterface
 {
@@ -45,7 +46,7 @@ class NewGameHandler implements ActionHandlerInterface
         $user = $request->getAttribute('currentUser');
 
         $game = new Game([
-            'status' => Game::STATUS_OPEN,
+            'status' => GameStatus::STATUS_OPEN,
             'ownerId' => $user->getId(),
         ]);
 

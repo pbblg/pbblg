@@ -13,7 +13,7 @@ use T4webDomainInterface\Infrastructure\RepositoryInterface;
 class ListAction implements ServerMiddlewareInterface
 {
     /**
-     * @var ZendViewRenderer
+     * @var RepositoryInterface
      */
     private $usersRepository;
 
@@ -27,6 +27,7 @@ class ListAction implements ServerMiddlewareInterface
         Template\TemplateRendererInterface $template = null
     ) {
         $this->usersRepository = $usersRepository;
+
         $this->template = $template;
     }
 

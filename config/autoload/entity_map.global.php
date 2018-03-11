@@ -4,6 +4,7 @@ return [
     'entity_map' => [
         'Game' => [
             'entityClass' => App\Domain\Game\Game::class,
+            'collectionClass' => App\Domain\Collection::class,
             'table' => 'games',
             'primaryKey' => 'id',
             'columnsAsAttributesMap' => [
@@ -18,6 +19,7 @@ return [
         ],
         'UsersInGames' => [
             'entityClass' => App\Domain\Game\UsersInGames::class,
+            'collectionClass' => App\Domain\Collection::class,
             'table' => 'users_in_games',
             'primaryKey' => 'id',
             'columnsAsAttributesMap' => [
@@ -47,6 +49,7 @@ return [
         ],
         'User' => [
             'entityClass' => App\Domain\User\User::class,
+            'collectionClass' => App\Domain\Collection::class,
             'table' => 'users',
             'primaryKey' => 'id',
             'columnsAsAttributesMap' => [
