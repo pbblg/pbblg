@@ -86,7 +86,7 @@
             "@test"
         ],
         "pre-commit": [
-            "phpcs -q",
+            "phpcbf -q",
             "@cs-check",
             "phpunit"
         ],
