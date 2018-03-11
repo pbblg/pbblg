@@ -86,9 +86,9 @@
             "@test"
         ],
         "pre-commit": [
-            "@cs-fix",
+            "phpcs -q",
             "@cs-check",
-            "@test"
+            "phpunit"
         ],
         "clear-config-cache": "php bin/clear-config-cache.php",
         "cs-check": "phpcs",
