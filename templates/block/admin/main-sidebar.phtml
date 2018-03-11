@@ -8,6 +8,11 @@
                     <i class="fa fa-gamepad"></i> <span>Games</span>
                 </a>
             </li>
+            <li class="<?php if ($this->url('admin-users-list') == $this->url()) echo "active";?>">
+                <a href="<?=$this->url('admin-users-list')?>">
+                    <i class="fa fa-users"></i> <span>Users</span>
+                </a>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->
