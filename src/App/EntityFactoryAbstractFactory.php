@@ -9,7 +9,7 @@ use T4webInfrastructure\Config;
 
 /**
  * Create Service by template:
- *   MODULE-NAME\ENTITY-NAME\EntityFactory
+ *   ENTITY-NAME\EntityFactory
  *
  * @package T4web\DomainModule
  */
@@ -26,18 +26,12 @@ class EntityFactoryAbstractFactory implements AbstractFactoryInterface
 
         $namespaceParts = explode('\\', trim($namespace, "\\"));
 
-        $collectionClass = 'ArrayObject';
-        if (count($namespaceParts) > 1) {
-            list($moduleName, $entityName) = $namespaceParts;
-            $entityClass = "$moduleName\\$entityName\\$entityName";
-        } else {
-            $entityName = $namespaceParts[0];
+        $entityName = $namespaceParts[0];
 
-            /** @var Config $config */
-            $config = $container->get("$entityName\\Infrastructure\\Config");
-            $entityClass = $config->getEntityClass($entityName);
-            $collectionClass = $config->getCollectionClass($entityName);
-        }
+        /** @var Config $config */
+        $config = $container->get("$entityName\\Infrastructure\\Config");
+        $entityClass = $config->getEntityClass($entityName);
+        $collectionClass = $config->getCollectionClass($entityName);
 
         return new EntityFactory($entityClass, $collectionClass);
     }

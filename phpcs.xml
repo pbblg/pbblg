@@ -20,4 +20,5 @@
     <file>test</file>
 
     <exclude-pattern>*/Migrations/*</exclude-pattern>
+    <exclude-pattern>DefaultServiceAbstractFactoryTest.php</exclude-pattern>
 </ruleset>
