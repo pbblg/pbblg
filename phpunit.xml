@@ -5,7 +5,7 @@
          colors="true">
     <testsuites>
         <testsuite name="Pbblg Tests">
-            <directory>./test</directory>
+            <directory>./test/AppTest</directory>
         </testsuite>
     </testsuites>
 

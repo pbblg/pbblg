@@ -8,7 +8,7 @@ use App\WebSocket\Action\Ping\PingHandler;
 
 class PingHandlerTest extends TestCase
 {
-    public function testReturnsHtmlResponseWhenTemplateRendererProvided()
+    public function testReturnsString()
     {
         $pingHandler = new PingHandler();
 
