@@ -48,7 +48,11 @@ class NewGameHandlerTest extends TestCase
         $game = $gameRepository->findById(1);
         $this->assertInstanceOf(Game::class, $game, "Game instance of Game");
         $this->assertEquals(Game::STATUS_OPEN, $game->getStatus(), "Created game have status OPEN");
-        $this->assertEquals($this->getAuthorizedUser()->getId(), $game->getOwnerId(), "Created game has authorized user as owner");
+        $this->assertEquals(
+            $this->getAuthorizedUser()->getId(),
+            $game->getOwnerId(),
+            "Created game has authorized user as owner"
+        );
 
         $this->assertCount(0, $webSocketClient->receivers, "Everyone will receive a message");
         $event = $webSocketClient->event;
