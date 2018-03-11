@@ -9,6 +9,8 @@ Princess Bubblegum game.
 
 `$ ./bin/websocket` - запускает Websocket сервер. Сервер доступен на http://localhost::8088. (См. консоль и исходный код индексной страницы)
 
+`$ vendor/bin/cghooks add --ignore-lock` - Устанавливает pre-commit git hook.
+
 ## Темплит админки
 
 Используем [AdminLTE](https://adminlte.io/docs/2.4/layout) шаблон для админки, чтобы его увидеть, нужно выполнить
