@@ -86,8 +86,8 @@
             "@test"
         ],
         "pre-commit": [
-            "phpcbf -q",
-            "@cs-check",
+            "phpcbf -q --no-colors",
+            "phpcs -q --no-colors",
             "phpunit"
         ],
         "clear-config-cache": "php bin/clear-config-cache.php",
