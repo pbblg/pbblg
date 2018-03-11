@@ -32,6 +32,7 @@ class NewGameHandlerTest extends TestCase
 
     public function testGameCreating()
     {
+
         $gameRepository = $this->getRepository('Game');
 
         $webSocketClient = $this->getWebSocketClient();
