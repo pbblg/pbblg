@@ -10,6 +10,7 @@ use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use App\WebSocket\Action\NewGame\NewGameHandler;
 use App\WebSocket\Client;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
+use App\Domain\Game\GameStatus;
 
 class NewGameHandlerTest extends TestCase
 {
@@ -47,7 +48,7 @@ class NewGameHandlerTest extends TestCase
         /** @var Game $game */
         $game = $gameRepository->findById(1);
         $this->assertInstanceOf(Game::class, $game, "Game instance of Game");
-        $this->assertEquals(Game::STATUS_OPEN, $game->getStatus(), "Created game have status OPEN");
+        $this->assertEquals(GameStatus::STATUS_OPEN, $game->getStatus(), "Created game have status OPEN");
         $this->assertEquals(
             $this->getAuthorizedUser()->getId(),
             $game->getOwnerId(),

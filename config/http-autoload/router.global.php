@@ -70,5 +70,14 @@ return [
                 \Zend\Expressive\Authentication\AuthenticationMiddleware::class
             ],
         ],
+        [
+            'name' => 'admin-users-list',
+            'path' => '/admin/users',
+            'allowed_methods' => ['GET'],
+            'middleware' => [
+                App\Action\Admin\Users\ListAction::class,
+                \Zend\Expressive\Authentication\AuthenticationMiddleware::class
+            ],
+        ],
     ],
 ];

@@ -1,0 +1,48 @@
+<?php
+use App\Domain\User\User;
+
+$users = $data['users'];
+?>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1><i class="fa fa-users"></i> Users</h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Default box -->
+    <div class="box">
+        <div class="box-body no-padding">
+            <table class="table">
+                <?php if ($users->count()): ?>
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Name</th>
+                            <th>Registration dates</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php /** @var User $user */ ?>
+                        <?php foreach ($users as $user): ?>
+                            <tr>
+                                <td><?= $user->getId(); ?></td>
+                                <td><?= $user->getName(); ?></td>
+                                <td><?= $user->getRegisteredDt(); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                <?php else: ?>
+                    <tbody>
+                    <td><span class="no-results">No Results Found</span></td>
+                    </tbody>
+                <?php endif; ?>
+            </table>
+        </div>
+        <!-- pagination -->
+        <?= $this->partial('block-admin::pagination')?>
+    </div>
+    <!-- /.box -->
+
+</section>
+<!-- /.content -->

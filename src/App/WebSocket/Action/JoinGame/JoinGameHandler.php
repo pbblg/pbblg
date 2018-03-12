@@ -13,6 +13,7 @@ use App\WebSocket\Action\Exception\GameNotExistsException;
 use App\WebSocket\Action\Exception\GameNotOpenException;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
 use App\WebSocket\Event\JoinedGame;
+use App\Domain\Game\GameStatus;
 
 class JoinGameHandler implements ActionHandlerInterface
 {
@@ -69,7 +70,7 @@ class JoinGameHandler implements ActionHandlerInterface
             throw new GameNotExistsException($params['gameId']);
         }
 
-        if ($game->getStatus() != Game::STATUS_OPEN) {
+        if ($game->getStatus() != GameStatus::STATUS_OPEN) {
             throw new GameNotOpenException($game->getId());
         }
 

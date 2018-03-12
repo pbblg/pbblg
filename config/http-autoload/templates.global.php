@@ -20,6 +20,7 @@ return [
             'block-admin' => 'templates/block/admin',
             'app-admin' => 'templates/app/admin',
             'app-admin-games' => 'templates/app/admin/games',
+            'app-admin-users' => 'templates/app/admin/users',
         ],
     ],
 
