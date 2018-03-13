@@ -15,7 +15,8 @@ import {
     socketConnectedAction,
     //debugServerState,
     otherPlayerJoinedGame,
-    currentPlayerJoinedGame
+    currentPlayerJoinedGame,
+    receiveOtherPlayerExitGame,
 } from "./actions/index";
 import remoteActionMiddleware from "./middlewares/remoteAction";
 import serverStateLoggerAction from "./middlewares/serverStateLoggerAction";
@@ -49,6 +50,9 @@ socket.on('newGame', function (data) {
 });
 socket.on('exitGame', function (data) {
     store.dispatch(receiveExitGame())
+});
+socket.on('otherPlayerExitGame', function (data) {
+    store.dispatch(receiveOtherPlayerExitGame(data.player, data.game))
 });
 socket.on('gameState', function (data) {
     store.dispatch(receiveGameState(data))

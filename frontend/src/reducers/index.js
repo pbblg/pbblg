@@ -3,14 +3,15 @@ import {
     OTHER_PLAYER_JOINED_GAME,
     CURRENT_PLAYER_JOINED_GAME,
     RECEIVE_GAME_STATE,
-    RECEIVE_EXIT_GAME
+    RECEIVE_EXIT_GAME,
+    RECEIVE_OTHER_PLAYER_EXIT_GAME,
 } from "../actions/index";
 import cookies from 'js-cookie';
 
 const initialState = {
     auth: cookies.get('auth'),
     games: {},
-    gamePlayId: null,
+    gamePlay: null,
     isGameStateLoaded: false,
 };
 
@@ -24,24 +25,40 @@ const app = (state = initialState, action) => {
                 games: Object.assign({}, state.games, newGames)
             });
 
-        case OTHER_PLAYER_JOINED_GAME:
-
-            return state;
-
         case CURRENT_PLAYER_JOINED_GAME:
             return Object.assign({}, state, {
-                gamePlayId: action.gameId
+                gamePlay: {
+                    gameId: action.gameId
+                }
             });
 
         case RECEIVE_GAME_STATE:
+            if (action.data.gamePlay) {
+                return Object.assign({}, state, {
+                    gamePlay: {
+                        gameId: action.data.gamePlay.gameId
+                    },
+                    isGameStateLoaded: true
+                });
+            }
+
             return Object.assign({}, state, {
-                gamePlayId: action.data.gamePlayId,
+                gamePlay: null,
                 isGameStateLoaded: true
             });
 
         case RECEIVE_EXIT_GAME:
             return Object.assign({}, state, {
-                gamePlayId: null
+                gamePlay: null
+            });
+
+        case OTHER_PLAYER_JOINED_GAME:
+            return state;
+
+        case RECEIVE_OTHER_PLAYER_EXIT_GAME:
+
+            return Object.assign({}, state, {
+                games: Object.assign({}, state.games, Object.assign({}, state.games[action.game.id], action.game.id))
             });
 
         case 'RECEIVE_JOIN_GAMES_LIST':

@@ -14,7 +14,7 @@ class AppContainer extends React.Component {
 
     render() {
         const auth = this.props.auth
-        const gamePlayId = this.props.gamePlayId
+        const gamePlay = this.props.gamePlay
         const isGameStateLoaded = this.props.isGameStateLoaded
 
         if (!isGameStateLoaded) {
@@ -26,9 +26,9 @@ class AppContainer extends React.Component {
         }
 
         if (auth) {
-            if (gamePlayId) {
+            if (gamePlay) {
                 return (
-                    <GamePlayContainer gamePlayId={gamePlayId}/>
+                    <GamePlayContainer gamePlay={gamePlay}/>
                 );
             }
 

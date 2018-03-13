@@ -18,9 +18,13 @@ class GamePlayContainer extends React.Component {
     render() {
 
         return (
-            <div className="game-play">
-                <h3>Game play {this.props.gamePlayId}</h3>
-                <ExitGameButtonComponent onClick={this.handleOnExitGameClick} />
+            <div>
+                <div className="game-menu">
+                    <ExitGameButtonComponent onClick={this.handleOnExitGameClick} />
+                </div>
+                <div className="game-play">
+                    <h3>Game play {this.props.gamePlay.gameId}</h3>
+                </div>
             </div>
         )
     }

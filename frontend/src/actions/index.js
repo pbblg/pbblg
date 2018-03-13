@@ -8,6 +8,7 @@ export const CURRENT_PLAYER_REQUEST_JOIN_GAME = 'CURRENT_PLAYER_REQUEST_JOIN_GAM
 export const CURRENT_PLAYER_JOINED_GAME = 'CURRENT_PLAYER_JOINED_GAME';
 export const REQUEST_EXIT_GAME = 'REQUEST_EXIT_GAME';
 export const RECEIVE_EXIT_GAME = 'RECEIVE_EXIT_GAME';
+export const RECEIVE_OTHER_PLAYER_EXIT_GAME = 'RECEIVE_OTHER_PLAYER_EXIT_GAME';
 export const LOGIN_PLAYER = 'LOGIN_PLAYER';
 export const LOGOUT_PLAYER = 'LOGOUT_PLAYER';
 export const SOCKET_CONNECTED = 'SOCKET_CONNECTED';
@@ -55,6 +56,13 @@ export const requestExitGame = () => (
 export const receiveExitGame = () => (
     {
         type: RECEIVE_EXIT_GAME
+    }
+);
+export const receiveOtherPlayerExitGame = (player, game) => (
+    {
+        type: RECEIVE_OTHER_PLAYER_EXIT_GAME,
+        player,
+        game
     }
 );
 export const currentPlayerRequestJoinGame = (gameId) => (

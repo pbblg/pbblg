@@ -42,14 +42,21 @@ io.sockets.on('connection', function (socket) {
 
     socket.on('getGameState', function (message) {
 
-        var gamePlayId = null;
+        var gamePlay = null;
 
         var player = playersBySocketId[socket.id];
         if (player && player.game) {
-            gamePlayId = player.game.getId();
+            var playersDTO = {};
+            player.game.forAllPlayers(function(playerInGame) {
+                playersDTO[playerInGame.getId()] = playerDTO(playerInGame);
+            });
+            gamePlay = {
+                gameId: player.game.getId(),
+                players: playersDTO
+            }
         }
 
-        socket.emit('gameState', {'gamePlayId': gamePlayId});
+        socket.emit('gameState', {'gamePlay': gamePlay});
 
         debug(socket, 'getGameState');
     });
@@ -108,7 +115,6 @@ io.sockets.on('connection', function (socket) {
 
         if (player && player.game) {
             player.game.exitPlayer(player);
-            player.socket.emit('exitGame');
         }
 
         debug(socket, 'exitGame')
@@ -160,6 +166,9 @@ function Game() {
     this.getCountFreePlaces = function() {
         return countMaxPlayers - Object.keys(players).length;
     }
+    this.getPlayers = function() {
+        return players;
+    }
     this.getCountPlayers = function() {
         return Object.keys(players).length;
     }
@@ -193,8 +202,15 @@ function Game() {
     }
 
     this.exitPlayer = function(player) {
-        player.game = null;
+
         delete players[player.getId()];
+        player.game = null;
+
+        player.socket.broadcast.emit('otherPlayerExitGame', {
+            player: playerDTO(player),
+            game: gameDTO(self)
+        });
+        player.socket.emit('exitGame');
     }
 
     this.forAllPlayers = function(callback) {
