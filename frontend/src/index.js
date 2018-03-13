@@ -23,7 +23,7 @@ import serverStateLoggerAction from "./middlewares/serverStateLoggerAction";
 
 
 
-const socket = ioClient.connect('http://172.17.0.2:8008');
+const socket = ioClient.connect('http://' + window.location.hostname + ':8008');
 socket.on('connecting', function () {
     console.log('Соединение...');
 });

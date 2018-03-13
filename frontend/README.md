@@ -23,6 +23,7 @@ sudo docker run --name pbblg-frontend -v=путь к папке pbblg/frontend:/
 поднять сервер
 ```bash
 sudo docker exec -it pbblg-frontend  yarn start
+sudo docker exec -it pbblg-frontend  yarn startTestServer
 ```
 сделать билд
 ```bash
@@ -31,4 +32,23 @@ sudo docker exec -it pbblg-frontend  yarn build
 прогнать тесты
 ```bash
 sudo docker exec -it pbblg-frontend  yarn test
+```
+
+
+**Selenium server**
+
+затянуть образ
+```bash
+docker pull selenium/standalone-chrome
+```
+поднять контеинер
+```bash
+sudo docker run --name selenium-server -p 4444:4444 -v /dev/shm:/dev/shm -d -it --rm selenium/standalone-chrome
+```
+
+запустить тесты
+```bash
+sudo docker exec -it pbblg-frontend  yarn start
+sudo docker exec -it pbblg-frontend  yarn startTestServer
+./vendor/bin/codecept run
 ```
