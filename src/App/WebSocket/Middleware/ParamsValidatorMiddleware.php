@@ -10,6 +10,7 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use App\WebSocket\Exception\InternalErrorException;
 use App\WebSocket\Exception\InvalidParamsException;
 use App\WebSocket\Action\ParamsValidatorInterface;
+use App\WebSocket\Router\Route;
 
 use const Webimpress\HttpMiddlewareCompatibility\HANDLER_METHOD;
 
@@ -37,18 +38,17 @@ class ParamsValidatorMiddleware implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        /** @var ParamsValidatorInterface $paramsValidator */
-        $paramsValidator = $request->getAttribute('paramsValidator');
+        /** @var Route $routeResult */
+        $routeResult = $request->getAttribute(Route::class, false);
 
-        if (is_string($paramsValidator)) {
-            $paramsValidator = $this->container->get($paramsValidator);
-        }
+        /** @var ParamsValidatorInterface $paramsValidator */
+        $paramsValidator = $this->container->get($routeResult->getParamsValidator());
 
         if (!$paramsValidator instanceof ParamsValidatorInterface) {
             throw new InternalErrorException('Bad params validator');
         }
 
-        $paramsValidator->initialize($request->getAttribute('paramsConfig'));
+        $paramsValidator->initialize($routeResult->getParamsConfig());
 
         if (!$paramsValidator->isValid($request->getAttribute('params'))) {
             throw new InvalidParamsException($paramsValidator->getErrors());

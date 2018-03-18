@@ -12,6 +12,7 @@ use Zend\Diactoros\Response\JsonResponse;
 use App\WebSocket\Exception\InternalErrorException;
 use App\WebSocket\Action\ActionHandlerInterface;
 use App\WebSocket\Action\SpecialHandlerInterface;
+use App\WebSocket\Router\Route;
 
 class DispatchMiddleware implements ServerMiddlewareInterface
 {
@@ -36,13 +37,13 @@ class DispatchMiddleware implements ServerMiddlewareInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        /** @var RouteResult $routeResult */
-        $routeResult = $request->getAttribute(RouteResult::class, false);
+        /** @var Route $routeResult */
+        $routeResult = $request->getAttribute(Route::class, false);
         if (! $routeResult) {
             return $delegate->process($request);
         }
 
-        $handler = $routeResult->getMatchedMiddleware();
+        $handler = $routeResult->getHandler();
 
         if (is_string($handler)) {
             $handler = $this->container->get($handler);

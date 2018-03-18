@@ -1,16 +1,13 @@
 <?php
 
-namespace App\WebSocket;
+namespace App\WebSocket\Router;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Expressive\Router\RouteResult;
-use Zend\Expressive\Router\RouterInterface;
-use Zend\Expressive\Router\Route;
 use App\WebSocket\Action\ParamsValidator;
 use App\WebSocket\Exception\InternalErrorException;
 use App\WebSocket\Exception\MethodNotFoundException;
 
-class Router implements RouterInterface
+class Router
 {
     /**
      * @var array
@@ -26,14 +23,8 @@ class Router implements RouterInterface
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function addRoute(Route $route)
-    {
-    }
-
-    /**
-     * {@inheritDoc}
+     * @param  ServerRequestInterface $request
+     * @return Route
      */
     public function match(ServerRequestInterface $request)
     {
@@ -58,25 +49,10 @@ class Router implements RouterInterface
             $paramsConfig = [];
         }
 
-        return RouteResult::fromRoute(
-            new Route(
-                $method,
-                $this->config[$method]['handler'],
-                [],
-                $method
-            ),
-            [
-                'paramsValidator' => $paramsValidator,
-                'paramsConfig' => $paramsConfig,
-            ]
+        return new Route(
+            $paramsValidator,
+            $paramsConfig,
+            $this->config[$method]['handler']
         );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function generateUri($name, array $substitutions = [], array $options = [])
-    {
-        return '';
     }
 }
