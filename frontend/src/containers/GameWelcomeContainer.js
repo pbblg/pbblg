@@ -27,12 +27,12 @@ class GameWelcomeContainer extends React.Component {
         const auth = this.props.auth
 
         return (
-            <div>
-                <div className="game-menu">
-                    <p>You are: <b>{auth}</b></p>
-                    <button onClick={this.handleOnExitClick} className="button">Exit</button>
+            <div className="game-welcome">
+                <div className="game-welcome-menu">
+                    <p className="game-welcome-menu-player-name">You are: <b>{auth}</b></p>
+                    <button onClick={this.handleOnExitClick} className="game-welcome-menu-exit-button button">Exit</button>
                 </div>
-                <div className="game-welcome">
+                <div className="game-welcome-container">
                     <h3>Start new game</h3>
                     <NewGameButtonComponent onClick={this.handleOnNewGameButtonClick} />
                     <h3>or join</h3>

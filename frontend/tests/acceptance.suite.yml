@@ -8,6 +8,6 @@ actor: AcceptanceTester
 modules:
     enabled:
         - WebDriver:
-            url: http://172.17.0.3:3000/
+            url: http://172.17.0.2:3000/
             browser: chrome
         - \Helper\Acceptance

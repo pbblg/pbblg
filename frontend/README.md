@@ -17,7 +17,7 @@ exit
 
 вначале понимаем контейнер
 ```bash
-sudo docker run --name pbblg-frontend -v=путь к папке pbblg/frontend:/home/app -d -it --rm pbblg/frontend
+sudo docker run --name pbblg-frontend -v=/home/sebaks/projects/pbblg/frontend:/home/app -d -it --rm pbblg/frontend
 ```
 
 поднять сервер

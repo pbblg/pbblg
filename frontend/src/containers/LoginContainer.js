@@ -30,13 +30,13 @@ class LoginContainer extends React.Component {
 
     render() {
         return (
-            <div className="game-welcome">
+            <div className="game-enter">
                <h1>Enter your name:</h1>
                 <form onSubmit={this.handleSubmit}>
-                    <input type="text" value={this.state.value} onChange={this.handleChange} />
+                    <input className="game-enter-input-name" type="text" value={this.state.value} onChange={this.handleChange} />
                     <p>{this.state.error}</p>
                     <br/>
-                    <input type="submit" value="Submit" />
+                    <input className="game-enter-submit-button" type="submit" value="Submit" />
                 </form>
             </div>
         );

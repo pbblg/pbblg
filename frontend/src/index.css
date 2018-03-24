@@ -64,7 +64,7 @@ body {
   padding: 5px;
 }
 
-.game-welcome {
+.game-enter {
   width: 340px;
   height: 240px;
   position: absolute;
@@ -74,18 +74,35 @@ body {
   background: #fff2;
   text-align: center;
 }
-.game-welcome .games-list .games-list-item {
+
+.game-welcome-container {
+  width: 340px;
+  height: 240px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -170px 0 0 -170px;
+  background: #fff2;
+  text-align: center;
+}
+.game-welcome-container .games-list .games-list-item {
   list-style-type: none;
   padding: 10px;
   cursor: default;
 }
-.game-welcome .games-list .games-list-item:hover {
+.game-welcome-container .games-list .games-list-item:hover {
   color: white;
 }
-.game-welcome h3 {
+.game-welcome-container h3 {
   margin: 30px;
   font-size: 30px;
 }
+.game-welcome .game-welcome-menu {
+  float: right;
+  padding: 20px;
+}
+
+
 
 .game-play {
   width: 340px;
@@ -98,9 +115,6 @@ body {
   text-align: center;
 }
 
-.game-menu {
-  float: right;
-  padding: 20px;
-}
+
 
 
