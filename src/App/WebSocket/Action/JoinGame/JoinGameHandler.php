@@ -75,8 +75,8 @@ class JoinGameHandler implements ActionHandlerInterface
         }
 
         $this->usersInGameRepository->add(new UsersInGames([
-            'userId' => $game->getId(),
-            'gameId' => $user->getId()
+            'userId' => $user->getId(),
+            'gameId' => $game->getId()
         ]));
 
         $usersInGame = $this->usersInGameRepository->findMany(['gameId' => $game->getId()]);
