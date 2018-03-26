@@ -21,11 +21,17 @@ class TemplateRendererStub implements TemplateRendererInterface
      */
     public $data = [];
 
+    /**
+     * @var array
+     */
+    public $errors = [];
+
     public function render($name, $params = [])
     {
         $this->templateName = $name;
-        $this->layout = $params['layout'];
+        $this->layout = isset($params['layout']) ? $params['layout'] : '';
         $this->data = $params['data'];
+        $this->errors = isset($params['errors']) ? $params['errors'] : [];
 
         return '';
     }

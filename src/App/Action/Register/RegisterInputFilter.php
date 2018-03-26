@@ -9,7 +9,7 @@ class RegisterInputFilter extends InputFilter
     /**
      * @var array
      */
-    private $messages;
+    private $messages = [];
 
     public function __construct()
     {
