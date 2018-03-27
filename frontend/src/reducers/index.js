@@ -5,14 +5,26 @@ import {
     RECEIVE_GAME_STATE,
     RECEIVE_EXIT_GAME,
     RECEIVE_OTHER_PLAYER_EXIT_GAME,
+    RECEIVE_PLAYERS_ONLINE_LIST,
+    PLAYER_AUTHENTICATED,
+    RECEIVE_LOGIN_FAIL,
+    RECEIVE_LOGIN_SUCCESS,
+    RECEIVE_LOGOUT,
+    // LOGOUT_PLAYER,
+    LOGOUT_PLAYER,
 } from "../actions/index";
 import cookies from 'js-cookie';
 
 const initialState = {
-    auth: cookies.get('auth'),
+    //auth: cookies.get('access_token'),
     games: {},
+    playersOnline: {},
     gamePlay: null,
     isGameStateLoaded: false,
+
+    isAuthenticated: false,
+    currentPlayer: null,
+    loginError: null,
 };
 
 const app = (state = initialState, action) => {
@@ -47,6 +59,11 @@ const app = (state = initialState, action) => {
                 isGameStateLoaded: true
             });
 
+        case RECEIVE_PLAYERS_ONLINE_LIST:
+            return Object.assign({}, state, {
+                playersOnline: Object.assign({}, state.playersOnline, action.playersOnline)
+            });
+
         case RECEIVE_EXIT_GAME:
             return Object.assign({}, state, {
                 gamePlay: null
@@ -67,15 +84,33 @@ const app = (state = initialState, action) => {
                 games: Object.assign({}, state.games, action.data.gamesForJoin)
             });
 
-        case 'LOGIN_PLAYER':
-            cookies.set('auth', action.playerName)
+        case PLAYER_AUTHENTICATED:
+
             return Object.assign({}, state, {
-                auth: action.playerName
+                isAuthenticated: true,
+                currentPlayer: action.player,
             });
-        case 'LOGOUT_PLAYER':
-            cookies.remove('auth')
+
+        case RECEIVE_LOGIN_FAIL:
+
             return Object.assign({}, state, {
-                auth: null
+                loginError: action.error
+            });
+
+        case RECEIVE_LOGIN_SUCCESS:
+            cookies.set('access_token', action.accessToken)
+
+            return Object.assign({}, state, {
+                isAuthenticated: true,
+                currentPlayer: action.player,
+            });
+
+        case RECEIVE_LOGOUT:
+            cookies.remove('access_token')
+
+            return Object.assign({}, state, {
+                isAuthenticated: false,
+                currentPlayer: null,
             });
         default:
             return state

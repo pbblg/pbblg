@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {logoutPlayer, createNewGameAction} from '../actions/index';
+import {requestLogout, createNewGameAction} from '../actions/index';
 
 import JoinGamesListContainer from '../containers/JoinGamesListContainer';
 import NewGameButtonComponent from '../components/NewGameButtonComponent';
+import PlayersOnlineListContainer from '../containers/PlayersOnlineListContainer';
 
 
 class GameWelcomeContainer extends React.Component {
@@ -16,7 +17,7 @@ class GameWelcomeContainer extends React.Component {
     }
 
     handleOnExitClick(event) {
-        this.props.dispatch(logoutPlayer())
+        this.props.dispatch(requestLogout())
     }
 
     handleOnNewGameButtonClick(event) {
@@ -24,12 +25,12 @@ class GameWelcomeContainer extends React.Component {
     }
 
     render() {
-        const auth = this.props.auth
+        const currentPlayer = this.props.currentPlayer
 
         return (
             <div className="game-welcome">
                 <div className="game-welcome-menu">
-                    <p className="game-welcome-menu-player-name">You are: <b>{auth}</b></p>
+                    <p className="game-welcome-menu-player-name">You are: <b>{currentPlayer.name}</b></p>
                     <button onClick={this.handleOnExitClick} className="game-welcome-menu-exit-button button">Exit</button>
                 </div>
                 <div className="game-welcome-container">
@@ -37,6 +38,10 @@ class GameWelcomeContainer extends React.Component {
                     <NewGameButtonComponent onClick={this.handleOnNewGameButtonClick} />
                     <h3>or join</h3>
                     <JoinGamesListContainer />
+                </div>
+                <div className="game-welcome-online-players">
+                    <h2>Online players</h2>
+                    <PlayersOnlineListContainer />
                 </div>
             </div>
         )

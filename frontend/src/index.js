@@ -8,9 +8,14 @@ import app from './reducers/index'
 import AppContainer from './containers/AppContainer'
 import ioClient from "socket.io-client";
 import {
+    playerAuthenticated,
+    receiveLoginFail,
+    receiveLoginSuccess,
+    receiveLogout,
     newGameWasCreatedAction,
     receiveGameState,
     receiveJoinGamesList,
+    receivePlayersOnlineList,
     receiveExitGame,
     socketConnectedAction,
     //debugServerState,
@@ -40,7 +45,19 @@ let store = createStore(
 )
 
 socket.on('connect', function () {
-    store.dispatch(socketConnectedAction())
+    //store.dispatch(socketConnectedAction())
+});
+socket.on('authenticated', function (player) {
+    store.dispatch(playerAuthenticated(player))
+});
+socket.on('loginFail', function (data) {
+    store.dispatch(receiveLoginFail(data.error))
+});
+socket.on('loginSuccess', function (data) {
+    store.dispatch(receiveLoginSuccess(data.accessToken, data.player))
+});
+socket.on('loggedOut', function (data) {
+    store.dispatch(receiveLogout())
 });
 socket.on('serverState', function (data) {
     //store.dispatch(debugServerState(data))
@@ -59,6 +76,9 @@ socket.on('gameState', function (data) {
 });
 socket.on('gameWelcomeState', function (data) {
     store.dispatch(receiveJoinGamesList(data))
+});
+socket.on('playersOnlineList', function (data) {
+    store.dispatch(receivePlayersOnlineList(data.playersOnline))
 });
 socket.on('otherPlayerJoinedGame', function (data) {
     store.dispatch(otherPlayerJoinedGame(data.player, data.game))

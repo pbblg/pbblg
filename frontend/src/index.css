@@ -97,11 +97,25 @@ body {
   margin: 30px;
   font-size: 30px;
 }
-.game-welcome .game-welcome-menu {
+.game-welcome-menu {
   float: right;
   padding: 20px;
 }
-
+.game-welcome-online-players {
+  width: 340px;
+  height: 240px;
+  position: absolute;
+  top: 56%;
+  left: 10%;
+  margin: -170px 0 0 -170px;
+  background: #fff2;
+  text-align: center;
+}
+.game-welcome-online-players .players-online-list .players-online-list-item {
+  list-style-type: none;
+  padding: 10px;
+  cursor: default;
+}
 
 
 .game-play {

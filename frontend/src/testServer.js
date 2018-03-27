@@ -7,9 +7,34 @@ var options = {
 var express = require('express');
 var app = express();
 var http = require('http');
+var cookie = require('cookie');
 var server = http.createServer(app);
 var io = require('socket.io').listen(server, options);
 server.listen(PORT);
+
+var persistData = require('./server/persistData');
+
+var state = {
+    accessTokens: {
+        //accessToken: {
+        //  playerId: 1,
+        //  sockets: {
+        //     socketId: Socket
+        //  }
+        //}
+    },
+    accessTokensBySocketId: {
+        //socketId: accessToken
+    },
+    players: {
+        //playerId: Player
+    },
+    games: {
+        //gameId: Game
+    }
+};
+
+
 
 var games = {};
 var lastGameId = 0;
@@ -20,11 +45,100 @@ var lastPlayerId = 0;
 
 io.sockets.on('connection', function (socket) {
 
+    if (socket.request.headers.cookie) {
+        var cookies = cookie.parse(socket.request.headers.cookie);
+        if (cookies.access_token) {
+            if (state.accessTokens[cookies.access_token]) {
+                var player = persistData.players[state.accessTokens[cookies.access_token].playerId];
+
+                state.accessTokensBySocketId[socket.id] = cookies.access_token;
+                state.accessTokens[cookies.access_token].sockets[socket.id] = socket;
+
+                socket.emit('authenticated', playerDTO(player));
+            }
+        }
+    }
+
     socket.on('disconnect', function () {
         debug(socket, 'disconnect');
 
-        delete playersBySocketId[socket.id];
+        if (state.accessTokensBySocketId[socket.id]) {
+            delete state.accessTokens[state.accessTokensBySocketId[socket.id]].sockets[socket.id];
+            delete state.accessTokensBySocketId[socket.id];
+        }
     });
+
+    socket.on('login', function (message) {
+
+        debug(socket, 'login-pre', message);
+
+        var loggedPlayer = null;
+        var newAccessToken = null;
+
+        for (var playerId in persistData.players) {
+            var player = persistData.players[playerId];
+
+            if (player.login == message.login && player.password == message.password) {
+                newAccessToken = generateAccessToken();
+
+                state.accessTokens[newAccessToken] = {
+                    playerId: player.id,
+                    sockets: {}
+                };
+                state.accessTokens[newAccessToken].sockets[socket.id] = socket;
+
+                loggedPlayer = player;
+                break;
+            }
+        }
+
+        if (loggedPlayer) {
+            socket.emit('loginSuccess', {
+                accessToken: newAccessToken,
+                player: playerDTO(player),
+            });
+        } else {
+            socket.emit('loginFail', {
+                error: 'Wrong login or password'
+            });
+        }
+
+        debug(socket, 'login');
+    });
+
+    socket.on('logout', function (message) {
+
+        debug(socket, 'logout-pre', message);
+
+        if (state.accessTokensBySocketId[socket.id]) {
+
+            var accessToken = state.accessTokensBySocketId[socket.id];
+
+            for (socketId in state.accessTokens[state.accessTokensBySocketId[socket.id]].sockets) {
+                var clientSocket = state.accessTokens[state.accessTokensBySocketId[socket.id]].sockets[socketId];
+                clientSocket.emit('loggedOut');
+
+                delete state.accessTokensBySocketId[clientSocket.id];
+            }
+
+            delete state.accessTokens[accessToken];
+        }
+
+        debug(socket, 'logout');
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     socket.on('authenticate', function (message) {
 
@@ -39,6 +153,7 @@ io.sockets.on('connection', function (socket) {
 
         debug(socket, 'authenticate');
     });
+
 
     socket.on('getGameState', function (message) {
 
@@ -73,6 +188,18 @@ io.sockets.on('connection', function (socket) {
         socket.emit('gameWelcomeState', {'gamesForJoin': gamesForJoin});
 
         debug(socket, 'getGameWelcomeState');
+    });
+
+    socket.on('getPlayersOnline', function (message) {
+
+        var playersOnline = {};
+        for (var playerName in playersByName) {
+            playersOnline[playersByName[playerName].getId()] = playerDTO(playersByName[playerName]);
+        }
+
+        socket.emit('playersOnlineList', {'playersOnline': playersOnline});
+
+        debug(socket, 'playersOnlineList');
     });
 
 
@@ -220,9 +347,7 @@ function Game() {
     }
 }
 
-function Player(name) {
-
-    var id = ++lastPlayerId;
+function Player(id, name) {
 
     this.getId = function() {
         return id;
@@ -245,14 +370,14 @@ function gameDTO(game) {
 
 function playerDTO(player) {
     return {
-        id: player.getId(),
-        name: player.getName(),
+        id: player.id,
+        name: player.name,
         game: player.game,
     }
 }
 
 function debug(socket, event, message) {
-
+return;
     var playersDTOs = [];
     for (var player in playersByName) {
         playersDTOs.push(playerDTO(playersByName[player]));
@@ -276,3 +401,12 @@ function debug(socket, event, message) {
 }
 
 
+function generateAccessToken() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    for (var i = 0; i < 5; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
