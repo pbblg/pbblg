@@ -7,12 +7,24 @@ var options = {
 var express = require('express');
 var app = express();
 var http = require('http');
-var cookie = require('cookie');
+
 var server = http.createServer(app);
 var io = require('socket.io').listen(server, options);
 server.listen(PORT);
 
-var persistData = require('./server/persistData');
+
+
+
+
+var games = {};
+var lastGameId = 0;
+var playersByName = {};
+var playersBySocketId = {};
+var lastPlayerId = 0;
+
+
+
+
 
 var state = {
     accessTokens: {
@@ -34,99 +46,24 @@ var state = {
     }
 };
 
-
-
-var games = {};
-var lastGameId = 0;
-var playersByName = {};
-var playersBySocketId = {};
-var lastPlayerId = 0;
+var AuthService = require('./server/services/AuthService');
+var authService = new AuthService(state);
 
 
 io.sockets.on('connection', function (socket) {
 
-    if (socket.request.headers.cookie) {
-        var cookies = cookie.parse(socket.request.headers.cookie);
-        if (cookies.access_token) {
-            if (state.accessTokens[cookies.access_token]) {
-                var player = persistData.players[state.accessTokens[cookies.access_token].playerId];
-
-                state.accessTokensBySocketId[socket.id] = cookies.access_token;
-                state.accessTokens[cookies.access_token].sockets[socket.id] = socket;
-
-                socket.emit('authenticated', playerDTO(player));
-            }
-        }
-    }
+    authService.authenticate(socket);
 
     socket.on('disconnect', function () {
-        debug(socket, 'disconnect');
-
-        if (state.accessTokensBySocketId[socket.id]) {
-            delete state.accessTokens[state.accessTokensBySocketId[socket.id]].sockets[socket.id];
-            delete state.accessTokensBySocketId[socket.id];
-        }
+        authService.disconnect(socket);
     });
 
     socket.on('login', function (message) {
-
-        debug(socket, 'login-pre', message);
-
-        var loggedPlayer = null;
-        var newAccessToken = null;
-
-        for (var playerId in persistData.players) {
-            var player = persistData.players[playerId];
-
-            if (player.login == message.login && player.password == message.password) {
-                newAccessToken = generateAccessToken();
-
-                state.accessTokensBySocketId[socket.id] = newAccessToken;
-
-                state.accessTokens[newAccessToken] = {
-                    playerId: player.id,
-                    sockets: {}
-                };
-                state.accessTokens[newAccessToken].sockets[socket.id] = socket;
-
-                loggedPlayer = player;
-                break;
-            }
-        }
-
-        if (loggedPlayer) {
-            socket.emit('loginSuccess', {
-                accessToken: newAccessToken,
-                player: playerDTO(player),
-            });
-        } else {
-            socket.emit('loginFail', {
-                error: 'Wrong login or password'
-            });
-        }
-
-        debug(socket, 'login');
+        authService.login(socket, message.login, message.password);
     });
 
     socket.on('logout', function (message) {
-
-        debug(socket, 'logout-pre', message);
-
-        if (state.accessTokensBySocketId[socket.id]) {
-
-            var accessToken = state.accessTokensBySocketId[socket.id];
-
-            for (var socketId in state.accessTokens[state.accessTokensBySocketId[socket.id]].sockets) {
-                var clientSocket = state.accessTokens[state.accessTokensBySocketId[socket.id]].sockets[socketId];
-                clientSocket.emit('loggedOut');
-
-                delete state.accessTokensBySocketId[clientSocket.id];
-            }
-
-            delete state.accessTokens[accessToken];
-        }
-
-        debug(socket, 'logout');
+        authService.logout(socket);
     });
 
 
@@ -400,15 +337,4 @@ return;
     console.log(serverState)
     socket.emit('serverState', serverState)
     socket.broadcast.emit('serverState', serverState);
-}
-
-
-function generateAccessToken() {
-    var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-    for (var i = 0; i < 5; i++)
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-    return text;
 }
