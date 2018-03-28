@@ -81,6 +81,8 @@ io.sockets.on('connection', function (socket) {
             if (player.login == message.login && player.password == message.password) {
                 newAccessToken = generateAccessToken();
 
+                state.accessTokensBySocketId[socket.id] = newAccessToken;
+
                 state.accessTokens[newAccessToken] = {
                     playerId: player.id,
                     sockets: {}
@@ -114,7 +116,7 @@ io.sockets.on('connection', function (socket) {
 
             var accessToken = state.accessTokensBySocketId[socket.id];
 
-            for (socketId in state.accessTokens[state.accessTokensBySocketId[socket.id]].sockets) {
+            for (var socketId in state.accessTokens[state.accessTokensBySocketId[socket.id]].sockets) {
                 var clientSocket = state.accessTokens[state.accessTokensBySocketId[socket.id]].sockets[socketId];
                 clientSocket.emit('loggedOut');
 
