@@ -22,7 +22,7 @@ class WebSocketClientStub extends Client
      */
     public $wasSend = [];
 
-    public function send($receivers, AbstractEvent $event)
+    public function send(array $receivers, AbstractEvent $event)
     {
         $this->receivers = $receivers;
         $this->event = $event;
