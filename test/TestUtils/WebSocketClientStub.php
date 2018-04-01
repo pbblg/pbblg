@@ -17,10 +17,20 @@ class WebSocketClientStub extends Client
      */
     public $event;
 
+    /**
+     * @var array
+     */
+    public $wasSend = [];
+
     public function send($receivers, AbstractEvent $event)
     {
         $this->receivers = $receivers;
         $this->event = $event;
+
+        $this->wasSend[] = [
+            'receivers' => $receivers,
+            'event' => $event,
+        ];
         return true;
     }
 }

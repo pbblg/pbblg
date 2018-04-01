@@ -40,6 +40,19 @@ abstract class AbstractEvent
         return $this->params;
     }
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function getParam($name)
+    {
+        if (!isset($this->params[$name])) {
+            return;
+        }
+
+        return $this->params[$name];
+    }
+
     public function toArray()
     {
         return [

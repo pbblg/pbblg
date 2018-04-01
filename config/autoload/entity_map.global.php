@@ -30,6 +30,7 @@ return [
             'criteriaMap' => [
                 'id' => 'id_equalTo',
                 'gameId' => 'gameId_equalTo',
+                'userId' => 'userId_equalTo',
             ]
         ],
         'AccessToken' => [

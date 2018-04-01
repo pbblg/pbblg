@@ -9,11 +9,11 @@ use App\WebSocket\Client;
 use App\Domain\Game\Game;
 use App\Domain\User\User;
 use App\Domain\Game\UsersInGames;
+use App\Domain\Game\GameStatus;
 use App\WebSocket\Action\Exception\GameNotExistsException;
 use App\WebSocket\Action\Exception\GameNotOpenException;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
 use App\WebSocket\Event\JoinedGame;
-use App\Domain\Game\GameStatus;
 
 class JoinGameHandler implements ActionHandlerInterface
 {
