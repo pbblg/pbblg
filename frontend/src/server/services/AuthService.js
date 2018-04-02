@@ -88,10 +88,26 @@ module.exports = function(state) {
         }
     }
 
+    function getOnlinePlayers() {
+        var onlinePlayers = {};
+
+        for (var socketId in state.accessTokensBySocketId) {
+            var accessToken = state.accessTokensBySocketId[socketId];
+            var playerId = state.accessTokens[accessToken].playerId;
+
+            if (!onlinePlayers[playerId]) {
+                onlinePlayers[playerId] = Object.assign({}, persistData.players[playerId]);
+            }
+        }
+
+        return onlinePlayers;
+    }
+
     return {
         login: login,
         logout: logout,
         disconnect: disconnect,
         authenticate: authenticate,
+        getOnlinePlayers: getOnlinePlayers,
     }
 };

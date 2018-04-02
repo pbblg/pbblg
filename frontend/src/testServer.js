@@ -67,7 +67,17 @@ io.sockets.on('connection', function (socket) {
     });
 
 
+    socket.on('getPlayersOnline', function (message) {
 
+        var playersOnline = authService.getOnlinePlayers();
+        var playersOnlineDTO = {};
+
+        for (var playerId in playersOnline) {
+            playersOnlineDTO[playerId] = playerDTO(playersOnline[playerId]);
+        }
+
+        socket.emit('playersOnlineList', {'playersOnline': playersOnlineDTO});
+    });
 
 
 
@@ -129,17 +139,7 @@ io.sockets.on('connection', function (socket) {
         debug(socket, 'getGameWelcomeState');
     });
 
-    socket.on('getPlayersOnline', function (message) {
 
-        var playersOnline = {};
-        for (var playerName in playersByName) {
-            playersOnline[playersByName[playerName].getId()] = playerDTO(playersByName[playerName]);
-        }
-
-        socket.emit('playersOnlineList', {'playersOnline': playersOnline});
-
-        debug(socket, 'playersOnlineList');
-    });
 
 
     socket.on('newGame', function (message) {
