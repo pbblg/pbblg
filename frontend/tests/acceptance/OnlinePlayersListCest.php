@@ -48,10 +48,11 @@ class OnlinePlayersListCest
             $I->see('Kate Miller', '.players-online-list');
         });
 
-
         $I->reloadPage();
 
         $I->see('John Silver', '.players-online-list');
         $I->see('Kate Miller', '.players-online-list');
+
+        $kate->leave();
     }
 }
