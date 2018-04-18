@@ -1,5 +1,134 @@
+* {margin: 0; padding: 0;}
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  background: #28a745;
 }
+
+.table {
+  width: 340px;
+  height: 240px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -170px 0 0 -170px;
+  background: #fff2;
+}
+.table-half {
+  width: 50%;
+  height: 100%;
+  float: left;
+}
+.table-left {
+  float: left;
+}
+.table-right {
+  float: right;
+}
+
+.card {
+  position: absolute;
+  width: 150px;
+  height: 220px;
+  margin: 10px;
+  border-radius: 10px;
+  background: #fff;
+  -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+  box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+}
+.card-shirt {
+  background-color: #a94442;
+  width: 146px;
+  height: 216px;
+  margin: 2px;
+  position: absolute;
+  border-radius: 10px;
+}
+.card p {
+  text-align: center;
+  font: 100px/220px Georgia, Times New Roman, serif;
+}
+
+.test-pult {
+  margin-top: 100px;
+  height: 50px;
+}
+.test-button {
+  margin: 5px;
+  padding: 5px;
+}
+
+
+
+
+.button {
+  padding: 5px;
+}
+
+.game-enter {
+  width: 340px;
+  height: 240px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -170px 0 0 -170px;
+  background: #fff2;
+  text-align: center;
+}
+
+.game-welcome-container {
+  width: 340px;
+  height: 240px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -170px 0 0 -170px;
+  background: #fff2;
+  text-align: center;
+}
+.game-welcome-container .games-list .games-list-item {
+  list-style-type: none;
+  padding: 10px;
+  cursor: default;
+}
+.game-welcome-container .games-list .games-list-item:hover {
+  color: white;
+}
+.game-welcome-container h3 {
+  margin: 30px;
+  font-size: 30px;
+}
+.game-welcome-menu {
+  float: right;
+  padding: 20px;
+}
+.game-welcome-online-players {
+  width: 340px;
+  height: 240px;
+  position: absolute;
+  top: 56%;
+  left: 10%;
+  margin: -170px 0 0 -170px;
+  background: #fff2;
+  text-align: center;
+}
+.game-welcome-online-players .players-online-list .players-online-list-item {
+  list-style-type: none;
+  padding: 10px;
+  cursor: default;
+}
+
+
+.game-play {
+  width: 340px;
+  height: 240px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -170px 0 0 -170px;
+  background: #fff2;
+  text-align: center;
+}
+
+
+
+
