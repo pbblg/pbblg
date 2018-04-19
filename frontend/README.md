@@ -15,9 +15,9 @@ exit
 ```
 В дальнейшем используем команды:
 
-вначале понимаем контейнер
+вначале поднимаем контейнер
 ```bash
-sudo docker run --name pbblg-frontend -v=/home/sebaks/projects/pbblg/frontend:/home/app -d -it --rm pbblg/frontend
+sudo docker run --name pbblg-frontend -v=/home/sebaks/projects/pbblg/frontend:/home/app -d -it --rm --network host pbblg/frontend
 ```
 
 поднять сервер
@@ -43,7 +43,7 @@ docker pull selenium/standalone-chrome
 ```
 поднять контеинер
 ```bash
-sudo docker run --name selenium-server -p 4444:4444 -v /dev/shm:/dev/shm -d -it --rm selenium/standalone-chrome
+sudo docker run --name selenium-server -p 4444:4444 -v /dev/shm:/dev/shm -d -it --rm --network host  selenium/standalone-chrome
 ```
 
 запустить тесты
