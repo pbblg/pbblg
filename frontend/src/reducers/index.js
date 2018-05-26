@@ -11,7 +11,7 @@ import {
     RECEIVE_LOGIN_SUCCESS,
     RECEIVE_LOGOUT,
     // LOGOUT_PLAYER,
-    LOGOUT_PLAYER,
+    // LOGOUT_PLAYER,
 } from "../actions/index";
 import cookies from 'js-cookie';
 

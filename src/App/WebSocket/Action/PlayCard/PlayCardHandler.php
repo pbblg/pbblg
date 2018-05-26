@@ -1,6 +1,6 @@
 <?php
 
-namespace App\WebSocket\Action\StartGame;
+namespace App\WebSocket\Action\PlayCard;
 
 use Psr\Http\Message\ServerRequestInterface;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
@@ -9,6 +9,8 @@ use App\WebSocket\Action\ActionHandlerInterface;
 use App\WebSocket\Action\Exception\GameNotExistsException;
 use App\WebSocket\Action\Exception\GameNotOpenException;
 use App\WebSocket\Action\Exception\TooFewPlayersException;
+use App\WebSocket\Action\Exception\BadCardException;
+use App\WebSocket\Action\Exception\UserNotInGameException;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
 use App\WebSocket\Event\TakeCard;
 use App\WebSocket\Event\UserGotCard;
@@ -16,10 +18,11 @@ use App\Domain\Game\Deck;
 use App\Domain\Game\GameStatus;
 use App\Domain\Game\Game;
 use App\Domain\Game\UsersInGames;
+use App\Domain\Game\PlayCardService;
 use App\Domain\User\User;
 use App\Domain\Collection;
 
-class StartGameHandler implements ActionHandlerInterface
+class PlayCardHandler implements ActionHandlerInterface
 {
     /**
      * @var RepositoryInterface
@@ -37,6 +40,11 @@ class StartGameHandler implements ActionHandlerInterface
     private $usersRepository;
 
     /**
+     * @var PlayCardService
+     */
+    private $playCardService;
+
+    /**
      * @var Client
      */
     private $webSocketClient;
@@ -46,17 +54,20 @@ class StartGameHandler implements ActionHandlerInterface
      * @param RepositoryInterface $gameRepository
      * @param RepositoryInterface $usersInGameRepository
      * @param RepositoryInterface $usersRepository
+     * @param PlayCardService $playCardService
      * @param Client $webSocketClient
      */
     public function __construct(
         RepositoryInterface $gameRepository,
         RepositoryInterface $usersInGameRepository,
         RepositoryInterface $usersRepository,
+        PlayCardService $playCardService,
         Client $webSocketClient
     ) {
         $this->gameRepository = $gameRepository;
         $this->usersInGameRepository = $usersInGameRepository;
         $this->usersRepository = $usersRepository;
+        $this->playCardService = $playCardService;
         $this->webSocketClient = $webSocketClient;
     }
 
@@ -72,21 +83,42 @@ class StartGameHandler implements ActionHandlerInterface
 
         $params = $request->getQueryParams();
 
+        /** @var User $currentUser */
+        $currentUser = $request->getAttribute('currentUser');
+
+        // Проверить, что игра все еще открыта
         /** @var Game $game */
         $game = $this->fetchGame($params['gameId']);
-        /** @var Collection $users */
-        $users = $this->fetchPlayers($game->getId());
-        $deck = Deck::generate();
 
-        foreach ($users as $user) {
-            $card = $deck->shift();
-            $this->webSocketClient->send([$user->getId()], new TakeCard($user->extract(), $card));
 
-            $receivers = $users->getExclude($user->getId());
-            $this->webSocketClient->send($receivers->getIds(), new UserGotCard($user->extract()));
+        // Проверить, что такая карта есть у этого пользователя
+        if (!$this->userHasCard($currentUser->getId(), $game->getId(), $params['cardId'])) {
+            throw new BadCardException($params['cardId']);
         }
 
-        // Определить кто ходит первым, и выдать ему карту
+
+        // Проверить, что юзер, на которого играется карта - есть за этим столом
+        /** @var Collection $users */
+        $users = $this->fetchPlayers($game->getId());
+        if (isset($users[$params['targetUserId']])) {
+            /** @var User $targetUser */
+            $targetUser = $users[$params['targetUserId']];
+        } else {
+            throw new UserNotInGameException($params['targetUserId'], $game->getId());
+        }
+
+        // Сыграть карту
+        $this->playCardService->play($currentUser, $params['cardId'], $targetUser, $params['targetCardId']);
+
+
+        // Выдать карту следующему пользователю
+        $deck = Deck::generate();
+        $card = $deck->shift();
+        $this->webSocketClient->send([$currentUser->getId()], new TakeCard($currentUser->extract(), $card));
+
+        $receivers = $users->getExclude($currentUser->getId());
+        $this->webSocketClient->send($receivers->getIds(), new UserGotCard($currentUser->extract()));
+
 
         return 'ok';
     }
@@ -109,6 +141,11 @@ class StartGameHandler implements ActionHandlerInterface
         }
 
         return $game;
+    }
+
+    private function userHasCard($userId, $gameId, $cardId)
+    {
+        return true;
     }
 
     /**

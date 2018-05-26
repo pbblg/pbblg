@@ -106,17 +106,18 @@
   - рассылает всем игрокам по первой карте событием [takeCard](#takeCard)
   - определяет чей ход
   - отправляет первому игроку карту событием [takeCard](#takeCard)
-  - уведомляет остальных игроков о том что игрок взял карту отправляя им событие [userGotCard](#userGotCard)
+  - уведомляет остальных игроков о том что игрок взял карту, отправляя им событие [userGotCard](#userGotCard)
 - остальные игроки видят, что у игрока который ходит 2 карты
 
 Тот чей ход выбирает какую карту сыграть.
 
-### playCard(cardId[, targetUserId, targetCardId]) 
+### playCard(gameId, cardId[, targetUserId, targetCardId]) 
 ```json
 {
     "id": 1,
     "method": "playCard",
     "params": {
+        "gameId": 1,
         "cardId": 1,
         "targetUserId": 123,
         "targetCardId": 8
@@ -127,6 +128,8 @@
   - сервер запоминает карту
   - уведомляет всех игроков событием [userPlayedCard](#userPlayedCard)
   - уведомляет всех игроков событием результата игры
+  - отправляет следующему игроку карту событием [takeCard](#takeCard)
+  - уведомляет остальных игроков о том что игрок взял карту, отправляя им событие [userGotCard](#userGotCard)
 
 ### ping 
 ```json
