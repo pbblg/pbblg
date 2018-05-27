@@ -2,6 +2,7 @@
 - [Протокол](#Протокол)
 - [Игровой процесс](#Игровой-процесс)
 - [Методы от Клиента серверу](#Возможные-методы-от-Клиента-серверу)
+  - [getMyself](#getmyself)
   - [newGame](#newgame)
   - [joinGame(gameId)](#joingamegameid)
   - [startGame(gameId)](#startgamegameid)
@@ -13,6 +14,7 @@
 - [Методы от Сервера серверу](#Возможные-методы-от-Сервера-серверу)
   - [send](#send)
 - [События сервера](#На-сервере-возникают-такие-события)
+  - [authenticated](#authenticated)
   - [newGameCreated](#newgamecreated)
   - [joinedGame](#joinedgame)
   - [firstCard](#firstcard)
@@ -64,7 +66,28 @@
 
 ## Возможные методы от Клиента серверу:
 
-### newGame 
+### getMyself 
+```json
+{
+    "id": 1,
+    "method": "getMyself"
+}
+```
+ - cервер уведомляет того, кто вызвал событием [joinedGame](#joinedgame).
+ 
+ Response
+ 
+ ```json
+ {
+     "id": 1,
+     "result": {
+         "userId": 1,
+         "name": "Sebas"
+     },
+ }
+ ```
+ 
+ ### newGame 
 ```json
 {
     "id": 1,
@@ -323,6 +346,18 @@ Response
 `receivers` может быть null - в этом случае событие получат все подключенные клиенты.
 
 ## На сервере возникают такие события:
+
+### authenticated
+```json
+{
+    "event": "authenticated",
+    "params": {
+        "userId": 1,
+        "name": "Sebas"
+    }
+}
+```
+Возникает после логина.
 
 ### newGameCreated
 ```json

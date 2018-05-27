@@ -4,9 +4,9 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createLogger } from 'redux-logger'
 import { createStore, applyMiddleware } from 'redux'
+import socket from './socket'
 import app from './reducers/index'
 import AppContainer from './containers/AppContainer'
-import ioClient from "socket.io-client";
 import {
     playerAuthenticated,
     receiveLoginFail,
@@ -26,15 +26,6 @@ import {
 import remoteActionMiddleware from "./middlewares/remoteAction";
 import serverStateLoggerAction from "./middlewares/serverStateLoggerAction";
 
-
-
-const socket = ioClient.connect('http://' + window.location.hostname + ':8008');
-socket.on('connecting', function () {
-    console.log('Соединение...');
-});
-
-
-
 let store = createStore(
     app,
     applyMiddleware(
@@ -42,11 +33,14 @@ let store = createStore(
         remoteActionMiddleware(socket),
         serverStateLoggerAction
     )
-)
+);
 
-socket.on('connect', function () {
-    //store.dispatch(socketConnectedAction())
+socket.connect();
+
+socket.emit('getMyself', {}, function (player) {
+    store.dispatch(playerAuthenticated(player))
 });
+
 socket.on('authenticated', function (player) {
     store.dispatch(playerAuthenticated(player))
 });
