@@ -11,7 +11,8 @@ import {
     LOGIN_PLAYER,
     SOCKET_CONNECTED,
     receiveJoinGamesList,
-    currentPlayerJoinedGame
+    currentPlayerJoinedGame,
+    receivePlayersOnlineList
 } from "../actions/index";
 
 export default socket => store => next => action => {
@@ -33,7 +34,9 @@ export default socket => store => next => action => {
         });
     }
     if (action.type === REQUEST_PLAYERS_ONLINE_LIST) {
-        socket.emit('getPlayersOnline');
+        socket.emit('getOnlineUsers', {}, function (data) {
+            store.dispatch(receivePlayersOnlineList(data))
+        });
     }
     if (action.type === CURRENT_PLAYER_REQUEST_JOIN_GAME) {
         socket.emit('joinGame', {gameId: action.gameId}, function (data) {

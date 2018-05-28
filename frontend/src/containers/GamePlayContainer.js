@@ -1,5 +1,4 @@
 import React from 'react';
-import ExitGameButtonComponent from '../components/ExitGameButtonComponent';
 import {requestExitGame, requestLogout} from "../actions";
 import {connect} from "react-redux";
 

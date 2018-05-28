@@ -27,6 +27,7 @@ class GameWelcomeContainer extends React.Component {
     render() {
         const currentPlayer = this.props.currentPlayer;
         const games = this.props.games;
+        const playersOnline = this.props.playersOnline;
 
         return (
             <div className="game-welcome">
@@ -46,7 +47,7 @@ class GameWelcomeContainer extends React.Component {
                     <div className="col-md-4 order-md-1 offset-2">
                         <h4 className="d-flex justify-content-between align-items-center mb-3">
                             <span className="text-muted">Online players</span>
-                            <span className="badge badge-secondary badge-pill">1</span>
+                            <span className="badge badge-secondary badge-pill">{Object.keys(playersOnline).length}</span>
                         </h4>
                         <PlayersOnlineListContainer />
                     </div>

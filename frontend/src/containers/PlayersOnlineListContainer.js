@@ -11,7 +11,7 @@ class PlayersOnlineListContainer extends React.Component {
     }
 
     render() {
-        const {playersOnline} = this.props
+        const {playersOnline} = this.props;
 
         return (
             <div>

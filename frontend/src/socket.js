@@ -30,7 +30,7 @@ const socket = {
             // response received
             if (data.hasOwnProperty('id')) {
                 if (socket.responseHandlers.hasOwnProperty(data['id'])) {
-                    console.log(`ws: call response handler`, socket.responseHandlers[data['id']]);
+                    console.log(`ws: call response handler`/*, socket.responseHandlers[data['id']]*/);
                     socket.responseHandlers[data['id']](data['result']);
                     delete socket.responseHandlers[data['id']];
                 }

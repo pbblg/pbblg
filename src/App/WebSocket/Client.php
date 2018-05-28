@@ -2,6 +2,7 @@
 namespace App\WebSocket;
 
 use App\WebSocket\Event\AbstractEvent;
+use App\WebSocket\Exception\InternalErrorException;
 
 class Client
 {
@@ -55,5 +56,13 @@ class Client
                 echo "Could not connect: {$e->getMessage()}\n";
             }
         );
+    }
+
+    public function getOnlineUsers()
+    {
+        if (!Server::isRunning()) {
+            throw new InternalErrorException('Websocket server not running.');
+        }
+        return Server::getAuthorizedUserIds();
     }
 }

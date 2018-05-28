@@ -192,6 +192,14 @@ class Server implements MessageComponentInterface
         }
     }
 
+    /**
+     * @return array
+     */
+    public static function getAuthorizedUserIds()
+    {
+        return array_keys(self::$authorizedConnections);
+    }
+
     private function createBodyStream($reactRequest)
     {
         $body = fopen('php://temp', 'w+');
