@@ -4,16 +4,16 @@ import PropTypes from 'prop-types';
 const OpenGamesListComponent = ({games, onGameClick}) => (
     <div className="open-games-list">
         <ul className="list-group mb-3">
-            {Object.keys(games).map(gameId => (
-                <li key={gameId}
+            {Object.keys(games).map(id => (
+                <li key={id}
                     className="list-group-item d-flex justify-content-between lh-condensed align-items-center">
                     <div>
                         <div>
-                            <h6 className="my-0">Game #{gameId}</h6>
-                            <small className="text-muted">{games[gameId].created}, N free places</small>
+                            <h6 className="my-0">Game #{id}</h6>
+                            <small className="text-muted">{games[id].created}, N free places</small>
                         </div>
                     </div>
-                    <button className="btn btn-sm btn-success" onClick={() => onGameClick(gameId)}>
+                    <button className="btn btn-sm btn-success" onClick={() => onGameClick(id)}>
                         Join <i className="fa fa-chevron-right"></i>
                     </button>
                 </li>
@@ -25,7 +25,7 @@ const OpenGamesListComponent = ({games, onGameClick}) => (
 OpenGamesListComponent.propTypes = {
     games: PropTypes.objectOf(
         PropTypes.shape({
-            gameId: PropTypes.number.isRequired,
+            id: PropTypes.number.isRequired,
             created: PropTypes.string.isRequired
             // countFreePlaces: PropTypes.number.isRequired
         })

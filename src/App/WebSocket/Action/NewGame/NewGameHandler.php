@@ -8,6 +8,7 @@ use App\WebSocket\Action\ActionHandlerInterface;
 use App\WebSocket\Client;
 use App\Domain\User\User;
 use App\Domain\Game\Game;
+use App\Domain\Game\ViewModel\Game as GameViewModel;
 use App\WebSocket\Event\NewGameCreated;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
 use App\Domain\Game\GameStatus;
@@ -53,10 +54,9 @@ class NewGameHandler implements ActionHandlerInterface
 
         $this->gameRepository->add($game);
 
-        $this->webSocketClient->send([], new NewGameCreated($game->getId()));
+        $gameViewModel = new GameViewModel($game);
+        $this->webSocketClient->send([], new NewGameCreated($gameViewModel));
 
-        return [
-            'gameId' => $game->getId(),
-        ];
+        return $gameViewModel->extract();
     }
 }

@@ -2,13 +2,15 @@
 
 namespace App\WebSocket\Event;
 
+use App\Domain\Game\ViewModel\Game as GameViewModel;
+
 class NewGameCreated extends AbstractEvent
 {
     /**
-     * @param int $gameId
+     * @param GameViewModel $game
      */
-    public function __construct(int $gameId)
+    public function __construct(GameViewModel $game)
     {
-        parent::__construct('newGameCreated', ['gameId' => $gameId]);
+        parent::__construct('newGameCreated', $game->extract());
     }
 }

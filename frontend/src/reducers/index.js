@@ -28,7 +28,7 @@ const app = (state = initialState, action) => {
 
         case NEW_GAME_WAS_CREATED:
             let newGames = {};
-            newGames[action.game.gameId] = action.game;
+            newGames[action.game.id] = action.game;
             return Object.assign({}, state, {
                 games: Object.assign({}, state.games, newGames)
             });

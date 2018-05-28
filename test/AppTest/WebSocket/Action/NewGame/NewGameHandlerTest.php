@@ -57,6 +57,9 @@ class NewGameHandlerTest extends TestCase
         $this->assertCount(0, $webSocketClient->receivers, "Everyone will receive a message");
         $event = $webSocketClient->event;
         $this->assertInstanceOf(NewGameCreated::class, $event, "Event must be NewGameCreated");
-        $this->assertEquals(['gameId' => $game->getId()], $event->getParams(), "Event has gameId param");
+        $params = $event->getParams();
+        $this->assertEquals($game->getId(), $params['id'], "Event has gameId param");
+        $this->assertEquals(GameStatus::STATUS_OPEN, $params['status'], "Event has gameId param");
+        $this->assertEquals($game->getCreatedDt(), $params['created'], "Event has gameId param");
     }
 }
