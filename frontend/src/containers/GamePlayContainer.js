@@ -22,7 +22,7 @@ class GamePlayContainer extends React.Component {
         const currentPlayer = this.props.currentPlayer;
 
         return (
-            <div>
+            <div className="container-fluid m-1">
                 <div className="row d-flex justify-content-end">
                     <div className="col-md-5 game-welcome-menu">
                         <p className="game-welcome-menu-player-name d-flex justify-content-end align-items-center">

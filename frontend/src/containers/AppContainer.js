@@ -16,31 +16,21 @@ class AppContainer extends React.Component {
     render() {
         const isAuthenticated = this.props.isAuthenticated;
 
-        //const isGameStateLoaded = this.props.isGameStateLoaded
-
-        // if (!isGameStateLoaded) {
-        //     return (
-        //         <div className="game-welcome">
-        //             <p>Game state loading...</p>
-        //         </div>
-        //     );
-        // }
-
-        if (isAuthenticated) {
-            const gamePlay = this.props.gamePlay;
-            if (gamePlay) {
-                return (
-                    <GamePlayContainer gamePlay={gamePlay}/>
-                );
-            }
-
+        if (!isAuthenticated) {
             return (
-                <GameWelcomeContainer/>
+                <LoginContainer />
+            );
+        }
+
+        const gamePlay = this.props.gamePlay;
+        if (gamePlay) {
+            return (
+                <GamePlayContainer gamePlay={gamePlay}/>
             );
         }
 
         return (
-            <LoginContainer/>
+            <GameWelcomeContainer/>
         );
     }
 }

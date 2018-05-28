@@ -1,5 +1,4 @@
 import {
-    REQUEST_LOGIN,
     REQUEST_LOGOUT,
 
     START_CREATE_NEW_GAME,
@@ -16,9 +15,6 @@ import {
 } from "../actions/index";
 
 export default socket => store => next => action => {
-    if (action.type === REQUEST_LOGIN) {
-        socket.emit('login', {login: action.login, password: action.password});
-    }
     if (action.type === REQUEST_LOGOUT) {
         socket.emit('logout');
     }

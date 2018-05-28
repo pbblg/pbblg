@@ -30,15 +30,15 @@ class GameWelcomeContainer extends React.Component {
         const playersOnline = this.props.playersOnline;
 
         return (
-            <div className="game-welcome">
+            <div className="container-fluid m-1">
                 <div className="row d-flex justify-content-end">
                     <div className="col-md-3 game-welcome-menu">
                         <p className="game-welcome-menu-player-name d-flex justify-content-end align-items-center">
                             You are: <b>{currentPlayer.name}</b>
-                            <button onClick={this.handleOnExitClick} className="game-welcome-menu-exit-button btn btn-sm ml-2">
+                            <a href="/logout" className="game-welcome-menu-exit-button btn btn-light btn-sm ml-2">
                                 Logout
                                 <i className="fa fa-sign-out ml-1"></i>
-                            </button>
+                            </a>
                         </p>
                     </div>
                 </div>

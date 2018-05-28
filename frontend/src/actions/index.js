@@ -1,9 +1,7 @@
 export const PLAYER_AUTHENTICATED = 'PLAYER_AUTHENTICATED';
-export const REQUEST_LOGIN = 'REQUEST_LOGIN';
-export const RECEIVE_LOGIN_FAIL = 'RECEIVE_LOGIN_FAIL';
-export const RECEIVE_LOGIN_SUCCESS = 'RECEIVE_LOGIN_SUCCESS';
 export const REQUEST_LOGOUT = 'REQUEST_LOGOUT';
 export const RECEIVE_LOGOUT = 'RECEIVE_LOGOUT';
+export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
 
 export const START_CREATE_NEW_GAME = 'START_CREATE_NEW_GAME';
 export const NEW_GAME_WAS_CREATED = 'NEW_GAME_WAS_CREATED';
@@ -30,37 +28,25 @@ export const playerAuthenticated = (player) => (
         player
     }
 );
-export const requestLogin = (login, password) => (
-    {
-        type: REQUEST_LOGIN,
-        login,
-        password
-    }
-)
-export const receiveLoginFail = (error) => (
-    {
-        type: RECEIVE_LOGIN_FAIL,
-        error
-    }
-)
-export const receiveLoginSuccess = (accessToken, player) => (
-    {
-        type: RECEIVE_LOGIN_SUCCESS,
-        accessToken,
-        player
-    }
-)
 export const requestLogout = () => (
     {
         type: REQUEST_LOGOUT
     }
-)
+);
 
-export const receiveLogout = () => (
+export const receiveLogout = (user) => (
     {
-        type: RECEIVE_LOGOUT
+        type: RECEIVE_LOGOUT,
+        user
     }
-)
+);
+
+export const receiveLogin = (user) => (
+    {
+        type: RECEIVE_LOGIN,
+        user
+    }
+);
 
 
 export const createNewGameAction = () => (

@@ -9,6 +9,9 @@ use Zend\Expressive\Authentication\UserInterface;
 use Zend\Expressive\Session\SessionMiddleware;
 use Zend\Diactoros\Response\RedirectResponse;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
+use App\Domain\User\User;
+use App\WebSocket\Client;
+use App\WebSocket\Event\UserLoggedOut;
 
 class LogoutAction implements ServerMiddlewareInterface
 {
@@ -18,18 +21,30 @@ class LogoutAction implements ServerMiddlewareInterface
     private $accessTokenRepository;
 
     /**
-     * LogoutAction constructor.
-     * @param RepositoryInterface $accessTokenRepository
+     * @var RepositoryInterface
      */
-    public function __construct(RepositoryInterface $accessTokenRepository)
-    {
+    private $userRepository;
+
+    /**
+     * @var Client
+     */
+    private $webSocketClient;
+
+    public function __construct(
+        RepositoryInterface $accessTokenRepository,
+        RepositoryInterface $userRepository,
+        Client $webSocketClient
+    ) {
         $this->accessTokenRepository = $accessTokenRepository;
+        $this->userRepository = $userRepository;
+        $this->webSocketClient = $webSocketClient;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         $session = $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE);
         if ($session->has(UserInterface::class)) {
+            $userIdentity = $session->get(UserInterface::class);
             $session->clear();
 
             $cookie = $request->getCookieParams();
@@ -41,6 +56,14 @@ class LogoutAction implements ServerMiddlewareInterface
                     $this->accessTokenRepository->remove($accessToken);
                 }
             }
+
+            /** @var User $user */
+            $user = $this->userRepository->find(['name_equalTo' => $userIdentity['username']]);
+
+            $this->webSocketClient->send([], new UserLoggedOut([
+                'id' => $user->getId(),
+                'name' => $user->getName()
+            ]));
         }
 
         return new RedirectResponse('/');

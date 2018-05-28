@@ -7,13 +7,9 @@ import {
     RECEIVE_OTHER_PLAYER_EXIT_GAME,
     RECEIVE_PLAYERS_ONLINE_LIST,
     PLAYER_AUTHENTICATED,
-    RECEIVE_LOGIN_FAIL,
-    RECEIVE_LOGIN_SUCCESS,
     RECEIVE_LOGOUT,
-    // LOGOUT_PLAYER,
-    // LOGOUT_PLAYER,
+    RECEIVE_LOGIN
 } from "../actions/index";
-import cookies from 'js-cookie';
 
 const initialState = {
     //auth: cookies.get('access_token'),
@@ -91,27 +87,27 @@ const app = (state = initialState, action) => {
                 currentPlayer: action.player,
             });
 
-        case RECEIVE_LOGIN_FAIL:
-
-            return Object.assign({}, state, {
-                loginError: action.error
-            });
-
-        case RECEIVE_LOGIN_SUCCESS:
-            cookies.set('access_token', action.accessToken)
-
-            return Object.assign({}, state, {
-                isAuthenticated: true,
-                currentPlayer: action.player,
-            });
-
         case RECEIVE_LOGOUT:
-            cookies.remove('access_token')
+            let loggedOutUserId = action.user.id;
+            delete state.playersOnline[loggedOutUserId];
+            return Object.assign(
+                {},
+                state,
+                {
+                    playersOnline: Object.assign({}, state.playersOnline)
+                }
+            );
 
-            return Object.assign({}, state, {
-                isAuthenticated: false,
-                currentPlayer: null,
-            });
+        case RECEIVE_LOGIN:
+            let loggedInUserId = action.user.id;
+            state.playersOnline[loggedInUserId] = action.user;
+            return Object.assign(
+                {},
+                state,
+                {
+                    playersOnline: Object.assign({}, state.playersOnline)
+                }
+            );
         default:
             return state
     }

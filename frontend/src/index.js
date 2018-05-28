@@ -11,7 +11,8 @@ import {
     playerAuthenticated,
     // receiveLoginFail,
     // receiveLoginSuccess,
-    // receiveLogout,
+    receiveLogout,
+    receiveLogin,
     newGameWasCreatedAction,
     // receiveGameState,
     // receiveJoinGamesList,
@@ -46,6 +47,12 @@ socket.on('authenticated', function (player) {
 socket.on('newGameCreated', function (data) {
     store.dispatch(newGameWasCreatedAction(data))
 });
+socket.on('userLoggedOut', function (data) {
+    store.dispatch(receiveLogout(data))
+});
+socket.on('userLoggedIn', function (data) {
+    store.dispatch(receiveLogin(data))
+});
 
 /*
 socket.on('loginFail', function (data) {
@@ -54,9 +61,7 @@ socket.on('loginFail', function (data) {
 socket.on('loginSuccess', function (data) {
     store.dispatch(receiveLoginSuccess(data.accessToken, data.player))
 });
-socket.on('loggedOut', function (data) {
-    store.dispatch(receiveLogout())
-});
+
 socket.on('serverState', function (data) {
     //store.dispatch(debugServerState(data))
 });

@@ -15,9 +15,8 @@ class GetGamesHandler implements ActionHandlerInterface
      */
     private $gameRepository;
 
-    public function __construct(
-        RepositoryInterface $gameRepository
-    ) {
+    public function __construct(RepositoryInterface $gameRepository)
+    {
         $this->gameRepository = $gameRepository;
     }
 
