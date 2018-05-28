@@ -1,7 +1,7 @@
 * {margin: 0; padding: 0;}
 
 body {
-  background: #28a745;
+  background: #a0ceb2;
 }
 
 .table {
@@ -59,7 +59,6 @@ body {
 
 
 
-
 .button {
   padding: 5px;
 }
@@ -75,48 +74,10 @@ body {
   text-align: center;
 }
 
-.game-welcome-container {
-  width: 340px;
-  height: 240px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -170px 0 0 -170px;
-  background: #fff2;
-  text-align: center;
-}
-.game-welcome-container .games-list .games-list-item {
-  list-style-type: none;
-  padding: 10px;
-  cursor: default;
-}
-.game-welcome-container .games-list .games-list-item:hover {
-  color: white;
-}
-.game-welcome-container h3 {
-  margin: 30px;
-  font-size: 30px;
-}
 .game-welcome-menu {
   float: right;
   padding: 20px;
 }
-.game-welcome-online-players {
-  width: 340px;
-  height: 240px;
-  position: absolute;
-  top: 56%;
-  left: 10%;
-  margin: -170px 0 0 -170px;
-  background: #fff2;
-  text-align: center;
-}
-.game-welcome-online-players .players-online-list .players-online-list-item {
-  list-style-type: none;
-  padding: 10px;
-  cursor: default;
-}
-
 
 .game-play {
   width: 340px;
@@ -127,6 +88,16 @@ body {
   margin: -170px 0 0 -170px;
   background: #fff2;
   text-align: center;
+}
+
+.online-players-list {
+  height:400px;
+  overflow:auto;
+}
+
+.open-games-list {
+  height:400px;
+  overflow:auto;
 }
 
 

@@ -2,13 +2,34 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const PlayersOnlineListComponent = ({players}) => (
-    <div className="players-online-list">
-        <ul>
+    <div className="online-players-list">
+        <ul className="list-group mb-3">
             {Object.keys(players).map(playerId => (
-                <li key={playerId} className="players-online-list-item">
-                    Player #{playerId} {players[playerId].name}
+                <li key={playerId} className="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 className="my-0">players[playerId].name</h6>
+                        <small className="text-muted">#{playerId}</small>
+                    </div>
                 </li>
             ))}
+            <li className="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 className="my-0">Second product</h6>
+                    <small className="text-muted">Brief description</small>
+                </div>
+            </li>
+            <li className="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 className="my-0">Third item</h6>
+                    <small className="text-muted">Brief description</small>
+                </div>
+            </li>
+            <li className="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                    <h6 className="my-0">Third item</h6>
+                    <small className="text-muted">Brief description</small>
+                </div>
+            </li>
         </ul>
     </div>
 );

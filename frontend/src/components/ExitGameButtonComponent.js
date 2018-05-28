@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const ExitGameButtonComponent = ({onClick}) => (
-    <button className="button" onClick={onClick} >
+    <button className="btn" onClick={onClick} >
         Exit
     </button>
 );

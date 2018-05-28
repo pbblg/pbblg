@@ -29,19 +29,36 @@ class GameWelcomeContainer extends React.Component {
 
         return (
             <div className="game-welcome">
-                <div className="game-welcome-menu">
-                    <p className="game-welcome-menu-player-name">You are: <b>{currentPlayer.name}</b></p>
-                    <button onClick={this.handleOnExitClick} className="game-welcome-menu-exit-button button">Exit</button>
+                <div className="row">
+                    <div className="col-md-2 offset-10 game-welcome-menu">
+                        <p className="game-welcome-menu-player-name">
+                            You are: <b>{currentPlayer.name}</b>
+                            <button onClick={this.handleOnExitClick} className="game-welcome-menu-exit-button btn btn-sm ml-2">
+                                Logout
+                                <i className="fa fa-sign-out ml-1"></i>
+                            </button>
+                        </p>
+                    </div>
                 </div>
-                <div className="game-welcome-container">
-                    <h3>Start new game</h3>
-                    <NewGameButtonComponent onClick={this.handleOnNewGameButtonClick} />
-                    <h3>or join</h3>
-                    <JoinGamesListContainer />
-                </div>
-                <div className="game-welcome-online-players">
-                    <h2>Online players</h2>
-                    <PlayersOnlineListContainer />
+
+                <div className="row">
+                    <div className="col-md-3 order-md-1 offset-3">
+                        <h4 className="d-flex justify-content-between align-items-center mb-3">
+                            <span className="text-muted">Online players</span>
+                            <span className="badge badge-secondary badge-pill">1</span>
+                        </h4>
+                        <PlayersOnlineListContainer />
+                    </div>
+                    <div className="col-md-3 order-md-2 mb-4">
+                        <h4 className="d-flex justify-content-between align-items-center mb-3">
+                            <span className="text-muted pull-left">Open games</span>
+                            <div>
+                                <NewGameButtonComponent onClick={this.handleOnNewGameButtonClick} />
+                                <span className="badge badge-secondary badge-pill">0</span>
+                            </div>
+                        </h4>
+                        <JoinGamesListContainer />
+                    </div>
                 </div>
             </div>
         )

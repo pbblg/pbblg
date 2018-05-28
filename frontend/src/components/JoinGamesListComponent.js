@@ -2,11 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const JoinGamesListComponent = ({games, onGameClick}) => (
-    <div className="games-list">
-        <ul>
+    <div className="open-games-list">
+        <ul className="list-group mb-3">
             {Object.keys(games).map(gameId => (
-                <li key={gameId} onClick={() => onGameClick(gameId)} className="games-list-item">
-                        Game {gameId} ({games[gameId].countFreePlaces} free places)
+                <li key={gameId} onClick={() => onGameClick(gameId)}
+                    className="list-group-item d-flex justify-content-between lh-condensed">
+                    <div>
+                        <h6 className="my-0">Game {gameId}</h6>
+                        <small className="text-muted">{games[gameId].countFreePlaces} free places</small>
+                    </div>
                 </li>
             ))}
         </ul>

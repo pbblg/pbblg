@@ -27,7 +27,7 @@ class JoinGamesListContainer extends React.Component {
         return (
             <div>
                 {Object.keys(games).length === 0 &&
-                <p>Empty</p>
+                    <p>No games</p>
                 }
                 {Object.keys(games).length > 0 &&
                     <JoinGamesListComponent games={games} onGameClick={this.handleOnGameClick}/>

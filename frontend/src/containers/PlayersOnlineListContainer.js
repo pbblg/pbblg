@@ -16,7 +16,7 @@ class PlayersOnlineListContainer extends React.Component {
         return (
             <div>
                 {Object.keys(playersOnline).length === 0 &&
-                <p>Empty</p>
+                    <p>No users online</p>
                 }
                 {Object.keys(playersOnline).length > 0 &&
                     <PlayersOnlineListComponent players={playersOnline}/>
