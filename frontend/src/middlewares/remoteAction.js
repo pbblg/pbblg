@@ -9,7 +9,9 @@ import {
     REQUEST_EXIT_GAME,
     CURRENT_PLAYER_REQUEST_JOIN_GAME,
     LOGIN_PLAYER,
-    SOCKET_CONNECTED
+    SOCKET_CONNECTED,
+    receiveJoinGamesList,
+    currentPlayerJoinedGame
 } from "../actions/index";
 
 export default socket => store => next => action => {
@@ -26,13 +28,17 @@ export default socket => store => next => action => {
         socket.emit('getGameState');
     }
     if (action.type === REQUEST_JOIN_GAMES_LIST) {
-        socket.emit('getGameWelcomeState');
+        socket.emit('getGames', {}, function (data) {
+            store.dispatch(receiveJoinGamesList(data))
+        });
     }
     if (action.type === REQUEST_PLAYERS_ONLINE_LIST) {
         socket.emit('getPlayersOnline');
     }
     if (action.type === CURRENT_PLAYER_REQUEST_JOIN_GAME) {
-        socket.emit('joinGame', {gameId: action.gameId});
+        socket.emit('joinGame', {gameId: action.gameId}, function (data) {
+            store.dispatch(currentPlayerJoinedGame(data))
+        });
     }
     if (action.type === REQUEST_EXIT_GAME) {
         socket.emit('exitGame');

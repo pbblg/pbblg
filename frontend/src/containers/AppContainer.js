@@ -14,7 +14,7 @@ class AppContainer extends React.Component {
     }
 
     render() {
-        const isAuthenticated = this.props.isAuthenticated
+        const isAuthenticated = this.props.isAuthenticated;
 
         //const isGameStateLoaded = this.props.isGameStateLoaded
 
@@ -27,7 +27,7 @@ class AppContainer extends React.Component {
         // }
 
         if (isAuthenticated) {
-            const gamePlay = this.props.gamePlay
+            const gamePlay = this.props.gamePlay;
             if (gamePlay) {
                 return (
                     <GamePlayContainer gamePlay={gamePlay}/>

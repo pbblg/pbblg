@@ -9,19 +9,19 @@ import app from './reducers/index'
 import AppContainer from './containers/AppContainer'
 import {
     playerAuthenticated,
-    receiveLoginFail,
-    receiveLoginSuccess,
-    receiveLogout,
+    // receiveLoginFail,
+    // receiveLoginSuccess,
+    // receiveLogout,
     newGameWasCreatedAction,
-    receiveGameState,
-    receiveJoinGamesList,
-    receivePlayersOnlineList,
-    receiveExitGame,
+    // receiveGameState,
+    // receiveJoinGamesList,
+    // receivePlayersOnlineList,
+    // receiveExitGame,
     // socketConnectedAction,
     //debugServerState,
-    otherPlayerJoinedGame,
-    currentPlayerJoinedGame,
-    receiveOtherPlayerExitGame,
+    // otherPlayerJoinedGame,
+    // currentPlayerJoinedGame,
+    // receiveOtherPlayerExitGame,
 } from "./actions/index";
 import remoteActionMiddleware from "./middlewares/remoteAction";
 import serverStateLoggerAction from "./middlewares/serverStateLoggerAction";
@@ -40,10 +40,14 @@ socket.connect();
 socket.emit('getMyself', {}, function (player) {
     store.dispatch(playerAuthenticated(player))
 });
-
 socket.on('authenticated', function (player) {
     store.dispatch(playerAuthenticated(player))
 });
+socket.on('newGameCreated', function (data) {
+    store.dispatch(newGameWasCreatedAction(data))
+});
+
+/*
 socket.on('loginFail', function (data) {
     store.dispatch(receiveLoginFail(data.error))
 });
@@ -80,7 +84,7 @@ socket.on('otherPlayerJoinedGame', function (data) {
 socket.on('currentPlayerJoinedGame', function (data) {
     store.dispatch(currentPlayerJoinedGame(data.gameId))
 });
-
+*/
 
 render(
     <Provider store={store}>

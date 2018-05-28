@@ -26,9 +26,9 @@ body {
 }
 
 .card {
-  position: absolute;
-  width: 150px;
-  height: 220px;
+  /*position: absolute;*/
+  width: 120px;
+  height: 180px;
   margin: 10px;
   border-radius: 10px;
   background: #fff;
@@ -37,15 +37,15 @@ body {
 }
 .card-shirt {
   background-color: #a94442;
-  width: 146px;
-  height: 216px;
+  width: 114px;
+  height: 174px;
   margin: 2px;
-  position: absolute;
+  /*position: absolute;*/
   border-radius: 10px;
 }
 .card p {
   text-align: center;
-  font: 100px/220px Georgia, Times New Roman, serif;
+  font: 80px/180px Georgia, Times New Roman, serif;
 }
 
 .test-pult {

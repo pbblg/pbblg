@@ -48,6 +48,7 @@ class NewGameHandler implements ActionHandlerInterface
         $game = new Game([
             'status' => GameStatus::STATUS_OPEN,
             'ownerId' => $user->getId(),
+            'createdDt' => date('Y-m-d H:i:s'),
         ]);
 
         $this->gameRepository->add($game);

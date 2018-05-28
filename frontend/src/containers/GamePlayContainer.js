@@ -1,6 +1,6 @@
 import React from 'react';
 import ExitGameButtonComponent from '../components/ExitGameButtonComponent';
-import {requestExitGame} from "../actions";
+import {requestExitGame, requestLogout} from "../actions";
 import {connect} from "react-redux";
 
 class GamePlayContainer extends React.Component {
@@ -11,20 +11,70 @@ class GamePlayContainer extends React.Component {
         this.handleOnExitGameClick = this.handleOnExitGameClick.bind(this)
     }
 
+    handleOnExitClick(event) {
+        this.props.dispatch(requestLogout())
+    }
+
     handleOnExitGameClick() {
         this.props.dispatch(requestExitGame())
     }
 
     render() {
+        const currentPlayer = this.props.currentPlayer;
 
         return (
             <div>
-                <div className="game-menu">
-                    <ExitGameButtonComponent onClick={this.handleOnExitGameClick} />
+                <div className="row d-flex justify-content-end">
+                    <div className="col-md-5 game-welcome-menu">
+                        <p className="game-welcome-menu-player-name d-flex justify-content-end align-items-center">
+                            <div className="mr-2">Game #{this.props.gamePlay.gameId}</div>|
+                            You are: <b>{currentPlayer.name}</b>
+                            <button onClick={this.handleOnExitGameClick} className="game-welcome-menu-exit-button btn btn-sm ml-2">
+                                Exit game
+                                <i className="fa fa-sign-out ml-1"></i>
+                            </button>
+                        </p>
+                    </div>
                 </div>
-                <div className="game-play">
-                    <h3>Game play {this.props.gamePlay.gameId}</h3>
+                <div className="d-flex flex-row justify-content-center mb-5">
+                    <div className="col-md-3">
+                        <div className="card">
+                            <div className="card-shirt"></div>
+                        </div>
+                    </div>
+                    <div className="col-md-3 offset-1">
+                        <div className="card">
+                            <div className="card-shirt"></div>
+                        </div>
+                    </div>
                 </div>
+                <div className="d-flex flex-row justify-content-between mb-5 mt-5">
+                    <div className="col-md-3">
+                        <div className="card">
+                            <div className="card-shirt"></div>
+                        </div>
+                    </div>
+                    <div className="col-md-3">
+                        <div className="card">
+                            <div className="card-shirt"></div>
+                        </div>
+                    </div>
+                    <div className="col-md-3">
+                        <div className="card">
+                            <div className="card-shirt"></div>
+                        </div>
+                    </div>
+                </div>
+                <div className="d-flex flex-row justify-content-center mt-5">
+                    <div className="col-md-3">
+                        <div className="card">
+                            <p>1</p>
+                        </div>
+                    </div>
+                </div>
+                {/*<div className="card">*/}
+                    {/*<p>1</p>*/}
+                {/*</div>*/}
             </div>
         )
     }

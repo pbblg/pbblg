@@ -13,6 +13,9 @@ return [
         'getMyself' => [
             'handler' => Action\GetMyself\GetMyselfHandler::class,
         ],
+        'getGames' => [
+            'handler' => Action\GetGames\GetGamesHandler::class,
+        ],
         'newGame' => [
             'handler' => Action\NewGame\NewGameHandler::class,
         ],

@@ -91,7 +91,7 @@ class JoinGameHandlerTest extends TestCase
 
         $result = $handler->handle($request);
 
-        $this->assertEquals('ok', $result);
+        $this->assertEquals(1, $result);
         $this->assertCount(2, $usersInGamesRepository->findMany([]), "2 users in game");
 
         // Мы добавили 2х пользователей в игруб проверим, что их там 2

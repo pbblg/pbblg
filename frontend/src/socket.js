@@ -35,14 +35,15 @@ const socket = {
                     delete socket.responseHandlers[data['id']];
                 }
             } else {
-                socket.listeners.forEach(function (item, index) {
+                for (var index in socket.listeners) {
                     if (index === data['event']) {
-                        index.forEach(function (listener) {
+                        console.log(socket.listeners[index]);
+                        socket.listeners[index].forEach(function (listener) {
                             console.log(`ws: call listener`, listener);
-                            listener(data);
+                            listener(data['params']);
                         });
                     }
-                });
+                }
             }
             console.groupEnd();
         };

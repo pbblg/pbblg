@@ -74,6 +74,15 @@ class JoinGameHandler implements ActionHandlerInterface
             throw new GameNotOpenException($game->getId());
         }
 
+        $userInGame = $this->usersInGameRepository->find([
+            'userId' => $user->getId(),
+            'gameId' => $game->getId()
+        ]);
+
+        if ($userInGame) {
+            return $game->getId();
+        }
+
         $this->usersInGameRepository->add(new UsersInGames([
             'userId' => $user->getId(),
             'gameId' => $game->getId()
@@ -92,6 +101,6 @@ class JoinGameHandler implements ActionHandlerInterface
             'name' => $user->getName()
         ]));
 
-        return 'ok';
+        return $game->getId();
     }
 }

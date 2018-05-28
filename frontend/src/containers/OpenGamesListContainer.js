@@ -1,10 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import JoinGamesListComponent from '../components/JoinGamesListComponent';
+import OpenGamesListComponent from '../components/OpenGamesListComponent';
 import {currentPlayerRequestJoinGame, requestJoinGamesList} from '../actions/index';
 
 
-class JoinGamesListContainer extends React.Component {
+class OpenGamesListContainer extends React.Component {
 
     constructor(props) {
         super(props)
@@ -13,7 +13,7 @@ class JoinGamesListContainer extends React.Component {
     }
 
     componentDidMount() {
-        console.log('JoinGamesListContainer');
+        console.log('OpenGamesListContainer');
         this.props.dispatch(requestJoinGamesList())
     }
 
@@ -30,7 +30,7 @@ class JoinGamesListContainer extends React.Component {
                     <p>No games</p>
                 }
                 {Object.keys(games).length > 0 &&
-                    <JoinGamesListComponent games={games} onGameClick={this.handleOnGameClick}/>
+                    <OpenGamesListComponent games={games} onGameClick={this.handleOnGameClick}/>
                 }
             </div>
         )
@@ -39,4 +39,4 @@ class JoinGamesListContainer extends React.Component {
 
 
 
-export default connect(state => state)(JoinGamesListContainer);
+export default connect(state => state)(OpenGamesListContainer);

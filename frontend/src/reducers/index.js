@@ -32,7 +32,7 @@ const app = (state = initialState, action) => {
 
         case NEW_GAME_WAS_CREATED:
             let newGames = {};
-            newGames[action.game.id] = action.game;
+            newGames[action.game.gameId] = action.game;
             return Object.assign({}, state, {
                 games: Object.assign({}, state.games, newGames)
             });
@@ -81,7 +81,7 @@ const app = (state = initialState, action) => {
         case 'RECEIVE_JOIN_GAMES_LIST':
 
             return Object.assign({}, state, {
-                games: Object.assign({}, state.games, action.data.gamesForJoin)
+                games: Object.assign({}, state.games, action.data)
             });
 
         case PLAYER_AUTHENTICATED:

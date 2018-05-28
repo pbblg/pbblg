@@ -1,6 +1,7 @@
 ## Содержание
 - [Протокол](#Протокол)
 - [Игровой процесс](#Игровой-процесс)
+- [Объекты](game-objects.md)
 - [Методы от Клиента серверу](#Возможные-методы-от-Клиента-серверу)
   - [getMyself](#getmyself)
   - [newGame](#newgame)
@@ -187,19 +188,13 @@ Response
 {
     "id": 1,
     "result": [
-        {
-            "gameId": 1,
-            "userCount": 2,
-            "isStarted": false
-        },
-        {
-            "gameId": 2,
-            "userCount": 4,
-            "isStarted": true
-        }
+        <game>,
+        <game>,
+        ...
     ]
 }
 ```
+Содержит объекты [\<game>](game-objects.md#game).
 
 ### getGame
 ```json
@@ -364,11 +359,13 @@ Response
 {
     "event": "newGameCreated",
     "params": {
-        "gameId": 123
+        "gameId": 123,
+        "userCount": 1,
+        "isStarted": false
     }
 }
 ```
-Возникает после того, как игра создана.
+Возникает после того, как игра создана. Содержит [\<game>](game-objects.md#game).
 
 ### joinedGame
 ```json
