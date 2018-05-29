@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use App\WebSocket\Action\ActionHandlerInterface;
 use App\Domain\Game\Game;
+use App\Domain\Game\ViewModel\Game as GameViewModel;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
 
 class GetGamesHandler implements ActionHandlerInterface
@@ -38,11 +39,8 @@ class GetGamesHandler implements ActionHandlerInterface
         $result = [];
 
         foreach ($games as $game) {
-            $result[$game->getId()] = [
-                'gameId' => $game->getId(),
-                'status' => $game->getStatus(),
-                'created' => $game->getCreatedDt(),
-            ];
+            $gameVieModel = new GameViewModel($game);
+            $result[$game->getId()] = $gameVieModel->extract();
         }
 
         return $result;

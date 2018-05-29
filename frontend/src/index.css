@@ -25,8 +25,16 @@ body {
   float: right;
 }
 
-.card {
-  /*position: absolute;*/
+.game-table .avatar {
+  width: 70px;
+  height: 70px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: 6px solid rgba(0,0,30,0.2);
+  font-size: 90%;
+}
+.game-table .card {
   width: 120px;
   height: 180px;
   margin: 10px;
@@ -35,15 +43,35 @@ body {
   -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
   box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
 }
-.card-shirt {
-  background-color: #a94442;
+.game-table .card .card-shirt {
+  background: repeating-radial-gradient(
+          circle,
+          #953c3b,
+          #953c3b 4px,
+          #a94442 10px,
+          #a94442 10px
+  );;
   width: 114px;
   height: 174px;
   margin: 2px;
-  /*position: absolute;*/
   border-radius: 10px;
 }
-.card p {
+.game-table .card-contour {
+  width: 120px;
+  height: 180px;
+  margin: 10px;
+  border-radius: 10px;
+  background: transparent;
+  border: 4px dashed rgba(0,0,30,0.2);
+}
+.game-table .card-contour .card-shirt {
+  background-color: transparent;
+  width: 114px;
+  height: 174px;
+  margin: 2px;
+  border-radius: 10px;
+}
+.game-table .card p {
   text-align: center;
   font: 80px/180px Georgia, Times New Roman, serif;
 }
@@ -83,7 +111,4 @@ body {
   height:400px;
   overflow:auto;
 }
-
-
-
 
