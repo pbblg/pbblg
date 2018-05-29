@@ -36,6 +36,7 @@ class GamePlayContainer extends React.Component {
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-center mb-5">
+                    {/* 1st player */}
                     <div className="col-md-1 mt-3">
                         <div className="avatar d-flex justify-content-center align-items-center">
                             <span>some</span>
@@ -47,6 +48,7 @@ class GamePlayContainer extends React.Component {
                         </div>
                     </div>
 
+                    {/* 2nd player */}
                     <div className="col-md-1 mt-3 offset-1">
                         <div className="avatar d-flex justify-content-center align-items-center">
                             <span>some</span>
@@ -59,6 +61,7 @@ class GamePlayContainer extends React.Component {
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-center mb-5 mt-5">
+                    {/* 5 player */}
                     <div className="col-md-1 mt-3">
                         <div className="avatar d-flex justify-content-center align-items-center">
                             <span>some</span>
@@ -70,8 +73,9 @@ class GamePlayContainer extends React.Component {
                         </div>
                     </div>
 
+                    {/* deck */}
                     <div className="col-md-2 offset-1">
-                        <div className="card">
+                        <div className="card-deck">
                             <div className="card-shirt"></div>
                         </div>
                     </div>
@@ -81,6 +85,7 @@ class GamePlayContainer extends React.Component {
                         </div>
                     </div>
 
+                    {/* 3 player */}
                     <div className="col-md-2 offset-1">
                         <div className="card-contour">
                             <div className="card-shirt"></div>
@@ -93,6 +98,7 @@ class GamePlayContainer extends React.Component {
                     </div>
                 </div>
                 <div className="d-flex flex-row justify-content-center mt-5">
+                    {/* I */}
                     <div className="col-md-1 mt-3">
                         <div className="avatar d-flex justify-content-center align-items-center">
                             <span>you</span>
@@ -104,9 +110,6 @@ class GamePlayContainer extends React.Component {
                         </div>
                     </div>
                 </div>
-                {/*<div className="card">*/}
-                    {/*<p>1</p>*/}
-                {/*</div>*/}
             </div>
         )
     }

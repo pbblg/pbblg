@@ -34,6 +34,20 @@ body {
   border: 6px solid rgba(0,0,30,0.2);
   font-size: 90%;
 }
+.game-table .card-deck {
+  width: 120px;
+  height: 180px;
+  margin: 10px;
+  border-radius: 10px;
+  background: #fff;
+  -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+  box-shadow:
+          1px 1px 0 0 hsl(0, 0%, 80%),
+          3px 3px 0 0 hsl(0, 0%, 70%),
+          5px 5px 0 0 hsl(0, 0%, 60%),
+          7px 7px 0 0 hsl(0, 0%, 50%),
+          3px 3px 7px rgba(0,0,0,0.3);
+}
 .game-table .card {
   width: 120px;
   height: 180px;
@@ -43,14 +57,14 @@ body {
   -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
   box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
 }
-.game-table .card .card-shirt {
+.game-table .card .card-shirt, .game-table .card-deck .card-shirt {
   background: repeating-radial-gradient(
-          circle,
-          #953c3b,
-          #953c3b 4px,
-          #a94442 10px,
-          #a94442 10px
-  );;
+    circle,
+    #953c3b,
+    #953c3b 4px,
+    #a94442 10px,
+    #a94442 10px
+  );
   width: 114px;
   height: 174px;
   margin: 2px;
