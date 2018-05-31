@@ -1,7 +1,9 @@
 ## Содержание
 - [Протокол](#Протокол)
 - [Игровой процесс](#Игровой-процесс)
+- [Объекты](game-objects.md)
 - [Методы от Клиента серверу](#Возможные-методы-от-Клиента-серверу)
+  - [getMyself](#getmyself)
   - [newGame](#newgame)
   - [joinGame(gameId)](#joingamegameid)
   - [startGame(gameId)](#startgamegameid)
@@ -13,6 +15,7 @@
 - [Методы от Сервера серверу](#Возможные-методы-от-Сервера-серверу)
   - [send](#send)
 - [События сервера](#На-сервере-возникают-такие-события)
+  - [authenticated](#authenticated)
   - [newGameCreated](#newgamecreated)
   - [joinedGame](#joinedgame)
   - [firstCard](#firstcard)
@@ -64,7 +67,28 @@
 
 ## Возможные методы от Клиента серверу:
 
-### newGame 
+### getMyself 
+```json
+{
+    "id": 1,
+    "method": "getMyself"
+}
+```
+ - cервер уведомляет того, кто вызвал событием [joinedGame](#joinedgame).
+ 
+ Response
+ 
+ ```json
+ {
+     "id": 1,
+     "result": {
+         "userId": 1,
+         "name": "Sebas"
+     },
+ }
+ ```
+ 
+ ### newGame 
 ```json
 {
     "id": 1,
@@ -103,20 +127,21 @@
 ```
 - сервер стартует игру:
   - создает колоду
-  - рассылает всем игрокам по первой карты событием [firstCard](#firstCard)
+  - рассылает всем игрокам по первой карте событием [takeCard](#takeCard)
   - определяет чей ход
   - отправляет первому игроку карту событием [takeCard](#takeCard)
-  - уведомляет остальных игроков о том что игрок взял карту отправляя им событие [userGotCard](#userGotCard)
+  - уведомляет остальных игроков о том что игрок взял карту, отправляя им событие [userGotCard](#userGotCard)
 - остальные игроки видят, что у игрока который ходит 2 карты
 
 Тот чей ход выбирает какую карту сыграть.
 
-### playCard(cardId[, targetUserId, targetCardId]) 
+### playCard(gameId, cardId[, targetUserId, targetCardId]) 
 ```json
 {
     "id": 1,
     "method": "playCard",
     "params": {
+        "gameId": 1,
         "cardId": 1,
         "targetUserId": 123,
         "targetCardId": 8
@@ -127,6 +152,8 @@
   - сервер запоминает карту
   - уведомляет всех игроков событием [userPlayedCard](#userPlayedCard)
   - уведомляет всех игроков событием результата игры
+  - отправляет следующему игроку карту событием [takeCard](#takeCard)
+  - уведомляет остальных игроков о том что игрок взял карту, отправляя им событие [userGotCard](#userGotCard)
 
 ### ping 
 ```json
@@ -161,19 +188,13 @@ Response
 {
     "id": 1,
     "result": [
-        {
-            "gameId": 1,
-            "userCount": 2,
-            "isStarted": false
-        },
-        {
-            "gameId": 2,
-            "userCount": 4,
-            "isStarted": true
-        }
+        <game>,
+        <game>,
+        ...
     ]
 }
 ```
+Содержит объекты [\<game>](game-objects.md#game).
 
 ### getGame
 ```json
@@ -321,16 +342,30 @@ Response
 
 ## На сервере возникают такие события:
 
+### authenticated
+```json
+{
+    "event": "authenticated",
+    "params": {
+        "userId": 1,
+        "name": "Sebas"
+    }
+}
+```
+Возникает после логина.
+
 ### newGameCreated
 ```json
 {
     "event": "newGameCreated",
     "params": {
-        "gameId": 123
+        "gameId": 123,
+        "userCount": 1,
+        "isStarted": false
     }
 }
 ```
-Возникает после того, как игра создана.
+Возникает после того, как игра создана. Содержит [\<game>](game-objects.md#game).
 
 ### joinedGame
 ```json
@@ -345,17 +380,6 @@ Response
 }
 ```
 Возникает после того, как пользователь присоеденился к игре.
-
-### firstCard
-```json
-{
-    "event": "firstCard",
-    "params": {
-        "cardId": 1
-    }
-}
-```
-Возникает после того, как игра создана, все получают первую карту.
 
 ### takeCard
 ```json

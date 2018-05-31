@@ -76,4 +76,21 @@ class Collection extends \ArrayObject
 
         return $result;
     }
+
+    /**
+     * @param int $excludeId
+     * @return Collection
+     */
+    public function getExclude($excludeId)
+    {
+        $collection = new self();
+
+        foreach ($this as $entity) {
+            if ($entity->getId() != $excludeId) {
+                $collection[$entity->getId()] = $entity;
+            }
+        }
+
+        return $collection;
+    }
 }

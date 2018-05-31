@@ -9,11 +9,11 @@ use App\WebSocket\Client;
 use App\Domain\Game\Game;
 use App\Domain\User\User;
 use App\Domain\Game\UsersInGames;
+use App\Domain\Game\GameStatus;
 use App\WebSocket\Action\Exception\GameNotExistsException;
 use App\WebSocket\Action\Exception\GameNotOpenException;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
 use App\WebSocket\Event\JoinedGame;
-use App\Domain\Game\GameStatus;
 
 class JoinGameHandler implements ActionHandlerInterface
 {
@@ -74,9 +74,18 @@ class JoinGameHandler implements ActionHandlerInterface
             throw new GameNotOpenException($game->getId());
         }
 
+        $userInGame = $this->usersInGameRepository->find([
+            'userId' => $user->getId(),
+            'gameId' => $game->getId()
+        ]);
+
+        if ($userInGame) {
+            return $game->getId();
+        }
+
         $this->usersInGameRepository->add(new UsersInGames([
-            'userId' => $game->getId(),
-            'gameId' => $user->getId()
+            'userId' => $user->getId(),
+            'gameId' => $game->getId()
         ]));
 
         $usersInGame = $this->usersInGameRepository->findMany(['gameId' => $game->getId()]);
@@ -92,6 +101,6 @@ class JoinGameHandler implements ActionHandlerInterface
             'name' => $user->getName()
         ]));
 
-        return 'ok';
+        return $game->getId();
     }
 }

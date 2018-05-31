@@ -16,10 +16,8 @@ class DashboardAction implements ServerMiddlewareInterface
      */
     private $template;
 
-
-    public function __construct(
-        Template\TemplateRendererInterface $template = null
-    ) {
+    public function __construct(Template\TemplateRendererInterface $template = null)
+    {
         $this->template = $template;
     }
 

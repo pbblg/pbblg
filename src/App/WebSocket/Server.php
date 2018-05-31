@@ -1,24 +1,17 @@
 <?php
 namespace App\WebSocket;
 
-use ArrayObject;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 use Psr\Container\ContainerInterface;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
-use Zend\Expressive\Application;
 use Zend\Diactoros\ServerRequest;
-use Zend\Diactoros\Response;
 use Zend\Expressive\Middleware\NotFoundHandler;
 use Zend\Stratigility\Middleware\ErrorHandler;
+use Zend\Stratigility\MiddlewarePipe;
 
 class Server implements MessageComponentInterface
 {
-    /**
-     * @var Emitter
-     */
-    private $emitter;
-
     /**
      * @var ContainerInterface
      */
@@ -119,13 +112,13 @@ class Server implements MessageComponentInterface
 
         $application = $this->getApplication();
 
-        $application->pipe(ErrorHandler::class);
-        $application->pipe(Middleware\JsonRpcMiddleware::class);
-        $application->pipe(Middleware\AuthMiddleware::class);
-        $application->pipeRoutingMiddleware();
-        $application->pipe(Middleware\ParamsValidatorMiddleware::class);
-        $application->pipe(Middleware\DispatchMiddleware::class);
-        $application->pipe(NotFoundHandler::class);
+        $application->pipe($this->container->get(ErrorHandler::class));
+        $application->pipe($this->container->get(Middleware\JsonRpcMiddleware::class));
+        $application->pipe($this->container->get(Middleware\AuthMiddleware::class));
+        $application->pipe($this->container->get(Middleware\RouteMiddleware::class));
+        $application->pipe($this->container->get(Middleware\ParamsValidatorMiddleware::class));
+        $application->pipe($this->container->get(Middleware\DispatchMiddleware::class));
+        $application->pipe($this->container->get(NotFoundHandler::class));
 
         $request = new ServerRequest(
             $_SERVER,
@@ -141,9 +134,8 @@ class Server implements MessageComponentInterface
             $request = $request->withAttribute('accessToken', $from->accessToken);
         }
 
-        $application->run($request, new Response());
-
-        $response = $this->emitter->getResponse();
+        $defaultDelegate = $this->container->get('Zend\Expressive\Delegate\DefaultDelegate');
+        $response = $application->process($request, $defaultDelegate);
 
         if ($response instanceof SenderResponse) {
             self::send($response->getReceivers(), $response->getMessage());
@@ -200,6 +192,14 @@ class Server implements MessageComponentInterface
         }
     }
 
+    /**
+     * @return array
+     */
+    public static function getAuthorizedUserIds()
+    {
+        return array_keys(self::$authorizedConnections);
+    }
+
     private function createBodyStream($reactRequest)
     {
         $body = fopen('php://temp', 'w+');
@@ -243,23 +243,7 @@ class Server implements MessageComponentInterface
 
     private function getApplication()
     {
-        // Это сделано специально
-        $container = require 'config/ws-container.php';
-        $config = $container->has('config') ? $container->get('config') : [];
-        $config = $config instanceof ArrayObject ? $config->getArrayCopy() : $config;
-
-        $router = new Router($config['routes']);
-
-        $delegate = $container->get('Zend\Expressive\Delegate\DefaultDelegate');
-
-        $this->emitter = new Emitter();
-
-        $app = new Application($router, $container, $delegate, $this->emitter);
-
-        if (empty($config['zend-expressive']['programmatic_pipeline'])) {
-            $app->injectRoutesFromConfig($config);
-            $app->injectPipelineFromConfig($config);
-        }
+        $app = new MiddlewarePipe();
 
         return $app;
     }

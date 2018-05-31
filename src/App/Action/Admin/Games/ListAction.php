@@ -49,7 +49,6 @@ class ListAction implements ServerMiddlewareInterface
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-
         /** @var Collection $games */
         $games = $this->gamesRepository->findMany([]);
 

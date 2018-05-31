@@ -2,6 +2,7 @@
 namespace App\WebSocket;
 
 use App\WebSocket\Event\AbstractEvent;
+use App\WebSocket\Exception\InternalErrorException;
 
 class Client
 {
@@ -18,7 +19,7 @@ class Client
         $this->secret = $secret;
     }
 
-    public function send($receivers, AbstractEvent $event)
+    public function send(array $receivers, AbstractEvent $event)
     {
         $jsonOptions = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_UNESCAPED_SLASHES;
 
@@ -55,5 +56,13 @@ class Client
                 echo "Could not connect: {$e->getMessage()}\n";
             }
         );
+    }
+
+    public function getOnlineUsers()
+    {
+        if (!Server::isRunning()) {
+            throw new InternalErrorException('Websocket server not running.');
+        }
+        return Server::getAuthorizedUserIds();
     }
 }

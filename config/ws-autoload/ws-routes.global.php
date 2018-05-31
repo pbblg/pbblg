@@ -10,6 +10,15 @@ return [
             // 'paramsValidator' => Action\Ping\PingParamsValidator::class,
             'handler' => Action\Ping\PingHandler::class,
         ],
+        'getMyself' => [
+            'handler' => Action\GetMyself\GetMyselfHandler::class,
+        ],
+        'getOnlineUsers' => [
+            'handler' => Action\GetOnlineUsers\GetOnlineUsersHandler::class,
+        ],
+        'getGames' => [
+            'handler' => Action\GetGames\GetGamesHandler::class,
+        ],
         'newGame' => [
             'handler' => Action\NewGame\NewGameHandler::class,
         ],

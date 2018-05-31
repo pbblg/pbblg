@@ -3,6 +3,7 @@
 namespace App\WebSocket\Action\Send;
 
 use App\WebSocket\Action\SpecialHandlerInterface;
+use App\WebSocket\SenderResponse;
 use Psr\Http\Message\ServerRequestInterface;
 
 class SendHandler implements SpecialHandlerInterface

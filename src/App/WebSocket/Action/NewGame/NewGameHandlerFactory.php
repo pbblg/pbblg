@@ -4,7 +4,6 @@ namespace App\WebSocket\Action\NewGame;
 
 use Psr\Container\ContainerInterface;
 use App\WebSocket\Client;
-use App\Command\Game\NewGameCommand;
 
 class NewGameHandlerFactory
 {

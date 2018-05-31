@@ -4,7 +4,6 @@ namespace App\WebSocket\Action\JoinGame;
 
 use Psr\Container\ContainerInterface;
 use App\WebSocket\Client;
-use App\Command\Game\NewGameCommand;
 
 class JoinGameHandlerFactory
 {

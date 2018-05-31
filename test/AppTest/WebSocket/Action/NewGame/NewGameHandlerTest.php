@@ -1,16 +1,16 @@
 <?php
 
-namespace AppTest\WebSocket\Action\Ping;
+namespace AppTest\WebSocket\Action\NewGame;
 
-use App\Domain\Game\Game;
-use App\WebSocket\Event\NewGameCreated;
-use TestUtils\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
+use App\WebSocket\Event\NewGameCreated;
 use App\WebSocket\Action\NewGame\NewGameHandler;
 use App\WebSocket\Client;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
 use App\Domain\Game\GameStatus;
+use App\Domain\Game\Game;
+use TestUtils\TestCase;
 
 class NewGameHandlerTest extends TestCase
 {
@@ -33,7 +33,6 @@ class NewGameHandlerTest extends TestCase
 
     public function testGameCreating()
     {
-
         $gameRepository = $this->getRepository('Game');
 
         $webSocketClient = $this->getWebSocketClient();
@@ -58,6 +57,9 @@ class NewGameHandlerTest extends TestCase
         $this->assertCount(0, $webSocketClient->receivers, "Everyone will receive a message");
         $event = $webSocketClient->event;
         $this->assertInstanceOf(NewGameCreated::class, $event, "Event must be NewGameCreated");
-        $this->assertEquals(['gameId' => $game->getId()], $event->getParams(), "Event has gameId param");
+        $params = $event->getParams();
+        $this->assertEquals($game->getId(), $params['id'], "Event has gameId param");
+        $this->assertEquals(GameStatus::STATUS_OPEN, $params['status'], "Event has gameId param");
+        $this->assertEquals($game->getCreatedDt(), $params['created'], "Event has gameId param");
     }
 }

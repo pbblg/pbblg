@@ -39,5 +39,8 @@ return [
 
             Zend\Db\Adapter\Adapter::class => Zend\Db\Adapter\AdapterServiceFactory::class,
         ],
+        'shared' => [
+            \App\WebSocket\Action\ParamsValidator::class => false
+        ]
     ],
 ];

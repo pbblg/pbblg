@@ -1,5 +1,128 @@
+* {margin: 0; padding: 0;}
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+  background: #a0ceb2;
 }
+
+.table {
+  width: 340px;
+  height: 240px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -170px 0 0 -170px;
+  background: #fff2;
+}
+.table-half {
+  width: 50%;
+  height: 100%;
+  float: left;
+}
+.table-left {
+  float: left;
+}
+.table-right {
+  float: right;
+}
+
+.game-table .avatar {
+  width: 70px;
+  height: 70px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: 6px solid rgba(0,0,30,0.2);
+  font-size: 90%;
+}
+.game-table .card-deck {
+  width: 120px;
+  height: 180px;
+  margin: 10px;
+  border-radius: 10px;
+  background: #fff;
+  -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+  box-shadow:
+          1px 1px 0 0 hsl(0, 0%, 80%),
+          3px 3px 0 0 hsl(0, 0%, 70%),
+          5px 5px 0 0 hsl(0, 0%, 60%),
+          7px 7px 0 0 hsl(0, 0%, 50%),
+          3px 3px 7px rgba(0,0,0,0.3);
+}
+.game-table .card {
+  width: 120px;
+  height: 180px;
+  margin: 10px;
+  border-radius: 10px;
+  background: #fff;
+  -webkit-box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+  box-shadow: 3px 3px 7px rgba(0,0,0,0.3);
+}
+.game-table .card .card-shirt, .game-table .card-deck .card-shirt {
+  background: repeating-radial-gradient(
+    circle,
+    #953c3b,
+    #953c3b 4px,
+    #a94442 10px,
+    #a94442 10px
+  );
+  width: 114px;
+  height: 174px;
+  margin: 2px;
+  border-radius: 10px;
+}
+.game-table .card-contour {
+  width: 120px;
+  height: 180px;
+  margin: 10px;
+  border-radius: 10px;
+  background: transparent;
+  border: 4px dashed rgba(0,0,30,0.2);
+}
+.game-table .card-contour .card-shirt {
+  background-color: transparent;
+  width: 114px;
+  height: 174px;
+  margin: 2px;
+  border-radius: 10px;
+}
+.game-table .card p {
+  text-align: center;
+  font: 80px/180px Georgia, Times New Roman, serif;
+}
+
+.test-pult {
+  margin-top: 100px;
+  height: 50px;
+}
+.test-button {
+  margin: 5px;
+  padding: 5px;
+}
+
+
+
+.button {
+  padding: 5px;
+}
+
+.game-play {
+  width: 340px;
+  height: 240px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -170px 0 0 -170px;
+  background: #fff2;
+  text-align: center;
+}
+
+.online-players-list {
+  height:400px;
+  overflow:auto;
+}
+
+.open-games-list {
+  height:400px;
+  overflow:auto;
+}
+
