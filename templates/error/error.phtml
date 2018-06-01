@@ -9,3 +9,12 @@
         or head back to <a href="/">Home</a>.
     </p>
 <?php endif; ?>
+
+<?php if ($this->status == 500) : ?>
+    <p><?= $this->error->getMessage() ?></p>
+
+    <?php foreach ($this->error->getTrace() as $entry): ?>
+        <?php if (!isset($entry['file'])) continue; ?>
+        <p><?= $entry['file'] ?> <?= $entry['line'] ?></p>
+    <?php endforeach; ?>
+<?php endif; ?>

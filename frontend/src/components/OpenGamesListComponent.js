@@ -5,15 +5,15 @@ const OpenGamesListComponent = ({games, onGameClick}) => (
     <div className="open-games-list">
         <ul className="list-group mb-3">
             {Object.keys(games).map(id => (
-                <li key={id}
+                <li key={games[id].id}
                     className="list-group-item d-flex justify-content-between lh-condensed align-items-center">
                     <div>
                         <div>
-                            <h6 className="my-0">Game #{id}</h6>
+                            <h6 className="my-0">Game #{games[id].id}</h6>
                             <small className="text-muted">{games[id].created}, N free places</small>
                         </div>
                     </div>
-                    <button className="btn btn-sm btn-success" onClick={() => onGameClick(id)}>
+                    <button className="btn btn-sm btn-success" onClick={() => onGameClick(games[id].id)}>
                         Join <i className="fa fa-chevron-right"></i>
                     </button>
                 </li>
