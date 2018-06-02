@@ -10,7 +10,7 @@
     </p>
 <?php endif; ?>
 
-<?php if ($this->status == 500) : ?>
+<?php if ($this->status == 500 && isset($this->error)) : ?>
     <p><?= $this->error->getMessage() ?></p>
 
     <?php foreach ($this->error->getTrace() as $entry): ?>
