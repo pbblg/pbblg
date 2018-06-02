@@ -12,11 +12,18 @@ class Client
     private $secret;
 
     /**
-     * @param string $secret
+     * @var string
      */
-    public function __construct(string $secret)
+    private $url;
+
+    /**
+     * @param string $secret
+     * @param string $url
+     */
+    public function __construct(string $secret, string $url)
     {
         $this->secret = $secret;
+        $this->url = $url;
     }
 
     public function send(array $receivers, AbstractEvent $event)
@@ -34,7 +41,7 @@ class Client
 
         $secret = $this->secret;
 
-        \Ratchet\Client\connect('ws://localhost:8088')->then(
+        \Ratchet\Client\connect($this->url)->then(
             function ($conn) use ($receivers, $event, $secret, $jsonOptions) {
                 $conn->on('message', function ($msg) use ($conn) {
                     $conn->close();

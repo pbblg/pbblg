@@ -66,7 +66,7 @@ class TestCase extends PHPUnitTestCase
      */
     protected function getWebSocketClient()
     {
-        return new WebSocketClientStub('secret');
+        return new WebSocketClientStub('secret', 'url');
     }
 
     /**

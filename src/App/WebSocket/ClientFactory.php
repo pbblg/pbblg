@@ -9,6 +9,9 @@ class ClientFactory
     public function __invoke(ContainerInterface $container)
     {
         $wsConfig = $container->get('config')['websocket'];
-        return new Client($wsConfig['client-secret']);
+        return new Client(
+            $wsConfig['client-secret'],
+            $wsConfig['ws-url']
+        );
     }
 }
