@@ -29,8 +29,16 @@ const app = (state = initialState, action) => {
         case NEW_GAME_WAS_CREATED:
             let newGames = {};
             newGames[action.game.id] = action.game;
+
+            let myCurrentGame = null;
+            console.log(action.game.ownerId, state.currentPlayer.id);
+            if (action.game.ownerId === state.currentPlayer.id) {
+                myCurrentGame = {gameId: action.game.id};
+            }
+
             return Object.assign({}, state, {
-                games: Object.assign({}, state.games, newGames)
+                games: Object.assign({}, state.games, newGames),
+                gamePlay: myCurrentGame
             });
 
         case CURRENT_PLAYER_JOINED_GAME:
@@ -81,7 +89,7 @@ const app = (state = initialState, action) => {
             });
 
         case PLAYER_AUTHENTICATED:
-
+            action.player.id = parseInt(action.player.id, 10);
             return Object.assign({}, state, {
                 isAuthenticated: true,
                 currentPlayer: action.player,
