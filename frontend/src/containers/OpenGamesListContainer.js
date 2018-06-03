@@ -22,7 +22,8 @@ class OpenGamesListContainer extends React.Component {
     }
 
     render() {
-        const {games} = this.props
+        const {games} = this.props;
+        console.log(games);
 
         return (
             <div>

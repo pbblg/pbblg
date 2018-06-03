@@ -14,7 +14,7 @@ import {
     receiveLogout,
     receiveLogin,
     newGameWasCreatedAction,
-    // receiveGameState,
+    gameRemoved,
     // receiveJoinGamesList,
     // receivePlayersOnlineList,
     // receiveExitGame,
@@ -52,6 +52,9 @@ socket.on('userLoggedOut', function (data) {
 });
 socket.on('userLoggedIn', function (data) {
     store.dispatch(receiveLogin(data))
+});
+socket.on('gameRemoved', function (data) {
+    store.dispatch(gameRemoved(data))
 });
 
 /*

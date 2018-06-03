@@ -4,6 +4,7 @@ export const RECEIVE_LOGOUT = 'RECEIVE_LOGOUT';
 export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
 
 export const START_CREATE_NEW_GAME = 'START_CREATE_NEW_GAME';
+export const GAME_WAS_REMOVED = 'GAME_WAS_REMOVED';
 export const NEW_GAME_WAS_CREATED = 'NEW_GAME_WAS_CREATED';
 export const REQUEST_GAME_STATE = 'REQUEST_GAME_STATE';
 export const RECEIVE_GAME_STATE = 'RECEIVE_GAME_STATE';
@@ -21,6 +22,11 @@ export const LOGOUT_PLAYER = 'LOGOUT_PLAYER';
 export const SOCKET_CONNECTED = 'SOCKET_CONNECTED';
 export const DEBUG_SERVER_STATE = 'DEBUG_SERVER_STATE';
 export const OTHER_PLAYER_JOINED_GAME = 'OTHER_PLAYER_JOINED_GAME';
+
+export const gameRemoved = (game) => ({
+    type: GAME_WAS_REMOVED,
+    game
+});
 
 export const playerAuthenticated = (player) => (
     {
@@ -93,11 +99,9 @@ export const receivePlayersOnlineList = (playersOnline) => (
         playersOnline
     }
 );
-export const requestExitGame = () => (
-    {
-        type: REQUEST_EXIT_GAME
-    }
-);
+export const requestExitGame = () => ({
+    type: REQUEST_EXIT_GAME
+});
 export const receiveExitGame = () => (
     {
         type: RECEIVE_EXIT_GAME

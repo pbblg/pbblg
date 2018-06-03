@@ -6,6 +6,7 @@
   - [getMyself](#getmyself)
   - [newGame](#newgame)
   - [joinGame(gameId)](#joingamegameid)
+  - [exitGame](#exitgame)
   - [startGame(gameId)](#startgamegameid)
   - [playCard(cardId[, targetUserId, targetCardId])](#playcardcardid-targetuserid-targetcardid)
   - [ping](#ping)
@@ -18,6 +19,7 @@
   - [authenticated](#authenticated)
   - [newGameCreated](#newgamecreated)
   - [joinedGame](#joinedgame)
+  - [playerLeftTheGame](#playerleftthegame)
   - [firstCard](#firstcard)
   - [takeCard](#takecard)
   - [userGotCard](#usergotcard)
@@ -114,6 +116,19 @@
  - каждый игрок видит нового игрока
   
 Пользователь который создал игру определяет ее начало.
+
+### exitGame
+```json
+{
+    "id": 1,
+    "method": "exitGame"
+}
+```
+ - текущий пользователь выходит из игры.
+ - сервер уведомляет всех игроков событием [playerLeftTheGame](#playerleftthegame).
+ - если не осталось игроков в игре сервер уведомляет всех игроков событием [gameRemoved](#gameremoved).
+  
+Пользователь может быть только в одной игре.
 
 ### startGame(gameId)
 ```json
@@ -380,6 +395,35 @@ Response
 }
 ```
 Возникает после того, как пользователь присоеденился к игре.
+
+### playerLeftTheGame
+```json
+{
+    "event": "playerLeftTheGame",
+    "params": {
+        "user": {
+            "id": 1,
+            "name": "Sebas"
+        }
+    }
+}
+```
+Возникает после того, как пользователь покинул игру.
+
+### gameRemoved
+```json
+{
+    "event": "gameRemoved",
+    "params": {
+        "game": {
+            "gameId": 123,
+            "userCount": 0,
+            "isStarted": false
+        }
+    }
+}
+```
+Возникает после того, как все пользователи покинули не начавшуюся игру.
 
 ### takeCard
 ```json

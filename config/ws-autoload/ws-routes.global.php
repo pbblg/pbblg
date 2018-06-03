@@ -34,6 +34,9 @@ return [
                 ],
             ],
         ],
+        'exitGame' => [
+            'handler' => Action\ExitGame\ExitGameHandler::class,
+        ],
         'startGame' => [
             'handler' => Action\StartGame\StartGameHandler::class,
             'params' => [

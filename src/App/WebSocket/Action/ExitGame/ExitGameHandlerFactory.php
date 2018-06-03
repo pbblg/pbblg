@@ -1,15 +1,15 @@
 <?php
 
-namespace App\WebSocket\Action\NewGame;
+namespace App\WebSocket\Action\ExitGame;
 
 use Psr\Container\ContainerInterface;
 use App\WebSocket\Client;
 
-class NewGameHandlerFactory
+class ExitGameHandlerFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        return new NewGameHandler(
+        return new ExitGameHandler(
             $container->get('Game\Infrastructure\Repository'),
             $container->get('UsersInGames\Infrastructure\Repository'),
             $container->get(Client::class)

@@ -10,6 +10,7 @@ import {
     RECEIVE_LOGOUT,
     RECEIVE_LOGIN
 } from "../actions/index";
+import {GAME_WAS_REMOVED, REQUEST_EXIT_GAME} from "../actions";
 
 const initialState = {
     //auth: cookies.get('access_token'),
@@ -46,6 +47,13 @@ const app = (state = initialState, action) => {
                 gamePlay: {
                     gameId: action.gameId
                 }
+            });
+
+        case GAME_WAS_REMOVED:
+            delete state.games[action.game.id];
+
+            return Object.assign({}, state, {
+                games: state.games
             });
 
         case RECEIVE_GAME_STATE:
@@ -85,7 +93,7 @@ const app = (state = initialState, action) => {
         case 'RECEIVE_JOIN_GAMES_LIST':
 
             return Object.assign({}, state, {
-                games: Object.assign({}, state.games, action.data)
+                games: Object.assign({}, {}, action.data)
             });
 
         case PLAYER_AUTHENTICATED:
@@ -116,6 +124,12 @@ const app = (state = initialState, action) => {
                     playersOnline: Object.assign({}, state.playersOnline)
                 }
             );
+
+        case REQUEST_EXIT_GAME:
+            return Object.assign({}, state, {
+                gamePlay: null
+            });
+
         default:
             return state
     }

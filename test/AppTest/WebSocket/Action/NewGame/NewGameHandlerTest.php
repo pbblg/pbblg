@@ -17,9 +17,10 @@ class NewGameHandlerTest extends TestCase
     public function testThrowException()
     {
         $gameRepository = $this->prophesize(RepositoryInterface::class)->reveal();
+        $usersInGameRepository = $this->prophesize(RepositoryInterface::class)->reveal();
         $webSocketClient = $this->prophesize(Client::class)->reveal();
 
-        $handler = new NewGameHandler($gameRepository, $webSocketClient);
+        $handler = new NewGameHandler($gameRepository, $usersInGameRepository, $webSocketClient);
 
         $request = $this->prophesize(ServerRequestInterface::class);
         $request
@@ -34,10 +35,11 @@ class NewGameHandlerTest extends TestCase
     public function testGameCreating()
     {
         $gameRepository = $this->getRepository('Game');
+        $usersInGameRepository = $this->getRepository('UsersInGames');
 
         $webSocketClient = $this->getWebSocketClient();
 
-        $handler = new NewGameHandler($gameRepository, $webSocketClient);
+        $handler = new NewGameHandler($gameRepository, $usersInGameRepository, $webSocketClient);
 
         $request = $this->authorizeUser();
 
