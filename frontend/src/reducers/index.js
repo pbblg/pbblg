@@ -1,7 +1,7 @@
 import {
     NEW_GAME_WAS_CREATED,
     OTHER_PLAYER_JOINED_GAME,
-    CURRENT_PLAYER_JOINED_GAME,
+    PLAYER_JOINED_GAME,
     RECEIVE_GAME_STATE,
     RECEIVE_EXIT_GAME,
     RECEIVE_OTHER_PLAYER_EXIT_GAME,
@@ -31,23 +31,21 @@ const app = (state = initialState, action) => {
             let newGames = {};
             newGames[action.game.id] = action.game;
 
-            let myCurrentGame = null;
-            console.log(action.game.ownerId, state.currentPlayer.id);
-            if (action.game.ownerId === state.currentPlayer.id) {
-                myCurrentGame = {gameId: action.game.id};
-            }
-
             return Object.assign({}, state, {
                 games: Object.assign({}, state.games, newGames),
-                gamePlay: myCurrentGame
             });
 
-        case CURRENT_PLAYER_JOINED_GAME:
-            return Object.assign({}, state, {
-                gamePlay: {
-                    gameId: action.gameId
-                }
-            });
+        case PLAYER_JOINED_GAME:
+            let player = action.player;
+            let game = action.game;
+
+            if (state.currentPlayer.id === player.id) {
+                return Object.assign({}, state, {
+                    gamePlay: { gameId: game.id }
+                });
+            }
+
+            return state;
 
         case GAME_WAS_REMOVED:
             delete state.games[action.game.id];

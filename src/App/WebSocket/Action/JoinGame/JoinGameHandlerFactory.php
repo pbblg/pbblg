@@ -3,16 +3,14 @@
 namespace App\WebSocket\Action\JoinGame;
 
 use Psr\Container\ContainerInterface;
-use App\WebSocket\Client;
+use App\WebSocket\Command\JoinGameCommand;
 
 class JoinGameHandlerFactory
 {
     public function __invoke(ContainerInterface $container)
     {
         return new JoinGameHandler(
-            $container->get('Game\Infrastructure\Repository'),
-            $container->get('UsersInGames\Infrastructure\Repository'),
-            $container->get(Client::class)
+            $container->get(JoinGameCommand::class)
         );
     }
 }

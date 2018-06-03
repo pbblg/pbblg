@@ -1,20 +1,18 @@
 <?php
 
-namespace App\WebSocket\Action\NewGame;
+namespace App\WebSocket\Command;
 
 use Psr\Container\ContainerInterface;
 use App\WebSocket\Client;
-use App\WebSocket\Command\JoinGameCommand;
 
-class NewGameHandlerFactory
+class JoinGameCommandFactory
 {
     public function __invoke(ContainerInterface $container)
     {
-        return new NewGameHandler(
+        return new JoinGameCommand(
             $container->get('Game\Infrastructure\Repository'),
             $container->get('UsersInGames\Infrastructure\Repository'),
-            $container->get(Client::class),
-            $container->get(JoinGameCommand::class)
+            $container->get(Client::class)
         );
     }
 }

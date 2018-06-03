@@ -13,7 +13,7 @@ export const REQUEST_JOIN_GAMES_LIST = 'REQUEST_JOIN_GAMES_LIST';
 export const REQUEST_PLAYERS_ONLINE_LIST = 'REQUEST_PLAYERS_ONLINE_LIST';
 export const RECEIVE_PLAYERS_ONLINE_LIST = 'RECEIVE_PLAYERS_ONLINE_LIST';
 export const CURRENT_PLAYER_REQUEST_JOIN_GAME = 'CURRENT_PLAYER_REQUEST_JOIN_GAME';
-export const CURRENT_PLAYER_JOINED_GAME = 'CURRENT_PLAYER_JOINED_GAME';
+export const PLAYER_JOINED_GAME = 'PLAYER_JOINED_GAME';
 export const REQUEST_EXIT_GAME = 'REQUEST_EXIT_GAME';
 export const RECEIVE_EXIT_GAME = 'RECEIVE_EXIT_GAME';
 export const RECEIVE_OTHER_PLAYER_EXIT_GAME = 'RECEIVE_OTHER_PLAYER_EXIT_GAME';
@@ -120,10 +120,11 @@ export const currentPlayerRequestJoinGame = (gameId) => (
         gameId
     }
 );
-export const currentPlayerJoinedGame = (gameId) => (
+export const joinedGame = (data) => (
     {
-        type: CURRENT_PLAYER_JOINED_GAME,
-        gameId
+        type: PLAYER_JOINED_GAME,
+        player: data.user,
+        game: data.game
     }
 );
 export const logoutPlayer = () => (

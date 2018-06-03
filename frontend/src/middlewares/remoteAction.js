@@ -10,7 +10,7 @@ import {
     LOGIN_PLAYER,
     SOCKET_CONNECTED,
     receiveJoinGamesList,
-    currentPlayerJoinedGame,
+    joinedGame,
     receivePlayersOnlineList
 } from "../actions/index";
 
@@ -36,7 +36,7 @@ export default socket => store => next => action => {
     }
     if (action.type === CURRENT_PLAYER_REQUEST_JOIN_GAME) {
         socket.emit('joinGame', {gameId: action.gameId}, function (data) {
-            store.dispatch(currentPlayerJoinedGame(data))
+            store.dispatch(joinedGame(data))
         });
     }
     if (action.type === REQUEST_EXIT_GAME) {
