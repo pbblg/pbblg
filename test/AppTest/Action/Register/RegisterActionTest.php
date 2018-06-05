@@ -2,8 +2,9 @@
 
 namespace AppTest\Action\Register;
 
+use App\Domain\User\User;
 use Interop\Http\ServerMiddleware\DelegateInterface;
-use PHPUnit\Framework\TestCase;
+use TestUtils\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\HtmlResponse;
@@ -16,9 +17,39 @@ use App\Action\Register\RegisterInputFilter;
 use App\Command\Register\RegisterCommand;
 use App\Command\Register\RegisterCommandContext;
 use App\Command\Register\UserAlreadyExistsException;
+use T4webDomainInterface\Infrastructure\RepositoryInterface;
+use App\WebSocket\Client;
+use App\Domain\AccessToken\Generator;
 
 class RegisterActionTest extends TestCase
 {
+    /**
+     * @var RepositoryInterface
+     */
+    private $usersRepository;
+
+    /**
+     * @var Client
+     */
+    private $webSocketClient;
+
+    /**
+     * @var Generator
+     */
+    private $accessTokenGenerator;
+
+    protected function setUp()
+    {
+        $this->usersRepository = $this->prophesize(RepositoryInterface::class);
+        $this->webSocketClient = $this->prophesize(Client::class);
+
+        $this->accessTokenGenerator = new Generator(
+            $this->getRepository('AccessToken'),
+            $this->getRepository('User')
+        );
+    }
+
+
     public function testGetRequest()
     {
         $renderer = new TemplateRendererStub();
@@ -26,7 +57,14 @@ class RegisterActionTest extends TestCase
         $registerCommand = $this->prophesize(RegisterCommand::class);
         $request = $this->prophesize(ServerRequestInterface::class);
 
-        $homePage = new RegisterAction($renderer, $inputFilter, $registerCommand->reveal());
+        $homePage = new RegisterAction(
+            $renderer,
+            $inputFilter,
+            $registerCommand->reveal(),
+            $this->accessTokenGenerator,
+            $this->webSocketClient->reveal(),
+            $this->usersRepository->reveal()
+        );
 
         $request->getMethod()
             ->willReturn('GET');
@@ -48,7 +86,14 @@ class RegisterActionTest extends TestCase
         $registerCommand = $this->prophesize(RegisterCommand::class);
         $request = $this->prophesize(ServerRequestInterface::class);
 
-        $homePage = new RegisterAction($renderer, $inputFilter, $registerCommand->reveal());
+        $homePage = new RegisterAction(
+            $renderer,
+            $inputFilter,
+            $registerCommand->reveal(),
+            $this->accessTokenGenerator,
+            $this->webSocketClient->reveal(),
+            $this->usersRepository->reveal()
+        );
 
         $request->getMethod()
             ->willReturn('POST');
@@ -95,7 +140,14 @@ class RegisterActionTest extends TestCase
         $registerCommand = $this->prophesize(RegisterCommand::class);
         $request = $this->prophesize(ServerRequestInterface::class);
 
-        $homePage = new RegisterAction($renderer, $inputFilter, $registerCommand->reveal());
+        $homePage = new RegisterAction(
+            $renderer,
+            $inputFilter,
+            $registerCommand->reveal(),
+            $this->accessTokenGenerator,
+            $this->webSocketClient->reveal(),
+            $this->usersRepository->reveal()
+        );
 
         $postData = [
             'username' => 'John',
@@ -124,7 +176,7 @@ class RegisterActionTest extends TestCase
         $this->assertEquals('User \'John\' already registered', $renderer->errors['username'][0]);
     }
 
-    public function testPostRequest()
+    public function testSuccessPostRequest()
     {
         $renderer = new TemplateRendererStub();
         $inputFilter = new RegisterInputFilter();
@@ -132,7 +184,25 @@ class RegisterActionTest extends TestCase
         $request = $this->prophesize(ServerRequestInterface::class);
         $delegate = $this->prophesize(Next::class);
 
-        $homePage = new RegisterAction($renderer, $inputFilter, $registerCommand->reveal());
+        $userRepository = $this->getRepository('User');
+        $userRepository->add(new User([
+            'id' => 1,
+            'name' => 'John',
+            'password' => 'xxx',
+        ]));
+        $accessTokenGenerator = new Generator(
+            $this->getRepository('AccessToken'),
+            $userRepository
+        );
+
+        $homePage = new RegisterAction(
+            $renderer,
+            $inputFilter,
+            $registerCommand->reveal(),
+            $accessTokenGenerator,
+            $this->webSocketClient->reveal(),
+            $userRepository
+        );
 
         $postData = [
             'username' => 'John',
