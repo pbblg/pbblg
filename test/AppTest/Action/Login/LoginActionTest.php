@@ -2,38 +2,33 @@
 
 namespace AppTest\Action\Register;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use App\Action\LoginAction;
+use App\Action\LoginInputFilter;
 use TestUtils\TestCase;
+use TestUtils\TemplateRendererStub;
 use Psr\Http\Message\ServerRequestInterface;
-use Zend\Diactoros\Response;
+use App\WebSocket\Command\LoginCommand;
+use Interop\Http\ServerMiddleware\DelegateInterface;
 use Zend\Diactoros\Response\HtmlResponse;
-use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Stratigility\Next;
 use Prophecy\Argument;
-use TestUtils\TemplateRendererStub;
-use App\Action\Register\RegisterAction;
-use App\Action\Register\RegisterInputFilter;
-use App\Command\Register\RegisterCommand;
-use App\Command\Register\RegisterCommandContext;
-use App\Command\Register\UserAlreadyExistsException;
-use App\WebSocket\Command\LoginCommand;
+use Zend\Diactoros\Response;
+use Zend\Diactoros\Response\RedirectResponse;
 use App\WebSocket\Command\LoginCommandContext;
 use Dflydev\FigCookies\SetCookie;
 
-class RegisterActionTest extends TestCase
+class LoginActionTest extends TestCase
 {
     public function testGetRequest()
     {
         $renderer = new TemplateRendererStub();
-        $inputFilter = new RegisterInputFilter();
-        $registerCommand = $this->prophesize(RegisterCommand::class);
+        $inputFilter = new LoginInputFilter();
         $request = $this->prophesize(ServerRequestInterface::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
 
-        $homePage = new RegisterAction(
+        $homePage = new LoginAction(
             $renderer,
             $inputFilter,
-            $registerCommand->reveal(),
             $loginCommand->reveal()
         );
 
@@ -46,22 +41,19 @@ class RegisterActionTest extends TestCase
         );
 
         $this->assertInstanceOf(HtmlResponse::class, $response);
-        $this->assertEmpty($renderer->data);
         $this->assertEmpty($renderer->errors);
     }
 
     public function testPostRequestWithBadParams()
     {
         $renderer = new TemplateRendererStub();
-        $inputFilter = new RegisterInputFilter();
-        $registerCommand = $this->prophesize(RegisterCommand::class);
+        $inputFilter = new LoginInputFilter();
         $request = $this->prophesize(ServerRequestInterface::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
 
-        $homePage = new RegisterAction(
+        $homePage = new LoginAction(
             $renderer,
             $inputFilter,
-            $registerCommand->reveal(),
             $loginCommand->reveal()
         );
 
@@ -90,85 +82,71 @@ class RegisterActionTest extends TestCase
             'Value is required and can\'t be empty',
             $renderer->errors['password']['isEmpty']
         );
-
-        $this->assertArrayHasKey('password-again', $renderer->errors);
-        $this->assertArrayHasKey('isEmpty', $renderer->errors['password-again']);
-        $this->assertEquals(
-            'Value is required and can\'t be empty',
-            $renderer->errors['password-again']['isEmpty']
-        );
     }
 
-    public function testPostRequestWithAlreadyRegisteredUser()
+    public function testNotExistingUser()
     {
         $renderer = new TemplateRendererStub();
-        $inputFilter = new RegisterInputFilter();
-        $registerCommand = $this->prophesize(RegisterCommand::class);
+        $inputFilter = new LoginInputFilter();
         $request = $this->prophesize(ServerRequestInterface::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
+        $delegate = $this->prophesize(Next::class);
 
-        $homePage = new RegisterAction(
+        $homePage = new LoginAction(
             $renderer,
             $inputFilter,
-            $registerCommand->reveal(),
             $loginCommand->reveal()
         );
 
         $postData = [
             'username' => 'John',
-            'password' => 'xxx',
-            'password-again' => 'xxx',
+            'password' => 'xxx'
         ];
         $request->getMethod()
             ->willReturn('POST');
         $request->getParsedBody()
             ->willReturn($postData);
 
-        $registerCommand->handle(Argument::type(RegisterCommandContext::class))
-            ->will(function () {
-                throw new UserAlreadyExistsException('John');
-            });
+        $delegate->handle(Argument::exact($request->reveal()))
+            ->willReturn((new Response())->withStatus(301));
 
         $response = $homePage->process(
             $request->reveal(),
-            $this->prophesize(DelegateInterface::class)->reveal()
+            $delegate->reveal()
         );
 
         $this->assertInstanceOf(HtmlResponse::class, $response);
-        $this->assertEquals($postData, $renderer->data);
+        $this->assertEmpty($renderer->data);
         $this->assertArrayHasKey('username', $renderer->errors);
-        $this->assertArrayHasKey(0, $renderer->errors['username']);
-        $this->assertEquals('User \'John\' already registered', $renderer->errors['username'][0]);
+        $this->assertArrayHasKey('Failure', $renderer->errors['username']);
+        $this->assertEquals(
+            'Login Failure, please try again',
+            $renderer->errors['username']['Failure']
+        );
     }
 
     public function testSuccessPostRequest()
     {
         $renderer = new TemplateRendererStub();
-        $inputFilter = new RegisterInputFilter();
-        $registerCommand = $this->prophesize(RegisterCommand::class);
+        $inputFilter = new LoginInputFilter();
         $request = $this->prophesize(ServerRequestInterface::class);
-        $delegate = $this->prophesize(Next::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
+        $delegate = $this->prophesize(Next::class);
 
-        $homePage = new RegisterAction(
+        $homePage = new LoginAction(
             $renderer,
             $inputFilter,
-            $registerCommand->reveal(),
             $loginCommand->reveal()
         );
 
         $postData = [
             'username' => 'John',
-            'password' => 'xxx',
-            'password-again' => 'xxx',
+            'password' => 'xxx'
         ];
         $request->getMethod()
             ->willReturn('POST');
         $request->getParsedBody()
             ->willReturn($postData);
-
-        $registerCommand->handle(Argument::type(RegisterCommandContext::class))
-            ->willReturn(true);
 
         $delegate->handle(Argument::exact($request->reveal()))
             ->willReturn(new Response());

@@ -30,7 +30,7 @@ class TemplateRendererStub implements TemplateRendererInterface
     {
         $this->templateName = $name;
         $this->layout = isset($params['layout']) ? $params['layout'] : '';
-        $this->data = $params['data'];
+        $this->data = isset($params['data']) ? $params['data'] : '';
         $this->errors = isset($params['errors']) ? $params['errors'] : [];
 
         return '';
