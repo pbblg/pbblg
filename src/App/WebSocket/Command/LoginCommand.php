@@ -49,7 +49,7 @@ class LoginCommand
     public function handle(LoginCommandContext $context): SetCookie
     {
         /** @var User $user */
-        $user = $this->userRepository->find(['name_equalTo' => $context->getUserName()]);;
+        $user = $this->userRepository->find(['name_equalTo' => $context->getUserName()]);
 
         $accessToken = $this->accessTokenGenerator->generateForUserName($user->getName());
         $sessionCookie = SetCookie::create('access_token')
