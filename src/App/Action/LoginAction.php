@@ -9,12 +9,8 @@ use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\RedirectResponse;
 use Zend\Expressive\Template;
 use Dflydev\FigCookies\FigResponseCookies;
-use Dflydev\FigCookies\SetCookie;
-use T4webDomainInterface\Infrastructure\RepositoryInterface;
-use App\Domain\AccessToken\Generator;
-use App\Domain\User\User;
-use App\WebSocket\Client;
-use App\WebSocket\Event\UserLoggedIn;
+use App\WebSocket\Command\LoginCommand;
+use App\WebSocket\Command\LoginCommandContext;
 
 class LoginAction implements ServerMiddlewareInterface
 {
@@ -29,33 +25,24 @@ class LoginAction implements ServerMiddlewareInterface
     private $inputFilter;
 
     /**
-     * @var Generator
+     * @var LoginCommand
      */
-    private $accessTokenGenerator;
+    private $loginCommand;
 
     /**
-     * @var RepositoryInterface
+     * LoginAction constructor.
+     * @param Template\TemplateRendererInterface $template
+     * @param LoginInputFilter $inputFilter
+     * @param LoginCommand $loginCommand
      */
-    private $userRepository;
-
-    /**
-     * @var Client
-     */
-    private $webSocketClient;
-
     public function __construct(
         Template\TemplateRendererInterface $template,
         LoginInputFilter $inputFilter,
-        Generator $accessTokenGenerator,
-        RepositoryInterface $userRepository,
-        Client $webSocketClient
+        LoginCommand $loginCommand
     ) {
-
         $this->template = $template;
         $this->inputFilter = $inputFilter;
-        $this->accessTokenGenerator = $accessTokenGenerator;
-        $this->userRepository = $userRepository;
-        $this->webSocketClient = $webSocketClient;
+        $this->loginCommand = $loginCommand;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
@@ -67,18 +54,7 @@ class LoginAction implements ServerMiddlewareInterface
             if ($this->inputFilter->isValid()) {
                 $response = $delegate->handle($request);
                 if ($response->getStatusCode() !== 301) {
-                    $accessToken = $this->accessTokenGenerator->generateForUserName($data['username']);
-                    $sessionCookie = SetCookie::create('access_token')
-                        ->withValue($accessToken->getToken())
-                        ->withPath(ini_get('session.cookie_path'));
-
-                    /** @var User $user */
-                    $user = $this->userRepository->find(['name_equalTo' => $data['username']]);
-
-                    $this->webSocketClient->send([], new UserLoggedIn([
-                        'id' => $user->getId(),
-                        'name' => $user->getName()
-                    ]));
+                    $sessionCookie = $this->loginCommand->handle(new LoginCommandContext($data['username']));
 
                     return FigResponseCookies::set(new RedirectResponse('/'), $sessionCookie);
                 }
