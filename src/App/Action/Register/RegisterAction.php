@@ -11,6 +11,9 @@ use Zend\Expressive\Template;
 use App\Command\Register\RegisterCommand;
 use App\Command\Register\RegisterCommandContext;
 use App\Command\Register\UserAlreadyExistsException;
+use Dflydev\FigCookies\FigResponseCookies;
+use App\WebSocket\Command\LoginCommand;
+use App\WebSocket\Command\LoginCommandContext;
 
 class RegisterAction implements ServerMiddlewareInterface
 {
@@ -29,15 +32,28 @@ class RegisterAction implements ServerMiddlewareInterface
      */
     private $registerCommand;
 
+    /**
+     * @var LoginCommand
+     */
+    private $loginCommand;
+
+    /**
+     * RegisterAction constructor.
+     * @param Template\TemplateRendererInterface|null $template
+     * @param RegisterInputFilter $inputFilter
+     * @param RegisterCommand $registerCommand
+     * @param LoginCommand $loginCommand
+     */
     public function __construct(
         Template\TemplateRendererInterface $template = null,
         RegisterInputFilter $inputFilter,
-        RegisterCommand $registerCommand
+        RegisterCommand $registerCommand,
+        LoginCommand $loginCommand
     ) {
-
         $this->template = $template;
         $this->inputFilter = $inputFilter;
         $this->registerCommand = $registerCommand;
+        $this->loginCommand = $loginCommand;
     }
 
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
@@ -62,7 +78,9 @@ class RegisterAction implements ServerMiddlewareInterface
                 $response = $delegate->handle($request);
 
                 if ($response->getStatusCode() !== 301) {
-                    return new RedirectResponse('/');
+                    $sessionCookie = $this->loginCommand->handle(new LoginCommandContext($data['username']));
+
+                    return FigResponseCookies::set(new RedirectResponse('/'), $sessionCookie);
                 }
             } else {
                 $errors = $this->inputFilter->getMessages();

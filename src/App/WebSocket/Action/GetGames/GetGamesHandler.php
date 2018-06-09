@@ -40,7 +40,7 @@ class GetGamesHandler implements ActionHandlerInterface
 
         foreach ($games as $game) {
             $gameVieModel = new GameViewModel($game);
-            $result[$game->getId()] = $gameVieModel->extract();
+            $result[] = $gameVieModel->extract();
         }
 
         return $result;

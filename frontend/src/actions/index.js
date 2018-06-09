@@ -4,6 +4,7 @@ export const RECEIVE_LOGOUT = 'RECEIVE_LOGOUT';
 export const RECEIVE_LOGIN = 'RECEIVE_LOGIN';
 
 export const START_CREATE_NEW_GAME = 'START_CREATE_NEW_GAME';
+export const GAME_WAS_REMOVED = 'GAME_WAS_REMOVED';
 export const NEW_GAME_WAS_CREATED = 'NEW_GAME_WAS_CREATED';
 export const REQUEST_GAME_STATE = 'REQUEST_GAME_STATE';
 export const RECEIVE_GAME_STATE = 'RECEIVE_GAME_STATE';
@@ -12,7 +13,7 @@ export const REQUEST_JOIN_GAMES_LIST = 'REQUEST_JOIN_GAMES_LIST';
 export const REQUEST_PLAYERS_ONLINE_LIST = 'REQUEST_PLAYERS_ONLINE_LIST';
 export const RECEIVE_PLAYERS_ONLINE_LIST = 'RECEIVE_PLAYERS_ONLINE_LIST';
 export const CURRENT_PLAYER_REQUEST_JOIN_GAME = 'CURRENT_PLAYER_REQUEST_JOIN_GAME';
-export const CURRENT_PLAYER_JOINED_GAME = 'CURRENT_PLAYER_JOINED_GAME';
+export const PLAYER_JOINED_GAME = 'PLAYER_JOINED_GAME';
 export const REQUEST_EXIT_GAME = 'REQUEST_EXIT_GAME';
 export const RECEIVE_EXIT_GAME = 'RECEIVE_EXIT_GAME';
 export const RECEIVE_OTHER_PLAYER_EXIT_GAME = 'RECEIVE_OTHER_PLAYER_EXIT_GAME';
@@ -21,6 +22,11 @@ export const LOGOUT_PLAYER = 'LOGOUT_PLAYER';
 export const SOCKET_CONNECTED = 'SOCKET_CONNECTED';
 export const DEBUG_SERVER_STATE = 'DEBUG_SERVER_STATE';
 export const OTHER_PLAYER_JOINED_GAME = 'OTHER_PLAYER_JOINED_GAME';
+
+export const gameRemoved = (game) => ({
+    type: GAME_WAS_REMOVED,
+    game
+});
 
 export const playerAuthenticated = (player) => (
     {
@@ -93,11 +99,9 @@ export const receivePlayersOnlineList = (playersOnline) => (
         playersOnline
     }
 );
-export const requestExitGame = () => (
-    {
-        type: REQUEST_EXIT_GAME
-    }
-);
+export const requestExitGame = () => ({
+    type: REQUEST_EXIT_GAME
+});
 export const receiveExitGame = () => (
     {
         type: RECEIVE_EXIT_GAME
@@ -116,10 +120,11 @@ export const currentPlayerRequestJoinGame = (gameId) => (
         gameId
     }
 );
-export const currentPlayerJoinedGame = (gameId) => (
+export const joinedGame = (data) => (
     {
-        type: CURRENT_PLAYER_JOINED_GAME,
-        gameId
+        type: PLAYER_JOINED_GAME,
+        player: data.user,
+        game: data.game
     }
 );
 export const logoutPlayer = () => (

@@ -11,6 +11,8 @@ use App\Domain\Game\Game;
 use App\Domain\Game\ViewModel\Game as GameViewModel;
 use App\WebSocket\Event\NewGameCreated;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
+use App\WebSocket\Command\JoinGameCommand;
+use App\WebSocket\Command\JoinGameCommandContext;
 use App\Domain\Game\GameStatus;
 
 class NewGameHandler implements ActionHandlerInterface
@@ -21,16 +23,30 @@ class NewGameHandler implements ActionHandlerInterface
     private $gameRepository;
 
     /**
+     * @var RepositoryInterface
+     */
+    private $usersInGameRepository;
+
+    /**
      * @var Client
      */
     private $webSocketClient;
 
+    /**
+     * @var JoinGameCommand
+     */
+    private $joinGameCommand;
+
     public function __construct(
         RepositoryInterface $gameRepository,
-        Client $webSocketClient
+        RepositoryInterface $usersInGameRepository,
+        Client $webSocketClient,
+        JoinGameCommand $joinGameCommand
     ) {
         $this->gameRepository = $gameRepository;
+        $this->usersInGameRepository = $usersInGameRepository;
         $this->webSocketClient = $webSocketClient;
+        $this->joinGameCommand = $joinGameCommand;
     }
 
     /**
@@ -56,6 +72,8 @@ class NewGameHandler implements ActionHandlerInterface
 
         $gameViewModel = new GameViewModel($game);
         $this->webSocketClient->send([], new NewGameCreated($gameViewModel));
+
+        $this->joinGameCommand->handle(new JoinGameCommandContext($user, $game->getId()));
 
         return $gameViewModel->extract();
     }

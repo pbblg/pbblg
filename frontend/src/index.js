@@ -14,14 +14,14 @@ import {
     receiveLogout,
     receiveLogin,
     newGameWasCreatedAction,
-    // receiveGameState,
+    gameRemoved,
     // receiveJoinGamesList,
     // receivePlayersOnlineList,
     // receiveExitGame,
     // socketConnectedAction,
     //debugServerState,
     // otherPlayerJoinedGame,
-    // currentPlayerJoinedGame,
+    joinedGame,
     // receiveOtherPlayerExitGame,
 } from "./actions/index";
 import remoteActionMiddleware from "./middlewares/remoteAction";
@@ -52,6 +52,12 @@ socket.on('userLoggedOut', function (data) {
 });
 socket.on('userLoggedIn', function (data) {
     store.dispatch(receiveLogin(data))
+});
+socket.on('gameRemoved', function (data) {
+    store.dispatch(gameRemoved(data))
+});
+socket.on('joinedGame', function (data) {
+    store.dispatch(joinedGame(data))
 });
 
 /*
@@ -86,9 +92,7 @@ socket.on('playersOnlineList', function (data) {
 socket.on('otherPlayerJoinedGame', function (data) {
     store.dispatch(otherPlayerJoinedGame(data.player, data.game))
 });
-socket.on('currentPlayerJoinedGame', function (data) {
-    store.dispatch(currentPlayerJoinedGame(data.gameId))
-});
+
 */
 
 render(

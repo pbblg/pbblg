@@ -2,12 +2,11 @@
 
 namespace AppTest\WebSocket\Action\JoinGame;
 
+use App\WebSocket\Command\JoinGameCommand;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use App\WebSocket\Action\JoinGame\JoinGameHandlerFactory;
 use App\WebSocket\Action\JoinGame\JoinGameHandler;
-use App\WebSocket\Client;
 
 class JoinGameHandlerFactoryTest extends TestCase
 {
@@ -17,13 +16,9 @@ class JoinGameHandlerFactoryTest extends TestCase
     protected function setUp()
     {
         $this->container = $this->prophesize(ContainerInterface::class);
-        $gameRepository = $this->prophesize(RepositoryInterface::class);
-        $usersInGamesRepository = $this->prophesize(RepositoryInterface::class);
-        $webSocketClient = $this->prophesize(Client::class);
+        $command = $this->prophesize(JoinGameCommand::class);
 
-        $this->container->get('Game\Infrastructure\Repository')->willReturn($gameRepository);
-        $this->container->get('UsersInGames\Infrastructure\Repository')->willReturn($usersInGamesRepository);
-        $this->container->get(Client::class)->willReturn($webSocketClient);
+        $this->container->get(JoinGameCommand::class)->willReturn($command);
     }
 
     public function testFactoryWithoutTemplate()

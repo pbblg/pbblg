@@ -5,6 +5,7 @@ namespace App\Action\Register;
 use Psr\Container\ContainerInterface;
 use Zend\Expressive\Template\TemplateRendererInterface;
 use App\Command\Register\RegisterCommand;
+use App\WebSocket\Command\LoginCommand;
 
 class RegisterActionFactory
 {
@@ -13,7 +14,8 @@ class RegisterActionFactory
         return new RegisterAction(
             $container->get(TemplateRendererInterface::class),
             $container->get(RegisterInputFilter::class),
-            $container->get(RegisterCommand::class)
+            $container->get(RegisterCommand::class),
+            $container->get(LoginCommand::class)
         );
     }
 }

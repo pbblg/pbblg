@@ -1,7 +1,7 @@
 import {
     NEW_GAME_WAS_CREATED,
     OTHER_PLAYER_JOINED_GAME,
-    CURRENT_PLAYER_JOINED_GAME,
+    PLAYER_JOINED_GAME,
     RECEIVE_GAME_STATE,
     RECEIVE_EXIT_GAME,
     RECEIVE_OTHER_PLAYER_EXIT_GAME,
@@ -10,6 +10,7 @@ import {
     RECEIVE_LOGOUT,
     RECEIVE_LOGIN
 } from "../actions/index";
+import {GAME_WAS_REMOVED, REQUEST_EXIT_GAME} from "../actions";
 
 const initialState = {
     //auth: cookies.get('access_token'),
@@ -29,15 +30,28 @@ const app = (state = initialState, action) => {
         case NEW_GAME_WAS_CREATED:
             let newGames = {};
             newGames[action.game.id] = action.game;
+
             return Object.assign({}, state, {
-                games: Object.assign({}, state.games, newGames)
+                games: Object.assign({}, state.games, newGames),
             });
 
-        case CURRENT_PLAYER_JOINED_GAME:
+        case PLAYER_JOINED_GAME:
+            let player = action.player;
+            let game = action.game;
+
+            if (state.currentPlayer.id === player.id) {
+                return Object.assign({}, state, {
+                    gamePlay: { gameId: game.id }
+                });
+            }
+
+            return state;
+
+        case GAME_WAS_REMOVED:
+            delete state.games[action.game.id];
+
             return Object.assign({}, state, {
-                gamePlay: {
-                    gameId: action.gameId
-                }
+                games: state.games
             });
 
         case RECEIVE_GAME_STATE:
@@ -77,11 +91,11 @@ const app = (state = initialState, action) => {
         case 'RECEIVE_JOIN_GAMES_LIST':
 
             return Object.assign({}, state, {
-                games: Object.assign({}, state.games, action.data)
+                games: Object.assign({}, {}, action.data)
             });
 
         case PLAYER_AUTHENTICATED:
-
+            action.player.id = parseInt(action.player.id, 10);
             return Object.assign({}, state, {
                 isAuthenticated: true,
                 currentPlayer: action.player,
@@ -108,6 +122,12 @@ const app = (state = initialState, action) => {
                     playersOnline: Object.assign({}, state.playersOnline)
                 }
             );
+
+        case REQUEST_EXIT_GAME:
+            return Object.assign({}, state, {
+                gamePlay: null
+            });
+
         default:
             return state
     }

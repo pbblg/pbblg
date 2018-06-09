@@ -1,0 +1,7 @@
+<?php
+
+return [
+    'websocket' => [
+        'ws-url' => 'ws://localhost:8088',
+    ],
+];

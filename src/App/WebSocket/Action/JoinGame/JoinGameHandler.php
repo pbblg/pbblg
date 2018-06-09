@@ -2,50 +2,27 @@
 
 namespace App\WebSocket\Action\JoinGame;
 
+use App\WebSocket\Command\JoinGameCommand;
+use App\WebSocket\Command\JoinGameCommandContext;
 use Psr\Http\Message\ServerRequestInterface;
-use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use App\WebSocket\Action\ActionHandlerInterface;
-use App\WebSocket\Client;
-use App\Domain\Game\Game;
 use App\Domain\User\User;
-use App\Domain\Game\UsersInGames;
-use App\Domain\Game\GameStatus;
-use App\WebSocket\Action\Exception\GameNotExistsException;
-use App\WebSocket\Action\Exception\GameNotOpenException;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
-use App\WebSocket\Event\JoinedGame;
 
 class JoinGameHandler implements ActionHandlerInterface
 {
     /**
-     * @var RepositoryInterface
+     * @var JoinGameCommand
      */
-    private $gameRepository;
-
-    /**
-     * @var RepositoryInterface
-     */
-    private $usersInGameRepository;
-
-    /**
-     * @var Client
-     */
-    private $webSocketClient;
+    private $joinGameCommand;
 
     /**
      * JoinGameHandler constructor.
-     * @param RepositoryInterface $gameRepository
-     * @param RepositoryInterface $usersInGameRepository
-     * @param Client $webSocketClient
+     * @param JoinGameCommand $joinGameCommand
      */
-    public function __construct(
-        RepositoryInterface $gameRepository,
-        RepositoryInterface $usersInGameRepository,
-        Client $webSocketClient
-    ) {
-        $this->gameRepository = $gameRepository;
-        $this->usersInGameRepository = $usersInGameRepository;
-        $this->webSocketClient = $webSocketClient;
+    public function __construct(JoinGameCommand $joinGameCommand)
+    {
+        $this->joinGameCommand = $joinGameCommand;
     }
 
     /**
@@ -60,47 +37,8 @@ class JoinGameHandler implements ActionHandlerInterface
 
         /** @var User $user */
         $user = $request->getAttribute('currentUser');
-
         $params = $request->getQueryParams();
 
-        /** @var Game $game */
-        $game = $this->gameRepository->find(['id' => $params['gameId']]);
-
-        if (!$game) {
-            throw new GameNotExistsException($params['gameId']);
-        }
-
-        if ($game->getStatus() != GameStatus::STATUS_OPEN) {
-            throw new GameNotOpenException($game->getId());
-        }
-
-        $userInGame = $this->usersInGameRepository->find([
-            'userId' => $user->getId(),
-            'gameId' => $game->getId()
-        ]);
-
-        if ($userInGame) {
-            return $game->getId();
-        }
-
-        $this->usersInGameRepository->add(new UsersInGames([
-            'userId' => $user->getId(),
-            'gameId' => $game->getId()
-        ]));
-
-        $usersInGame = $this->usersInGameRepository->findMany(['gameId' => $game->getId()]);
-
-        $members = [];
-        /** @var UsersInGames $userInGame */
-        foreach ($usersInGame as $userInGame) {
-            $members[] = $userInGame->getUserId();
-        }
-
-        $this->webSocketClient->send($members, new JoinedGame([
-            'id' => $user->getId(),
-            'name' => $user->getName()
-        ]));
-
-        return $game->getId();
+        $this->joinGameCommand->handle(new JoinGameCommandContext($user, $params['gameId']));
     }
 }

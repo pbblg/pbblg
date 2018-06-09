@@ -7,7 +7,7 @@ require 'vendor/autoload.php';
 $loop = React\EventLoop\Factory::create();
 $server = new App\WebSocket\Server();
 
-// Run the server application through the WebSocket protocol on port 8080
+// Run the server application through the WebSocket protocol on port 8088
 $app = new Ratchet\App('localhost', 8088, '127.0.0.1', $loop);
 $app->route('/', $server, array('*'));
 

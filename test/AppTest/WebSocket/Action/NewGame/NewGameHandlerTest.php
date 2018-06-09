@@ -2,12 +2,15 @@
 
 namespace AppTest\WebSocket\Action\NewGame;
 
+use Prophecy\Argument;
 use Psr\Http\Message\ServerRequestInterface;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use App\WebSocket\Event\NewGameCreated;
 use App\WebSocket\Action\NewGame\NewGameHandler;
 use App\WebSocket\Client;
 use App\WebSocket\Action\Exception\NotAuthorizedException;
+use App\WebSocket\Command\JoinGameCommand;
+use App\WebSocket\Command\JoinGameCommandContext;
 use App\Domain\Game\GameStatus;
 use App\Domain\Game\Game;
 use TestUtils\TestCase;
@@ -17,9 +20,11 @@ class NewGameHandlerTest extends TestCase
     public function testThrowException()
     {
         $gameRepository = $this->prophesize(RepositoryInterface::class)->reveal();
+        $usersInGameRepository = $this->prophesize(RepositoryInterface::class)->reveal();
         $webSocketClient = $this->prophesize(Client::class)->reveal();
+        $joinGameCommand = $this->prophesize(JoinGameCommand::class)->reveal();
 
-        $handler = new NewGameHandler($gameRepository, $webSocketClient);
+        $handler = new NewGameHandler($gameRepository, $usersInGameRepository, $webSocketClient, $joinGameCommand);
 
         $request = $this->prophesize(ServerRequestInterface::class);
         $request
@@ -34,12 +39,20 @@ class NewGameHandlerTest extends TestCase
     public function testGameCreating()
     {
         $gameRepository = $this->getRepository('Game');
+        $usersInGameRepository = $this->getRepository('UsersInGames');
+        $joinGameCommand = $this->prophesize(JoinGameCommand::class);
 
         $webSocketClient = $this->getWebSocketClient();
 
-        $handler = new NewGameHandler($gameRepository, $webSocketClient);
+        $handler = new NewGameHandler(
+            $gameRepository,
+            $usersInGameRepository,
+            $webSocketClient,
+            $joinGameCommand->reveal()
+        );
 
         $request = $this->authorizeUser();
+        $joinGameCommand->handle(Argument::type(JoinGameCommandContext::class))->willReturn(null);
 
         $handler->handle($request);
 
