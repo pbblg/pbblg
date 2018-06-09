@@ -8,6 +8,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\RedirectResponse;
+use Zend\Expressive\Authentication\UserInterface;
+use Zend\Expressive\Session\SessionInterface;
+use Zend\Expressive\Session\SessionMiddleware;
 use Zend\Stratigility\Next;
 use Prophecy\Argument;
 use TestUtils\TemplateRendererStub;
@@ -28,6 +31,7 @@ class RegisterActionTest extends TestCase
         $inputFilter = new RegisterInputFilter();
         $registerCommand = $this->prophesize(RegisterCommand::class);
         $request = $this->prophesize(ServerRequestInterface::class);
+        $session = $this->prophesize(SessionInterface::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
 
         $homePage = new RegisterAction(
@@ -36,6 +40,12 @@ class RegisterActionTest extends TestCase
             $registerCommand->reveal(),
             $loginCommand->reveal()
         );
+
+        $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE)
+            ->willReturn(SessionInterface::class);
+
+        $session->has(UserInterface::class)
+            ->willReturn(false);
 
         $request->getMethod()
             ->willReturn('GET');
@@ -56,6 +66,7 @@ class RegisterActionTest extends TestCase
         $inputFilter = new RegisterInputFilter();
         $registerCommand = $this->prophesize(RegisterCommand::class);
         $request = $this->prophesize(ServerRequestInterface::class);
+        $session = $this->prophesize(SessionInterface::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
 
         $homePage = new RegisterAction(
@@ -64,6 +75,12 @@ class RegisterActionTest extends TestCase
             $registerCommand->reveal(),
             $loginCommand->reveal()
         );
+
+        $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE)
+            ->willReturn(SessionInterface::class);
+
+        $session->has(UserInterface::class)
+            ->willReturn(false);
 
         $request->getMethod()
             ->willReturn('POST');
@@ -105,6 +122,7 @@ class RegisterActionTest extends TestCase
         $inputFilter = new RegisterInputFilter();
         $registerCommand = $this->prophesize(RegisterCommand::class);
         $request = $this->prophesize(ServerRequestInterface::class);
+        $session = $this->prophesize(SessionInterface::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
 
         $homePage = new RegisterAction(
@@ -119,6 +137,13 @@ class RegisterActionTest extends TestCase
             'password' => 'xxx',
             'password-again' => 'xxx',
         ];
+
+        $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE)
+            ->willReturn(SessionInterface::class);
+
+        $session->has(UserInterface::class)
+            ->willReturn(false);
+
         $request->getMethod()
             ->willReturn('POST');
         $request->getParsedBody()
@@ -147,6 +172,7 @@ class RegisterActionTest extends TestCase
         $inputFilter = new RegisterInputFilter();
         $registerCommand = $this->prophesize(RegisterCommand::class);
         $request = $this->prophesize(ServerRequestInterface::class);
+        $session = $this->prophesize(SessionInterface::class);
         $delegate = $this->prophesize(Next::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
 
@@ -162,6 +188,13 @@ class RegisterActionTest extends TestCase
             'password' => 'xxx',
             'password-again' => 'xxx',
         ];
+
+        $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE)
+            ->willReturn(SessionInterface::class);
+
+        $session->has(UserInterface::class)
+            ->willReturn(false);
+
         $request->getMethod()
             ->willReturn('POST');
         $request->getParsedBody()

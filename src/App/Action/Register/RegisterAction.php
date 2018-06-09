@@ -7,6 +7,7 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface as ServerMiddlewareInterfa
 use Psr\Http\Message\ServerRequestInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Diactoros\Response\RedirectResponse;
+use Zend\Expressive\Session\SessionInterface;
 use Zend\Expressive\Template;
 use App\Command\Register\RegisterCommand;
 use App\Command\Register\RegisterCommandContext;
@@ -14,6 +15,8 @@ use App\Command\Register\UserAlreadyExistsException;
 use Dflydev\FigCookies\FigResponseCookies;
 use App\WebSocket\Command\LoginCommand;
 use App\WebSocket\Command\LoginCommandContext;
+use Zend\Expressive\Session\SessionMiddleware;
+use Zend\Expressive\Authentication\UserInterface;
 
 class RegisterAction implements ServerMiddlewareInterface
 {
@@ -60,6 +63,15 @@ class RegisterAction implements ServerMiddlewareInterface
     {
         $data = [];
         $errors = [];
+
+        $session = $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE);
+
+        if ($session instanceof SessionInterface) {
+            if ($session->has(UserInterface::class)) {
+                return new RedirectResponse('/');
+            }
+        }
+
         if ($request->getMethod() === 'POST') {
             $data = $request->getParsedBody();
             $this->inputFilter->setData($data);
