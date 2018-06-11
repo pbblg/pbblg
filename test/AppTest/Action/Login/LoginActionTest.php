@@ -4,8 +4,6 @@ namespace AppTest\Action\Register;
 
 use App\Action\LoginAction;
 use App\Action\LoginInputFilter;
-use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
-use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use TestUtils\TestCase;
 use TestUtils\TemplateRendererStub;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,7 +11,6 @@ use App\WebSocket\Command\LoginCommand;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Zend\Diactoros\Response\HtmlResponse;
 use Zend\Expressive\Authentication\UserInterface;
-use Zend\Expressive\Session\Session;
 use Zend\Expressive\Session\SessionInterface;
 use Zend\Expressive\Session\SessionMiddleware;
 use Zend\Stratigility\Next;
