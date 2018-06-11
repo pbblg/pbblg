@@ -4,12 +4,18 @@ namespace AppTest\Action\Register;
 
 use App\Action\LoginAction;
 use App\Action\LoginInputFilter;
+use Symfony\Component\HttpFoundation\Session\Storage\Handler\NullSessionHandler;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use TestUtils\TestCase;
 use TestUtils\TemplateRendererStub;
 use Psr\Http\Message\ServerRequestInterface;
 use App\WebSocket\Command\LoginCommand;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Zend\Diactoros\Response\HtmlResponse;
+use Zend\Expressive\Authentication\UserInterface;
+use Zend\Expressive\Session\Session;
+use Zend\Expressive\Session\SessionInterface;
+use Zend\Expressive\Session\SessionMiddleware;
 use Zend\Stratigility\Next;
 use Prophecy\Argument;
 use Zend\Diactoros\Response;
@@ -24,6 +30,7 @@ class LoginActionTest extends TestCase
         $renderer = new TemplateRendererStub();
         $inputFilter = new LoginInputFilter();
         $request = $this->prophesize(ServerRequestInterface::class);
+        $session = $this->prophesize(SessionInterface::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
 
         $homePage = new LoginAction(
@@ -31,6 +38,12 @@ class LoginActionTest extends TestCase
             $inputFilter,
             $loginCommand->reveal()
         );
+
+        $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE)
+            ->willReturn(SessionInterface::class);
+
+        $session->has(UserInterface::class)
+            ->willReturn(false);
 
         $request->getMethod()
             ->willReturn('GET');
@@ -49,6 +62,8 @@ class LoginActionTest extends TestCase
         $renderer = new TemplateRendererStub();
         $inputFilter = new LoginInputFilter();
         $request = $this->prophesize(ServerRequestInterface::class);
+        $session = $this->prophesize(SessionInterface::class);
+
         $loginCommand = $this->prophesize(LoginCommand::class);
 
         $homePage = new LoginAction(
@@ -56,6 +71,12 @@ class LoginActionTest extends TestCase
             $inputFilter,
             $loginCommand->reveal()
         );
+
+        $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE)
+            ->willReturn(SessionInterface::class);
+
+        $session->has(UserInterface::class)
+            ->willReturn(false);
 
         $request->getMethod()
             ->willReturn('POST');
@@ -89,6 +110,7 @@ class LoginActionTest extends TestCase
         $renderer = new TemplateRendererStub();
         $inputFilter = new LoginInputFilter();
         $request = $this->prophesize(ServerRequestInterface::class);
+        $session = $this->prophesize(SessionInterface::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
         $delegate = $this->prophesize(Next::class);
 
@@ -102,6 +124,13 @@ class LoginActionTest extends TestCase
             'username' => 'John',
             'password' => 'xxx'
         ];
+
+        $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE)
+            ->willReturn(SessionInterface::class);
+
+        $session->has(UserInterface::class)
+            ->willReturn(false);
+
         $request->getMethod()
             ->willReturn('POST');
         $request->getParsedBody()
@@ -130,6 +159,7 @@ class LoginActionTest extends TestCase
         $renderer = new TemplateRendererStub();
         $inputFilter = new LoginInputFilter();
         $request = $this->prophesize(ServerRequestInterface::class);
+        $session = $this->prophesize(SessionInterface::class);
         $loginCommand = $this->prophesize(LoginCommand::class);
         $delegate = $this->prophesize(Next::class);
 
@@ -143,6 +173,13 @@ class LoginActionTest extends TestCase
             'username' => 'John',
             'password' => 'xxx'
         ];
+
+        $request->getAttribute(SessionMiddleware::SESSION_ATTRIBUTE)
+            ->willReturn(SessionInterface::class);
+
+        $session->has(UserInterface::class)
+            ->willReturn(false);
+
         $request->getMethod()
             ->willReturn('POST');
         $request->getParsedBody()

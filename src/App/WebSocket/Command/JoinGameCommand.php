@@ -2,6 +2,7 @@
 
 namespace App\WebSocket\Command;
 
+use App\WebSocket\Action\Exception\UserAlreadyInGameException;
 use T4webDomainInterface\Infrastructure\RepositoryInterface;
 use App\WebSocket\Client;
 use App\Domain\Game\Game;
@@ -72,7 +73,7 @@ class JoinGameCommand
         ]);
 
         if ($userInGame) {
-            return;
+            throw new UserAlreadyInGameException($game->getId());
         }
 
         $this->usersInGameRepository->add(new UsersInGames([
